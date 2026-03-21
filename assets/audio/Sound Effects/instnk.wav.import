@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://kfv6a8w6lccq"
+path="res://.godot/imported/instnk.wav-da1a979244dd8794ed55d72a56969e4f.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/instnk.wav"
+dest_files=["res://.godot/imported/instnk.wav-da1a979244dd8794ed55d72a56969e4f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

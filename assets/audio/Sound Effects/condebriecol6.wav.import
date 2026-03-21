@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c8iljrbcjwnrt"
+path="res://.godot/imported/condebriecol6.wav-6235f4742484b7be8a5fea2aed8ded92.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/condebriecol6.wav"
+dest_files=["res://.godot/imported/condebriecol6.wav-6235f4742484b7be8a5fea2aed8ded92.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

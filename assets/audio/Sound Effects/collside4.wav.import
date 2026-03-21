@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ccfwckn24tm1p"
+path="res://.godot/imported/collside4.wav-fe0dcd1f143718501d2087250837681b.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collside4.wav"
+dest_files=["res://.godot/imported/collside4.wav-fe0dcd1f143718501d2087250837681b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

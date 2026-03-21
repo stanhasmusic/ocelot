@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dry5g635nt1my"
+path="res://.godot/imported/rl5mp40.wav-29c99e092e86a8d44cd338d844d4d141.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl5mp40.wav"
+dest_files=["res://.godot/imported/rl5mp40.wav-29c99e092e86a8d44cd338d844d4d141.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

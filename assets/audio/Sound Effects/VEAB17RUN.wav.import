@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://0abuh0jqadbq"
+path="res://.godot/imported/VEAB17RUN.wav-84b56e2dc4c766f362f0ed6ee779b49c.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/VEAB17RUN.wav"
+dest_files=["res://.godot/imported/VEAB17RUN.wav-84b56e2dc4c766f362f0ed6ee779b49c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

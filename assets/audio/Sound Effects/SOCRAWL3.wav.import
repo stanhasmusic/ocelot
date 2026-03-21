@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cuya2csswa52d"
+path="res://.godot/imported/SOCRAWL3.wav-e634d911ecd2e4f08a5cfba08ebf7a77.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOCRAWL3.wav"
+dest_files=["res://.godot/imported/SOCRAWL3.wav-e634d911ecd2e4f08a5cfba08ebf7a77.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

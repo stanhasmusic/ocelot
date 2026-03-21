@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://1ko8q5ccuuik"
+path="res://.godot/imported/rl5walt.wav-348cfc6eb175430d493c9a1930899558.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl5walt.wav"
+dest_files=["res://.godot/imported/rl5walt.wav-348cfc6eb175430d493c9a1930899558.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rviawtoa3ftb"
+path="res://.godot/imported/SOSTOPGRASS.wav-817f5c724d73fa249fa891f014cefa12.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOSTOPGRASS.wav"
+dest_files=["res://.godot/imported/SOSTOPGRASS.wav-817f5c724d73fa249fa891f014cefa12.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

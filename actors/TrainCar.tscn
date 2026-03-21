@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://actors/Train.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/Train/train.png" id="2_tex"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_explosion"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_train_car"]
+atlas = ExtResource("2_tex")
+region = Rect2(72, 2, 68, 190)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_train"]
+size = Vector2(60, 180)
+
+[node name="TrainCar" type="Area2D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+explosion_scene = ExtResource("3_explosion")
+speed = 100.0
+hp = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = SubResource("AtlasTexture_train_car")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_train")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(3.5, 9.5)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

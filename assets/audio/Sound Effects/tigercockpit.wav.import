@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://by3iy1g7b23xh"
+path="res://.godot/imported/tigercockpit.wav-04b6b145b1b7450075eba04a16480b03.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/tigercockpit.wav"
+dest_files=["res://.godot/imported/tigercockpit.wav-04b6b145b1b7450075eba04a16480b03.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

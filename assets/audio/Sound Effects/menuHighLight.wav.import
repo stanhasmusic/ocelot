@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c7c1eufe257jm"
+path="res://.godot/imported/menuHighLight.wav-1640a4e94369654d5041b0d59d12f945.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/menuHighLight.wav"
+dest_files=["res://.godot/imported/menuHighLight.wav-1640a4e94369654d5041b0d59d12f945.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

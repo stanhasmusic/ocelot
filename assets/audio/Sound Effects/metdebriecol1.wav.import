@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dfvcg6hg38tfs"
+path="res://.godot/imported/metdebriecol1.wav-1bfa50a43e934b075c3103dda043f9e4.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/metdebriecol1.wav"
+dest_files=["res://.godot/imported/metdebriecol1.wav-1bfa50a43e934b075c3103dda043f9e4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

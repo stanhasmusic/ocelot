@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://fsm3fv3js36k"
+path="res://.godot/imported/rl1walt.wav-f7a4f71c2abbff6f0911ea63aeb32f48.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl1walt.wav"
+dest_files=["res://.godot/imported/rl1walt.wav-f7a4f71c2abbff6f0911ea63aeb32f48.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

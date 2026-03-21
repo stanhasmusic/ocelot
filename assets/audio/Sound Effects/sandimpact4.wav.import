@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://5anhkf0pmt3d"
+path="res://.godot/imported/sandimpact4.wav-fd4d66e278edbb48a4a825d9bb3e85d8.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/sandimpact4.wav"
+dest_files=["res://.godot/imported/sandimpact4.wav-fd4d66e278edbb48a4a825d9bb3e85d8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

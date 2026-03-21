@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cc3sr3sef2svb"
+path="res://.godot/imported/rl4grg.wav-25e6644d84ad272cce90661f2c5d4c14.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl4grg.wav"
+dest_files=["res://.godot/imported/rl4grg.wav-25e6644d84ad272cce90661f2c5d4c14.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

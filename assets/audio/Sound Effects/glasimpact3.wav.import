@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://55aw8mb1g4x5"
+path="res://.godot/imported/glasimpact3.wav-07cf0eb177ef36aa743d998bc690f22c.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/glasimpact3.wav"
+dest_files=["res://.godot/imported/glasimpact3.wav-07cf0eb177ef36aa743d998bc690f22c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

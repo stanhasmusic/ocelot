@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://clj2sy7lvxdys"
+path="res://.godot/imported/SOLAMUD.wav-63445bd3accbb692e480800b434f70fe.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOLAMUD.wav"
+dest_files=["res://.godot/imported/SOLAMUD.wav-63445bd3accbb692e480800b434f70fe.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

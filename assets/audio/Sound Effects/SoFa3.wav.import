@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://5m3wseavayum"
+path="res://.godot/imported/SoFa3.wav-ec11d4728143c67df1b0ac59cb40c382.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SoFa3.wav"
+dest_files=["res://.godot/imported/SoFa3.wav-ec11d4728143c67df1b0ac59cb40c382.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

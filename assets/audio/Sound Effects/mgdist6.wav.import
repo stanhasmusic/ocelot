@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://df7kyakamxacx"
+path="res://.godot/imported/mgdist6.wav-0a92e0451aa9366eca8cda45d8289f91.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/mgdist6.wav"
+dest_files=["res://.godot/imported/mgdist6.wav-0a92e0451aa9366eca8cda45d8289f91.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

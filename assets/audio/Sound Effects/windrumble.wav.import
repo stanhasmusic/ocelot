@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bky387leg3c6e"
+path="res://.godot/imported/windrumble.wav-0ccf79cd53965d55759f0f6f28f857d4.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/windrumble.wav"
+dest_files=["res://.godot/imported/windrumble.wav-0ccf79cd53965d55759f0f6f28f857d4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://plydjjmni33h"
+path="res://.godot/imported/rl3mp18.wav-606c47abbf399bc29fc6f9e81e434013.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl3mp18.wav"
+dest_files=["res://.godot/imported/rl3mp18.wav-606c47abbf399bc29fc6f9e81e434013.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

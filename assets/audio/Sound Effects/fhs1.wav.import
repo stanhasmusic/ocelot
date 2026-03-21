@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bac0uqqjcke4u"
+path="res://.godot/imported/fhs1.wav-cc3b09cb6cd3b98e3e9d945aa8cc2ad1.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/fhs1.wav"
+dest_files=["res://.godot/imported/fhs1.wav-cc3b09cb6cd3b98e3e9d945aa8cc2ad1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

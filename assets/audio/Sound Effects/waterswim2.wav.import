@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d11ttr5knajve"
+path="res://.godot/imported/waterswim2.wav-0c92f156b0492902ba88fc52fbb97b39.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/waterswim2.wav"
+dest_files=["res://.godot/imported/waterswim2.wav-0c92f156b0492902ba88fc52fbb97b39.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

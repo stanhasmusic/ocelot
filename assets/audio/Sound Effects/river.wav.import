@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://rxfj0i3j4l4l"
+path="res://.godot/imported/river.wav-f492e7a13360a23be401f07ef26fba8f.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/river.wav"
+dest_files=["res://.godot/imported/river.wav-f492e7a13360a23be401f07ef26fba8f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

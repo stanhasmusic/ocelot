@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dmusfc1najpes"
+path="res://.godot/imported/collwood5.wav-be49a24b3ee77a1aa18eb453fba0250d.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collwood5.wav"
+dest_files=["res://.godot/imported/collwood5.wav-be49a24b3ee77a1aa18eb453fba0250d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

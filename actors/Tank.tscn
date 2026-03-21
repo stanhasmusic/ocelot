@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://actors/Tank.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/images/tank1_body.png" id="2_body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/images/tank1_gun.png" id="3_turret"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="4_expl"]
+[ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
+[ext_resource type="PackedScene" path="res://objects/TankBullet.tscn" id="6_bullet"]
+[ext_resource type="AudioStream" path="res://assets/audio/Sound Effects/t34fire.wav" id="7_sfx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tank"]
+size = Vector2(40, 40)
+
+[node name="Tank" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+bullet_scene = ExtResource("6_bullet")
+fire_rate = 1.5
+shoot_range = 400.0
+speed = 80.0
+score_value = 200
+explosion_scene = ExtResource("4_expl")
+powerup_scene = ExtResource("5_power")
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("2_body")
+rotation = 3.14159
+
+[node name="Turret" type="Sprite2D" parent="."]
+texture = ExtResource("3_turret")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tank")
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_sfx")
+
+[node name="ShootTimer" type="Timer" parent="."]
+process_callback = 0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(3, 3)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

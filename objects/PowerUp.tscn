@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8y2x5k2y1z2"]
+
+[ext_resource type="Script" uid="uid://b4j6sbvyq28jo" path="res://objects/PowerUp.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://kp43gmx6j83w" path="res://assets/sprites/pickups/images/straight_gun.png" id="2_sprite"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_powerup"]
+radius = 15.0
+
+[node name="PowerUp" type="Area2D"]
+collision_layer = 32
+collision_mask = 1
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_powerup")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

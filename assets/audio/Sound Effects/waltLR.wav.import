@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dxc164brl8kpi"
+path="res://.godot/imported/waltLR.wav-a48e735eabf0f33ce7da3ed03cd55965.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/waltLR.wav"
+dest_files=["res://.godot/imported/waltLR.wav-a48e735eabf0f33ce7da3ed03cd55965.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

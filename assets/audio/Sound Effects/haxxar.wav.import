@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dovn5p8uuhk3t"
+path="res://.godot/imported/haxxar.wav-f7e0cbe992039a45736e26ee11e6358c.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/haxxar.wav"
+dest_files=["res://.godot/imported/haxxar.wav-f7e0cbe992039a45736e26ee11e6358c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c5ty3pip0o2cu"
+path="res://.godot/imported/browning.wav-0a40adfb9d4038a01d06ec397b9052a0.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/browning.wav"
+dest_files=["res://.godot/imported/browning.wav-0a40adfb9d4038a01d06ec397b9052a0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://jsukujplry4y"
+path="res://.godot/imported/rl1thomp.wav-a728d12a8caf726497f3b1e5e9e9158d.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl1thomp.wav"
+dest_files=["res://.godot/imported/rl1thomp.wav-a728d12a8caf726497f3b1e5e9e9158d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

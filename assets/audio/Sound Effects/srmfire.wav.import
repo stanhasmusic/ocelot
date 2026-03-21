@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://n1hrot7elmgx"
+path="res://.godot/imported/srmfire.wav-797a9a5cec3a022123198bc4fa8bc129.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/srmfire.wav"
+dest_files=["res://.godot/imported/srmfire.wav-797a9a5cec3a022123198bc4fa8bc129.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

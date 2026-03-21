@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ctbqgdwnyjhyo"
+path="res://.godot/imported/lcvpwaterhi.wav-234b06ba914441d4f9fd86ccf31d6163.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/lcvpwaterhi.wav"
+dest_files=["res://.godot/imported/lcvpwaterhi.wav-234b06ba914441d4f9fd86ccf31d6163.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

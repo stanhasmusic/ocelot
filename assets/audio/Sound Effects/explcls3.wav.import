@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bjohy42vdm71a"
+path="res://.godot/imported/explcls3.wav-40d7282d31787e31df7fe43467f7bcbe.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/explcls3.wav"
+dest_files=["res://.godot/imported/explcls3.wav-40d7282d31787e31df7fe43467f7bcbe.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

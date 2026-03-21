@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ektkvge8apdj"
+path="res://.godot/imported/WillyLoRPMcyl.wav-5f9b69e8992f9d851235f41ed0f8ae99.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/WillyLoRPMcyl.wav"
+dest_files=["res://.godot/imported/WillyLoRPMcyl.wav-5f9b69e8992f9d851235f41ed0f8ae99.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

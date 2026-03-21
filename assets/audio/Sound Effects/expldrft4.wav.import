@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bdqoajk6m82gj"
+path="res://.godot/imported/expldrft4.wav-486dd0d3b0755232490770838476c135.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/expldrft4.wav"
+dest_files=["res://.godot/imported/expldrft4.wav-486dd0d3b0755232490770838476c135.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

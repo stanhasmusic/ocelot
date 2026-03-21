@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d25ncsw0qvtl6"
+path="res://.godot/imported/VEAAPCRUN.wav-5b88d358693e696abdb503c5d3b689c4.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/VEAAPCRUN.wav"
+dest_files=["res://.godot/imported/VEAAPCRUN.wav-5b88d358693e696abdb503c5d3b689c4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

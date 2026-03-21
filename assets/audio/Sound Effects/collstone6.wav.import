@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c1thm42ba1nem"
+path="res://.godot/imported/collstone6.wav-186bc28438a2a653f4584c351f856a06.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collstone6.wav"
+dest_files=["res://.godot/imported/collstone6.wav-186bc28438a2a653f4584c351f856a06.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

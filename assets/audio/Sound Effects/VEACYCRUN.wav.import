@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dvg21s4e604v7"
+path="res://.godot/imported/VEACYCRUN.wav-16c61c13351e218ba0786da62aa00959.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/VEACYCRUN.wav"
+dest_files=["res://.godot/imported/VEACYCRUN.wav-16c61c13351e218ba0786da62aa00959.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

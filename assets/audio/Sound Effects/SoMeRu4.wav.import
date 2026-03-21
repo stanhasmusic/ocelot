@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ders8sbi2ue87"
+path="res://.godot/imported/SoMeRu4.wav-fd4578a1145fb8a42750eee92a29678b.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SoMeRu4.wav"
+dest_files=["res://.godot/imported/SoMeRu4.wav-fd4578a1145fb8a42750eee92a29678b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

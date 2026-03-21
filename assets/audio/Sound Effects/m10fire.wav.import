@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bqw2wyhim0vxh"
+path="res://.godot/imported/m10fire.wav-2b0bf43fc1b08de25abf1d04ab012258.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/m10fire.wav"
+dest_files=["res://.godot/imported/m10fire.wav-2b0bf43fc1b08de25abf1d04ab012258.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

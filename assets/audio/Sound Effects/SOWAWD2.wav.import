@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://gr8j2s1lefy"
+path="res://.godot/imported/SOWAWD2.wav-4d00038d1e0cdeb7fbb907400d188677.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOWAWD2.wav"
+dest_files=["res://.godot/imported/SOWAWD2.wav-4d00038d1e0cdeb7fbb907400d188677.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

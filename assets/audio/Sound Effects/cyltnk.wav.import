@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bh6hxu0lfc0kl"
+path="res://.godot/imported/cyltnk.wav-514dd1b36fe1c15a2c0e0a5a2c2c9b88.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/cyltnk.wav"
+dest_files=["res://.godot/imported/cyltnk.wav-514dd1b36fe1c15a2c0e0a5a2c2c9b88.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

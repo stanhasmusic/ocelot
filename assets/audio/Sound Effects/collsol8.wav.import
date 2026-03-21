@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dowjrk7tpd3ky"
+path="res://.godot/imported/collsol8.wav-c726f67201777659ac8e19ce319cc604.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collsol8.wav"
+dest_files=["res://.godot/imported/collsol8.wav-c726f67201777659ac8e19ce319cc604.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

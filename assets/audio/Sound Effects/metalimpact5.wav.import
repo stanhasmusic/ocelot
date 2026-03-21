@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dikp2k3pe3frc"
+path="res://.godot/imported/metalimpact5.wav-c227d0c4a54742d2840c1bb668e965e1.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/metalimpact5.wav"
+dest_files=["res://.godot/imported/metalimpact5.wav-c227d0c4a54742d2840c1bb668e965e1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

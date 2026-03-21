@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cwtbs3tdcx00d"
+path="res://.godot/imported/SOLASAND1.wav-81265445aa66d4f91ac9d14e24c22b69.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOLASAND1.wav"
+dest_files=["res://.godot/imported/SOLASAND1.wav-81265445aa66d4f91ac9d14e24c22b69.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

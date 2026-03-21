@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c68jqt3jem0op"
+path="res://.godot/imported/SBDMG1.wav-fde0e5633b4e013ee4d93ca7d4c15ac3.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SBDMG1.wav"
+dest_files=["res://.godot/imported/SBDMG1.wav-fde0e5633b4e013ee4d93ca7d4c15ac3.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

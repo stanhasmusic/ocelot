@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjp7qurdyuike"]
+
+[ext_resource type="Script" uid="uid://4ac31a5e7tkh" path="res://ui/SplashScreen.gd" id="1_script"]
+[ext_resource type="VideoStream" uid="uid://benn1o2fwgx6n" path="res://assets/videos/ocelot_intro.ogv" id="2_video"]
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -362.0
+offset_top = -1.0
+offset_right = -60.0
+offset_bottom = -317.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+stream = ExtResource("2_video")
+autoplay = true
+expand = true

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cjxfl6xy54pyt"
+path="res://.godot/imported/rl4bar.wav-9faa9665c191bded4d8731e583d5feec.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/rl4bar.wav"
+dest_files=["res://.godot/imported/rl4bar.wav-9faa9665c191bded4d8731e583d5feec.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

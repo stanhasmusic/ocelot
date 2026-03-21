@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b7y38lyu8p4gk"
+path="res://.godot/imported/collmtl9.wav-da43a6bc914ed1f119519b85a659533c.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collmtl9.wav"
+dest_files=["res://.godot/imported/collmtl9.wav-da43a6bc914ed1f119519b85a659533c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

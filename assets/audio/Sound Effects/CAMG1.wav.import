@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ba1mgx5o2qi03"
+path="res://.godot/imported/CAMG1.wav-8dc87c7408cce9a2f22a58630e699905.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/CAMG1.wav"
+dest_files=["res://.godot/imported/CAMG1.wav-8dc87c7408cce9a2f22a58630e699905.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

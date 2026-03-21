@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8j2x5k2y106"]
+
+[ext_resource type="Script" uid="uid://bp1jj5cdvxysj" path="res://objects/Bullet.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://ch3nq5s6rs61g" path="res://assets/sprites/aircrafts2/bullet_2_blue.png" id="2_sprite"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bullet"]
+radius = 4.0
+height = 14.0
+
+[node name="PlayerBullet" type="Area2D"]
+collision_layer = 2
+collision_mask = 20
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bullet")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(0.5, 0.8)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

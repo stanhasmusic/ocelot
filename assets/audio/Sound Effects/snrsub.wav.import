@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c50y1le2bnr4s"
+path="res://.godot/imported/snrsub.wav-ea7ce94e39e2d29de301b24c620f5100.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/snrsub.wav"
+dest_files=["res://.godot/imported/snrsub.wav-ea7ce94e39e2d29de301b24c620f5100.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

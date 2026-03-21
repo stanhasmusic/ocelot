@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cw1y1x734ck5m"
+path="res://.godot/imported/woodimpact3.wav-d9f8f51a133841434bad427b9d13ae67.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/woodimpact3.wav"
+dest_files=["res://.godot/imported/woodimpact3.wav-d9f8f51a133841434bad427b9d13ae67.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

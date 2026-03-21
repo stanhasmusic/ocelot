@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b2ai43vbb3uh0"
+path="res://.godot/imported/stoneimpact2.wav-1136ebf027cb276bcbc0345e289398bf.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/stoneimpact2.wav"
+dest_files=["res://.godot/imported/stoneimpact2.wav-1136ebf027cb276bcbc0345e289398bf.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

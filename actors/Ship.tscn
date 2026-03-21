@@ -1,0 +1,106 @@
+[gd_scene load_steps=16 format=3 uid="uid://chhrenac06pbd"]
+
+[ext_resource type="Script" uid="uid://cqwdl0upov0vn" path="res://actors/Ship.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://els61m4i4gk1" path="res://assets/sprites/shipz/water_units.png" id="2_atlas"]
+[ext_resource type="PackedScene" uid="uid://djetgxd0o5vbf" path="res://objects/Explosion.tscn" id="3_explosion"]
+[ext_resource type="PackedScene" uid="uid://b8y2x5k2y102" path="res://objects/PowerUp.tscn" id="4_powerup"]
+[ext_resource type="PackedScene" path="res://objects/ShipBullet.tscn" id="5_bullet"]
+[ext_resource type="AudioStream" uid="uid://dk8rmr1fhnsbi" path="res://assets/audio/Sound Effects/t34fire.wav" id="6_sfx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0"]
+atlas = ExtResource("2_atlas")
+region = Rect2(574, 400, 64, 168)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1"]
+atlas = ExtResource("2_atlas")
+region = Rect2(554, 230, 64, 168)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2"]
+atlas = ExtResource("2_atlas")
+region = Rect2(488, 230, 64, 168)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3"]
+atlas = ExtResource("2_atlas")
+region = Rect2(324, 836, 64, 168)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4"]
+atlas = ExtResource("2_atlas")
+region = Rect2(258, 836, 64, 168)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ripple"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ship"]
+atlas = ExtResource("2_atlas")
+region = Rect2(574, 677, 54, 105)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_turret"]
+atlas = ExtResource("2_atlas")
+region = Rect2(714, 127, 16, 40)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ship"]
+radius = 15.0
+height = 60.0
+
+[node name="Ship" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+projectile_scene = ExtResource("5_bullet")
+fire_rate = 2.0
+shoot_range = 600.0
+speed = 70.0
+score_value = 150
+explosion_scene = ExtResource("3_explosion")
+powerup_scene = ExtResource("4_powerup")
+hp = 4
+
+[node name="Ripple" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2, -13)
+rotation = 3.14159
+sprite_frames = SubResource("SpriteFrames_ripple")
+autoplay = "default"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.14159
+texture = SubResource("AtlasTexture_ship")
+
+[node name="Turret" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_turret")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_ship")
+
+[node name="ShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_sfx")
+volume_db = -5.0
+
+
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(2, 3)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://kxabbd7ty7q5"
+path="res://.godot/imported/SOWAROAD1.wav-52cea4666c27b7196c06262425a780ba.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/SOWAROAD1.wav"
+dest_files=["res://.godot/imported/SOWAROAD1.wav-52cea4666c27b7196c06262425a780ba.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

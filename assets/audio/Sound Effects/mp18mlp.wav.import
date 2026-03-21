@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://doeiyou3mtljc"
+path="res://.godot/imported/mp18mlp.wav-eef5bf2ad4156c0dd560b4d1d0022b33.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/mp18mlp.wav"
+dest_files=["res://.godot/imported/mp18mlp.wav-eef5bf2ad4156c0dd560b4d1d0022b33.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

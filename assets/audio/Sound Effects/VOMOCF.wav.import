@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bd83p6xhmmg6n"
+path="res://.godot/imported/VOMOCF.wav-4e4030a9082b6b7708ed3d9584cfc44c.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/VOMOCF.wav"
+dest_files=["res://.godot/imported/VOMOCF.wav-4e4030a9082b6b7708ed3d9584cfc44c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

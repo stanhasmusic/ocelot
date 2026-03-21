@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ddp3v0ru45tiu"
+path="res://.godot/imported/WillyHiRPM.wav-366aa4e035b68a706cab3e64c1b0b772.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/WillyHiRPM.wav"
+dest_files=["res://.godot/imported/WillyHiRPM.wav-366aa4e035b68a706cab3e64c1b0b772.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

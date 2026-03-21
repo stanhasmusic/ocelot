@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dghvjm3jkosbb"
+path="res://.godot/imported/WSAAATURROT.wav-297e38430f345e2be630c51777f21b17.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/WSAAATURROT.wav"
+dest_files=["res://.godot/imported/WSAAATURROT.wav-297e38430f345e2be630c51777f21b17.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dlpclyacurkck"
+path="res://.godot/imported/defgunfire.wav-684e0e2ec0a47011130c1780f141f369.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/defgunfire.wav"
+dest_files=["res://.godot/imported/defgunfire.wav-684e0e2ec0a47011130c1780f141f369.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bi7o1iu3g0exf"
+path="res://.godot/imported/fleshimpact9.wav-57fbc3266ed6d4ef4ff8c88507855a7f.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/fleshimpact9.wav"
+dest_files=["res://.godot/imported/fleshimpact9.wav-57fbc3266ed6d4ef4ff8c88507855a7f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

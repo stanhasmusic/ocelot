@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://eiluy3nm4vt3"
+path="res://.godot/imported/underground.wav-33e477dba93c3113e77c0ad0e64df284.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/underground.wav"
+dest_files=["res://.godot/imported/underground.wav-33e477dba93c3113e77c0ad0e64df284.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

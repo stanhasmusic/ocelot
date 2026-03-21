@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://co7cv2a6ndp4r"]
+
+[ext_resource type="Script" uid="uid://b8y2x5k2y110" path="res://actors/Truck.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c6y2x5k2y111" path="res://assets/sprites/tanks_N_trucks/ground_units.png" id="2_tex"]
+
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="2_expl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_truck"]
+atlas = ExtResource("2_tex")
+region = Rect2(258, 452, 30, 62)
+
+[node name="Truck" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+explosion_scene = ExtResource("2_expl")
+speed = 100.0
+health = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.14159
+texture = SubResource("AtlasTexture_truck")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-15, -31, 15, -31, 15, 31, -15, 31)
+
+[node name="VISIBLE" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 31)
+scale = Vector2(1.5, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VISIBLE" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

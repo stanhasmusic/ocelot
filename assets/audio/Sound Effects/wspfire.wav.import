@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bjfknfxhjgoa7"
+path="res://.godot/imported/wspfire.wav-5633a2078a2c879f68f7d58b508f8fdb.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/wspfire.wav"
+dest_files=["res://.godot/imported/wspfire.wav-5633a2078a2c879f68f7d58b508f8fdb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

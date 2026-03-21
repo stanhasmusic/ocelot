@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b4hfs80jn408c"
+path="res://.godot/imported/mp40mlp.wav-e3781a9a07d44504912dee08bb00738b.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/mp40mlp.wav"
+dest_files=["res://.godot/imported/mp40mlp.wav-e3781a9a07d44504912dee08bb00738b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

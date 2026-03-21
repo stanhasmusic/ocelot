@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dxnb60cmfn35k"
+path="res://.godot/imported/mgdist20.wav-410e099a364d2055b9a18b0224d580c1.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/mgdist20.wav"
+dest_files=["res://.godot/imported/mgdist20.wav-410e099a364d2055b9a18b0224d580c1.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dfio6stvux75q"
+path="res://.godot/imported/collhard7.wav-210a047ac6dbef5f9cdd5b29b8f4b3e2.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/collhard7.wav"
+dest_files=["res://.godot/imported/collhard7.wav-210a047ac6dbef5f9cdd5b29b8f4b3e2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

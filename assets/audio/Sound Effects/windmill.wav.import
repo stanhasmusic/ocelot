@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bkopd3wg4i54"
+path="res://.godot/imported/windmill.wav-07da98c0237527de49018adf64d73bcf.sample"
+
+[deps]
+
+source_file="res://assets/audio/Sound Effects/windmill.wav"
+dest_files=["res://.godot/imported/windmill.wav-07da98c0237527de49018adf64d73bcf.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
