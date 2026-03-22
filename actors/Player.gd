@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 signal shoot_projectile
-signal on_bomb_count_changed(new_count: int)
 
 const SPEED: float = 400.0
 const FIRE_RATE: float = 0.15
@@ -25,7 +24,7 @@ func _ready() -> void:
 	current_hp = max_hp
 	update_player_sprite()
 	_setup_missing_inputs()
-	on_bomb_count_changed.emit(bomb_count)
+	GameManager.report_bomb_count(bomb_count)
 
 func _physics_process(delta: float) -> void:
 	# Cooldown
@@ -85,7 +84,7 @@ func shoot() -> void:
 func drop_bomb() -> void:
 	if bomb_count > 0:
 		bomb_count -= 1
-		on_bomb_count_changed.emit(bomb_count)
+		GameManager.report_bomb_count(bomb_count)
 		detonate_bomb()
 
 func detonate_bomb() -> void:
@@ -105,7 +104,7 @@ func detonate_bomb() -> void:
 
 func add_bomb(amount: int) -> void:
 	bomb_count += amount
-	on_bomb_count_changed.emit(bomb_count)
+	GameManager.report_bomb_count(bomb_count)
 
 func power_up_weapon() -> void:
 	if weapon_level < 2:

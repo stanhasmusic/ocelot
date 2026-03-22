@@ -5,6 +5,7 @@ signal on_boss_health_changed(current: int, max_hp: int)
 signal on_boss_spawned(max_hp: int)
 signal on_boss_died
 signal on_lives_changed(new_lives: int)
+signal on_bomb_count_changed(new_count: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
 
@@ -164,3 +165,6 @@ func report_boss_health(current: int, max_hp: int) -> void:
 
 func report_boss_died() -> void:
 	on_boss_died.emit()
+
+func report_bomb_count(count: int) -> void:
+	on_bomb_count_changed.emit(count)
