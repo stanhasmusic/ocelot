@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c4uu78wb01ris"
+path="res://.godot/imported/Song 5_ Ocelot.mp3-d22c31ce7d3d3513ea59b1e6af4ba085.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Song 5_ Ocelot.mp3"
+dest_files=["res://.godot/imported/Song 5_ Ocelot.mp3-d22c31ce7d3d3513ea59b1e6af4ba085.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

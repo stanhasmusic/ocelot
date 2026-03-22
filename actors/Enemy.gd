@@ -3,7 +3,7 @@ extends Area2D
 @export var speed: float = 150.0
 @export var score_value: int = 100
 @export var explosion_scene: PackedScene
-@export var powerup_scene: PackedScene
+@export var loot_pool: Array[PackedScene] = []
 @export var projectile_scene: PackedScene
 @export var fire_rate: float = 2.0
 
@@ -61,10 +61,11 @@ func spawn_explosion() -> void:
 		get_parent().add_child(expl)
 
 func drop_loot() -> void:
-	if randf() < 0.3 and powerup_scene:
-		var pickup = powerup_scene.instantiate()
-		pickup.global_position = global_position
-		get_parent().call_deferred("add_child", pickup)
+	if loot_pool.is_empty() or randf() >= 0.3:
+		return
+	var pickup = loot_pool.pick_random().instantiate()
+	pickup.global_position = global_position
+	get_parent().call_deferred("add_child", pickup)
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()

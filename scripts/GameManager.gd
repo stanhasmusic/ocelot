@@ -115,6 +115,10 @@ func reset_lives() -> void:
 	lives = 3
 	on_lives_changed.emit(lives)
 
+func add_life() -> void:
+	lives += 1
+	on_lives_changed.emit(lives)
+
 func level_complete() -> void:
 	current_level = get_tree().current_scene.scene_file_path
 	var idx = LEVELS.find(current_level)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://actors/Tank.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/images/tank1_body.png" id="2_body"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/TankBullet.tscn" id="6_bullet"]
 [ext_resource type="AudioStream" path="res://assets/audio/Sound Effects/t34fire.wav" id="7_sfx"]
+[ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="8_bomb"]
+[ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="9_repair"]
+[ext_resource type="PackedScene" path="res://objects/LifeUpPickup.tscn" id="10_lifeup"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tank"]
 size = Vector2(40, 40)
@@ -21,7 +24,7 @@ shoot_range = 400.0
 speed = 80.0
 score_value = 200
 explosion_scene = ExtResource("4_expl")
-powerup_scene = ExtResource("5_power")
+loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("8_bomb"), ExtResource("9_repair"), ExtResource("10_lifeup")])
 
 [node name="Body" type="Sprite2D" parent="."]
 texture = ExtResource("2_body")

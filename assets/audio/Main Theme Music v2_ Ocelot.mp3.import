@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://yg3n0le620a2"
+path="res://.godot/imported/Main Theme Music v2_ Ocelot.mp3-0b6ce1b6c3c449699182aee12ce55611.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Main Theme Music v2_ Ocelot.mp3"
+dest_files=["res://.godot/imported/Main Theme Music v2_ Ocelot.mp3-0b6ce1b6c3c449699182aee12ce55611.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

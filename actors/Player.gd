@@ -119,6 +119,10 @@ func power_up_weapon() -> void:
 		weapon_level += 1
 		update_player_sprite()
 
+func repair_health(amount: int) -> void:
+	current_hp = min(current_hp + amount, max_hp)
+	update_player_sprite()
+
 # --- Health & Visuals ---
 
 func update_player_sprite() -> void:
@@ -137,14 +141,30 @@ func update_player_sprite() -> void:
 func take_damage(amount: int) -> void:
 	if is_invincible or current_hp <= 0:
 		return
-		
+
 	current_hp -= amount
 	update_player_sprite()
-	
+	_play_hit_feedback()
+
 	if current_hp <= 0:
 		die()
 	else:
 		start_invincibility()
+
+func _play_hit_feedback() -> void:
+	if has_node("BombFlashLayer/DamageFlash"):
+		var rect = $BombFlashLayer/DamageFlash
+		rect.modulate.a = 0.4
+		var tween = create_tween()
+		tween.tween_property(rect, "modulate:a", 0.0, 0.3)
+
+	var cam = get_tree().current_scene.get_node_or_null("Camera2D")
+	if cam:
+		var s: float = 8.0
+		var tween = create_tween()
+		tween.tween_property(cam, "offset", Vector2(s, s * 0.5), 0.05)
+		tween.tween_property(cam, "offset", Vector2(-s * 0.7, -s * 0.4), 0.05)
+		tween.tween_property(cam, "offset", Vector2.ZERO, 0.08)
 
 func start_invincibility() -> void:
 	is_invincible = true

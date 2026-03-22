@@ -1,6 +1,7 @@
 extends Control
 
 @export var menu_music: AudioStream
+@export var menu_music_win: AudioStream
 
 @onready var main_container = $MainContainer
 @onready var options_container = $OptionsContainer
@@ -19,9 +20,11 @@ func _ready() -> void:
 	quit_button.pressed.connect(_on_quit_pressed)
 	back_button.pressed.connect(_on_back_pressed)
 	
-	# Audio
-	if menu_music:
-		SoundManager.play_music(menu_music)
+	# Audio — play v2 theme if all levels have been beaten
+	var all_beaten = GameManager.unlocked_level > GameManager.LEVELS.size()
+	var music = menu_music_win if (all_beaten and menu_music_win) else menu_music
+	if music:
+		SoundManager.play_music(music)
 	
 	# High Score
 	if GameManager.high_score > 0:
