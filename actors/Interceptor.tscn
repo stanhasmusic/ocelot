@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://actors/Interceptor.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_05.png" id="2_body"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
+[ext_resource type="PackedScene" path="res://objects/InterceptorBullet.tscn" id="4_bullet"]
+[ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
+[ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
+[ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inter"]
+size = Vector2(80, 60)
+
+[node name="Interceptor" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+projectile_scene = ExtResource("4_bullet")
+explosion_scene = ExtResource("3_expl")
+loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
+speed = 180.0
+hp = 2
+score_value = 250
+fire_rate = 2.5
+
+[node name="Body" type="Sprite2D" parent="."]
+rotation = 3.14159
+texture = ExtResource("2_body")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_inter")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(3, 3)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

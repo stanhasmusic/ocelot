@@ -22,6 +22,7 @@ var lives: int = 3
 const LEVELS: Array[String] = [
 	"res://scenes/Level01.tscn",
 	"res://scenes/LevelLand.tscn",
+	"res://scenes/Level03.tscn",
 ]
 
 func _ready() -> void:

@@ -1,6 +1,9 @@
 extends Node2D
 
 @export var scroll_speed: float = 100.0
+@export var sand_bias: float = 0.2          # noise threshold — higher = more sand
+@export var water_columns: Array[int] = []  # column indices rendered as water edge tiles
+@export var show_road: bool = true          # set false for beach/open terrain levels
 
 # Atlas Textures
 var ground_atlas = preload("res://assets/sprites/ground_tilesest/ground.png")
@@ -17,13 +20,26 @@ var column_biomes: Array[int] = []
 
 # Ground Regions Split
 const SAND_REGIONS = [
-	Rect2(0, 0, 128, 128), # Sand
-	Rect2(0, 896, 128, 128) # beach_tm_03
+	Rect2(0, 0, 128, 128), # sand — pure light sand, only tile used for beach
 ]
 const GRASS_REGIONS = [
-	Rect2(0, 128, 128, 128), # Grass
-	Rect2(2, 36, 128, 128), # Grass 02
-	Rect2(238, 68, 128, 128) # Grass 01
+	Rect2(512, 0, 128, 128),  # beach_tm_01 — sandy surface variation
+	Rect2(256, 0, 128, 128),  # beach_tm_02
+	Rect2(0, 640, 128, 128),  # beach_tm_04
+]
+
+# Beach water-edge tiles (sand meets ocean)
+const BEACH_LM_TILES = [
+	Rect2(384, 640, 128, 128),  # beach_lm_01
+	Rect2(384, 384, 128, 128),  # beach_lm_02
+	Rect2(768, 256, 128, 128),  # beach_lm_03
+	Rect2(512, 256, 128, 128),  # beach_lm_04
+]
+const BEACH_RM_TILES = [
+	Rect2(640, 128, 128, 128),  # beach_rm_01
+	Rect2(128, 896, 128, 128),  # beach_rm_02
+	Rect2(128, 640, 128, 128),  # beach_rm_03
+	Rect2(128, 384, 128, 128),  # beach_rm_04
 ]
 
 # Roads (Vertical)
@@ -34,19 +50,18 @@ const ROAD_REGIONS = [
 	Rect2(132, 296, 100, 128)  # road_asphalt_damaged_to_clean_vert
 ]
 
-# Decor (Rocks, bushes)
+# Decor (Rocks, small bushes only — no 128x128 tiles that cover a full cell)
 const DECOR_REGIONS = [
 	Rect2(36, 936, 64, 64), # rock_1
 	Rect2(36, 870, 64, 64), # rock_2
 	Rect2(102, 820, 64, 64), # bush_1
-	Rect2(368, 182, 128, 128) # bush_big
 ]
 
-# Buildings
+# Buildings — bunker variants from buildings.png (beach/military theme)
 const BUILDING_REGIONS = [
-	Rect2(276, 440, 120, 114), # house_1c
-	Rect2(630, 478, 84, 80),   # house_1d
-	Rect2(476, 320, 88, 91)    # house_2c
+	Rect2(698, 2, 92, 92),    # bunker_1x1_bottom
+	Rect2(484, 740, 160, 92), # bunker_2x1_bottom
+	Rect2(2, 840, 90, 160),   # bunker_1x2_bottom
 ]
 
 var active_rows: Array[Node2D] = []
@@ -69,7 +84,7 @@ func _ready() -> void:
 	var y = -200.0
 	while y <= screen_height + TILE_SIZE:
 		spawn_row(y, y, false) # visual_y, map_y, at_top
-		y += TILE_SIZE
+		y += TILE_SIZE - 2
 	
 	# The next row to spawn at Top will be at -200 - TILE_SIZE
 	next_top_map_y = -200.0 - TILE_SIZE
@@ -82,7 +97,7 @@ func _process(delta: float) -> void:
 	if not active_rows.is_empty():
 		var top_row = active_rows[0]
 		if top_row.position.y > -TILE_SIZE + (TILE_SIZE * 0.1):
-			spawn_row(top_row.position.y - TILE_SIZE, next_top_map_y, true)
+			spawn_row(top_row.position.y - (TILE_SIZE - 2), next_top_map_y, true)
 			next_top_map_y -= TILE_SIZE # Move map pointer UP (Negative)
 
 	if not active_rows.is_empty():
@@ -108,41 +123,44 @@ func generate_row_content(row_node: Node2D, map_y: float) -> void:
 	# Pass 1: Ground Tiles (Base Layer)
 	for col in range(COLUMNS):
 		var x_pos = (col * TILE_SIZE) - 50
-		
-		# Sample 2D Noise for continuous biome patches
-		var noise_val = noise.get_noise_2d(x_pos, map_y)
-		
+
 		var sprite = Sprite2D.new()
 		sprite.texture = ground_atlas
 		sprite.region_enabled = true
-		
-		# Threshold: < 0 is Sand, > 0 is Grass (Balanced)
-		# Or bias slightly: < 0.2
-		if noise_val < 0.2:
-			sprite.region_rect = SAND_REGIONS.pick_random()
-		else:
-			sprite.region_rect = GRASS_REGIONS.pick_random()
-			
 		sprite.centered = false
 		sprite.position.x = x_pos
+
+		if water_columns.has(col):
+			# Beach water-edge tile: left side uses lm, right side uses rm
+			sprite.region_rect = (BEACH_LM_TILES if col < COLUMNS / 2 else BEACH_RM_TILES).pick_random()
+		else:
+			var noise_val = noise.get_noise_2d(x_pos, map_y)
+			if noise_val < sand_bias:
+				sprite.region_rect = SAND_REGIONS.pick_random()
+			else:
+				sprite.region_rect = GRASS_REGIONS.pick_random()
+
 		row_node.add_child(sprite)
 
 	# Pass 2: Objects (Roads, Decor, Buildings)
 	for col in range(COLUMNS):
 		var x_pos = (col * TILE_SIZE) - 50
-		var is_road = (col == road_x_index)
-		
+		var is_road = show_road and (col == road_x_index)
+
+		if water_columns.has(col):
+			continue  # no decor on water edges
+
 		if is_road:
 			var road = Sprite2D.new()
 			road.texture = ground_atlas
 			road.region_enabled = true
 			road.region_rect = ROAD_REGIONS.pick_random()
-			road.position = Vector2(x_pos + 64, 64) 
+			road.position = Vector2(x_pos + 64, 64)
 			row_node.add_child(road)
 		else:
-			if randf() < 0.2:
+			if randf() < 0.08:
 				spawn_decor(row_node, x_pos, 0)
-			elif randf() < 0.05:
+			elif randf() < 0.04:
 				spawn_building(row_node, x_pos, 0)
 
 func spawn_decor(parent: Node, x: float, y_offset: float) -> void:

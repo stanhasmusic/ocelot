@@ -1,25 +1,22 @@
-[gd_scene load_steps=11 format=4 uid="uid://c1pnwuqd1siry"]
+[gd_scene load_steps=11 format=4]
 
-[ext_resource type="PackedScene" path="res://objects/MovingLandBackground.tscn" id="1_bg"]
+[ext_resource type="PackedScene" path="res://objects/JungleBackground.tscn" id="1_bg"]
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
-[ext_resource type="AudioStream" path="res://assets/audio/Song 2 _ Skyfire High Score.mp3" id="2_music"]
+[ext_resource type="AudioStream" path="res://assets/audio/Song 3_16-bit, FM synthesis, Yamaha YM2610, 90s.mp3" id="2_music"]
 [ext_resource type="PackedScene" uid="uid://b8j2x5k2y103" path="res://actors/Player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://boss1x5k2y101" path="res://actors/Boss.tscn" id="3_boss"]
-[ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="3_enemy"]
+[ext_resource type="PackedScene" path="res://actors/Interceptor.tscn" id="3_enemy"]
 [ext_resource type="PackedScene" uid="uid://b8y2x5k2y11a" path="res://objects/EnemySpawner.tscn" id="3_tmtxv"]
 [ext_resource type="PackedScene" uid="uid://c8y2x5k2y103" path="res://ui/HUD.tscn" id="4_hud"]
-[ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="4_truck"]
+[ext_resource type="PackedScene" path="res://actors/RocketLauncher.tscn" id="4_rocket"]
 [ext_resource type="PackedScene" uid="uid://c8x4q3k2j1p1" path="res://ui/PauseMenu.tscn" id="5_pause"]
 [ext_resource type="PackedScene" path="res://objects/StageOverlay.tscn" id="7_overlay"]
 
-[node name="LevelLand" type="Node2D"]
+[node name="Level03" type="Node2D"]
 script = ExtResource("1_script")
 level_music = ExtResource("2_music")
 
-[node name="MovingLandBackground" parent="." instance=ExtResource("1_bg")]
-sand_bias = 1.1
-show_road = false
-water_columns = Array[int]([0, 4])
+[node name="JungleBackground" parent="." instance=ExtResource("1_bg")]
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(270, 850)
@@ -30,9 +27,11 @@ position = Vector2(270, 480)
 [node name="EnemySpawner" parent="." instance=ExtResource("3_tmtxv")]
 position = Vector2(270, -50)
 enemy_scene = ExtResource("3_enemy")
-truck_scene = ExtResource("4_truck")
+truck_scene = ExtResource("4_rocket")
 boss_scene = ExtResource("3_boss")
 boss_scenes = Array[PackedScene]([ExtResource("3_boss"), ExtResource("3_boss"), ExtResource("3_boss")])
+stage_boss_hp = Array[int]([100, 125, 150])
+stage_start_intervals = Array[float]([1.2, 0.9, 0.6])
 
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
 

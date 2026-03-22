@@ -176,6 +176,12 @@ position = Vector2(20, -20)
 [node name="MuzzleCenter" type="Marker2D" parent="."]
 position = Vector2(0, -35)
 
+[node name="MuzzleDiagLeft" type="Marker2D" parent="."]
+position = Vector2(-30, -20)
+
+[node name="MuzzleDiagRight" type="Marker2D" parent="."]
+position = Vector2(30, -20)
+
 [node name="InvincibilityTimer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true

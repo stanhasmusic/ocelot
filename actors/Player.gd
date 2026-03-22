@@ -7,6 +7,7 @@ const FIRE_RATE: float = 0.15
 
 @export var bullet_scene: PackedScene
 @export var max_hp: int = 4
+@export var hit_shake_strength: float = 8.0
 @export var shoot_sfx: AudioStream = load("res://assets/audio/Sound Effects/SFMG1.wav")
 @export var bomb_sfx: AudioStream = load("res://assets/audio/Sound Effects/newexpl3.wav")
 @export var death_sfx: AudioStream = load("res://assets/audio/Sound Effects/explcls1.wav")
@@ -53,27 +54,37 @@ func _physics_process(delta: float) -> void:
 
 func shoot() -> void:
 	if not can_shoot: return
-	
+
 	if bullet_scene:
-		# Lvl 0: Center, Lvl 1: Left/Right, Lvl 2: All 3
-		var spawn_positions = []
-		
+		# Lvl 0: Center only
+		# Lvl 1: Left + Right
+		# Lvl 2: Left + Center + Right
+		# Lvl 3: Left + Center + Right + 2 diagonal
+		var bullets: Array = []
+
 		match weapon_level:
 			0:
-				spawn_positions.append($MuzzleCenter.global_position)
+				bullets.append({"pos": $MuzzleCenter.global_position, "dir": Vector2.UP})
 			1:
-				spawn_positions.append($MuzzleLeft.global_position)
-				spawn_positions.append($MuzzleRight.global_position)
-			_: # 2 and above
-				spawn_positions.append($MuzzleLeft.global_position)
-				spawn_positions.append($MuzzleCenter.global_position)
-				spawn_positions.append($MuzzleRight.global_position)
-		
-		for pos in spawn_positions:
+				bullets.append({"pos": $MuzzleLeft.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleRight.global_position, "dir": Vector2.UP})
+			2:
+				bullets.append({"pos": $MuzzleLeft.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleCenter.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleRight.global_position, "dir": Vector2.UP})
+			_: # 3 and above
+				bullets.append({"pos": $MuzzleLeft.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleCenter.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleRight.global_position, "dir": Vector2.UP})
+				bullets.append({"pos": $MuzzleDiagLeft.global_position, "dir": Vector2(-0.3, -1.0).normalized()})
+				bullets.append({"pos": $MuzzleDiagRight.global_position, "dir": Vector2(0.3, -1.0).normalized()})
+
+		for entry in bullets:
 			var b = bullet_scene.instantiate()
 			get_tree().root.add_child(b)
-			b.global_position = pos
-		
+			b.global_position = entry["pos"]
+			b.direction = entry["dir"]
+
 		shoot_projectile.emit()
 		SoundManager.play_sfx(shoot_sfx)
 		can_shoot = false
@@ -119,6 +130,10 @@ func power_up_weapon() -> void:
 		weapon_level += 1
 		update_player_sprite()
 
+func power_up_to_max() -> void:
+	weapon_level = 3
+	update_player_sprite()
+
 func repair_health(amount: int) -> void:
 	current_hp = min(current_hp + amount, max_hp)
 	update_player_sprite()
@@ -129,7 +144,7 @@ func update_player_sprite() -> void:
 	# Current Logic: d0 = Full Health, d(max-current) = damage
 	var damage_index = max_hp - current_hp
 	# Ensure clamped
-	damage_index = clampi(damage_index, 0, 3) # Assuming sprites go up to d3
+	damage_index = clampi(damage_index, 0, 4)
 	
 	var path = "res://assets/sprites/p38_sprites/P38_lvl_" + str(weapon_level) + "_d" + str(damage_index) + ".png"
 	
@@ -160,7 +175,7 @@ func _play_hit_feedback() -> void:
 
 	var cam = get_tree().current_scene.get_node_or_null("Camera2D")
 	if cam:
-		var s: float = 8.0
+		var s: float = hit_shake_strength
 		var tween = create_tween()
 		tween.tween_property(cam, "offset", Vector2(s, s * 0.5), 0.05)
 		tween.tween_property(cam, "offset", Vector2(-s * 0.7, -s * 0.4), 0.05)
@@ -186,6 +201,7 @@ func die() -> void:
 
 func _respawn() -> void:
 	current_hp = max_hp
+	weapon_level = 0
 	update_player_sprite()
 	var vp = get_viewport_rect()
 	position = Vector2(vp.size.x / 2.0, vp.size.y * 0.85)

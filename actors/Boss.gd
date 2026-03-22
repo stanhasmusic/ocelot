@@ -9,9 +9,11 @@ extends Area2D
 
 @export var bullet_scene: PackedScene
 @export var explosion_scene: PackedScene
+@export var drop_scene: PackedScene
 
 var current_hp: int
 var time_alive: float = 0.0
+var is_dead: bool = false
 
 func _ready() -> void:
 	current_hp = max_hp
@@ -33,10 +35,12 @@ func _physics_process(delta: float) -> void:
 	position.x += sin(time_alive * speed) * magnitude
 
 func take_damage(amount: int) -> void:
+	if is_dead:
+		return
 	current_hp -= amount
 	GameManager.report_boss_health(current_hp, max_hp)
-	
 	if current_hp <= 0:
+		is_dead = true
 		die()
 
 func die() -> void:
@@ -49,7 +53,12 @@ func die() -> void:
 			var expl = explosion_scene.instantiate()
 			get_parent().add_child(expl)
 			expl.global_position = global_position + Vector2(randf_range(-50, 50), randf_range(-50, 50))
-			
+
+	if drop_scene:
+		var drop = drop_scene.instantiate()
+		drop.global_position = global_position
+		get_parent().call_deferred("add_child", drop)
+
 	queue_free()
 
 func _on_shoot_timer_timeout() -> void:

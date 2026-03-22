@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1pmwuqd1siry"]
+[gd_scene load_steps=10 format=3 uid="uid://c1pmwuqd1siry"]
 
 [ext_resource type="PackedScene" uid="uid://cyq2x5k2y104" path="res://objects/Background.tscn" id="1_bg"]
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://objects/EnemySpawner.tscn" id="3_tmtxv"]
 [ext_resource type="PackedScene" uid="uid://c8y2x5k2y103" path="res://ui/HUD.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://ui/PauseMenu.tscn" id="5_pause"]
+[ext_resource type="PackedScene" path="res://objects/StageOverlay.tscn" id="6_overlay"]
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_script")
@@ -28,7 +29,10 @@ position = Vector2(270, -50)
 enemy_scene = ExtResource("3_enemy")
 ship_scene = ExtResource("4_ship")
 boss_scene = ExtResource("3_boss")
+boss_scenes = Array[PackedScene]([ExtResource("3_boss"), ExtResource("3_boss"), ExtResource("3_boss")])
 
 [node name="HUD" parent="." instance=ExtResource("4_hud")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
+
+[node name="StageOverlay" parent="." instance=ExtResource("6_overlay")]

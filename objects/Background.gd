@@ -1,6 +1,4 @@
-extends ParallaxBackground
+extends CanvasLayer
 
-@export var scroll_speed: float = 150.0
-
-func _process(delta: float) -> void:
-	scroll_offset.y += scroll_speed * delta
+# Ocean background — solid blue fill via ColorRect child.
+# No tile generation: Level 1 is open ocean, no islands.
