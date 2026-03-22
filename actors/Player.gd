@@ -97,10 +97,18 @@ func detonate_bomb() -> void:
 		var tween = create_tween()
 		tween.tween_property(rect, "modulate:a", 0.0, 0.5)
 	
-	# Kill Enemies
-	get_tree().call_group("Enemies", "take_damage", 100)
-	# Clear Projectiles
-	get_tree().call_group("EnemyProjectiles", "queue_free")
+	var tree = get_tree()
+	if not tree:
+		return
+	var screen = get_viewport_rect()
+	# Kill on-screen Enemies
+	for enemy in tree.get_nodes_in_group("Enemies"):
+		if screen.has_point(enemy.global_position):
+			enemy.take_damage(100)
+	# Clear on-screen Projectiles
+	for bullet in tree.get_nodes_in_group("EnemyProjectiles"):
+		if screen.has_point(bullet.global_position):
+			bullet.queue_free()
 
 func add_bomb(amount: int) -> void:
 	bomb_count += amount

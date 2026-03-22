@@ -124,7 +124,7 @@ func level_complete() -> void:
 	else:
 		next_level = ""
 	save_data()
-	get_tree().change_scene_to_file("res://ui/LevelComplete.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://ui/LevelComplete.tscn")
 
 func game_over() -> void:
 	if score > high_score:

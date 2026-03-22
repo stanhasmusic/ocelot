@@ -17,8 +17,4 @@ func _advance() -> void:
 	if _advanced:
 		return
 	_advanced = true
-	if GameManager.next_level != "":
-		get_tree().change_scene_to_file(GameManager.next_level)
-	else:
-		GameManager.reset_score()
-		get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://ui/LevelSelect.tscn")

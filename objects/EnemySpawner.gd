@@ -8,7 +8,7 @@ extends Node2D
 @export var boss_score_threshold: int = 2000
 
 const START_INTERVAL: float = 1.5    # seconds at score 0
-const MIN_INTERVAL: float = 0.5      # floor — never faster than this
+const MIN_INTERVAL: float = 0.5      # floor -- never faster than this
 const SCALE_SCORE_CAP: float = 1500.0 # score at which MIN_INTERVAL is reached
 
 var boss_spawned: bool = false
