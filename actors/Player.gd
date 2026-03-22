@@ -4,6 +4,8 @@ signal shoot_projectile
 
 const SPEED: float = 400.0
 const FIRE_RATE: float = 0.15
+const JOYSTICK_RADIUS: float = 80.0
+const JOYSTICK_DEAD_ZONE: float = 10.0
 
 @export var bullet_scene: PackedScene
 @export var max_hp: int = 4
@@ -20,12 +22,41 @@ var weapon_level: int = 0
 var is_invincible: bool = false
 var bomb_count: int = 3
 
+# Touch control state
+var _touch_move_id: int = -1
+var _touch_move_origin: Vector2 = Vector2.ZERO
+var _touch_move_pos: Vector2 = Vector2.ZERO
+var _touch_shoot_id: int = -1
+
 func _ready() -> void:
 	add_to_group("Player")
 	current_hp = max_hp
 	update_player_sprite()
 	_setup_missing_inputs()
 	GameManager.report_bomb_count(bomb_count)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		var half_w: float = get_viewport_rect().size.x * 0.5
+		if event.pressed:
+			if event.position.x < half_w:
+				# Left half — movement joystick
+				if _touch_move_id == -1:
+					_touch_move_id = event.index
+					_touch_move_origin = event.position
+					_touch_move_pos = event.position
+			else:
+				# Right half — shoot
+				if _touch_shoot_id == -1:
+					_touch_shoot_id = event.index
+		else:
+			if event.index == _touch_move_id:
+				_touch_move_id = -1
+			if event.index == _touch_shoot_id:
+				_touch_shoot_id = -1
+	elif event is InputEventScreenDrag:
+		if event.index == _touch_move_id:
+			_touch_move_pos = event.position
 
 func _physics_process(delta: float) -> void:
 	# Cooldown
@@ -34,21 +65,27 @@ func _physics_process(delta: float) -> void:
 		if shoot_timer <= 0:
 			can_shoot = true
 
-	# Movement
+	# Movement — keyboard/gamepad or touch joystick
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if _touch_move_id != -1:
+		var offset = _touch_move_pos - _touch_move_origin
+		if offset.length() > JOYSTICK_DEAD_ZONE:
+			direction = (offset / JOYSTICK_RADIUS).limit_length(1.0)
+		else:
+			direction = Vector2.ZERO
 	velocity = direction * SPEED
 	move_and_slide()
-	
+
 	# Clamp
 	var viewport_rect = get_viewport_rect()
 	position.x = clamp(position.x, 0, viewport_rect.size.x)
 	position.y = clamp(position.y, 0, viewport_rect.size.y)
-	
-	# Shooting
-	if Input.is_action_pressed("shoot"):
+
+	# Shooting — keyboard/gamepad or right-half touch
+	if Input.is_action_pressed("shoot") or _touch_shoot_id != -1:
 		shoot()
-		
-	# Bomb
+
+	# Bomb — keyboard/gamepad (touch handled by HUD button)
 	if Input.is_action_just_pressed("bomb"):
 		drop_bomb()
 

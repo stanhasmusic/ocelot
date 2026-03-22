@@ -14,6 +14,7 @@ func _ready() -> void:
 	GameManager.on_score_updated.connect(_update_score_label)
 	GameManager.on_lives_changed.connect(_update_lives_label)
 	GameManager.on_bomb_count_changed.connect(_update_bomb_label)
+	$Control/BombButton.pressed.connect(_on_bomb_button_pressed)
 
 func _update_score_label(new_score: int) -> void:
 	$Control/ScoreLabel.text = str(new_score)
@@ -42,3 +43,8 @@ func _play_life_lost_feedback() -> void:
 
 func _update_bomb_label(new_count: int) -> void:
 	$Control/BombLabel.text = "Bombs: " + str(new_count)
+
+func _on_bomb_button_pressed() -> void:
+	var players = get_tree().get_nodes_in_group("Player")
+	if players.size() > 0:
+		players[0].drop_bomb()

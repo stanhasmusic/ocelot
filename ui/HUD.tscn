@@ -68,6 +68,20 @@ theme_override_font_sizes/font_size = 48
 text = "LIFE LOST"
 horizontal_alignment = 1
 
+[node name="BombButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -210.0
+offset_top = -60.0
+offset_right = -5.0
+offset_bottom = -5.0
+flat = true
+text = ""
+
 [node name="BossBar" type="ProgressBar" parent="Control"]
 visible = false
 layout_mode = 1
