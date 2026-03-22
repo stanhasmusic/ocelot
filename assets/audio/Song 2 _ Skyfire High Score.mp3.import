@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ckvtvrrq07jy2"
+path="res://.godot/imported/Song 2 _ Skyfire High Score.mp3-136d14c610a664ea368004ae42501e3d.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/Song 2 _ Skyfire High Score.mp3"
+dest_files=["res://.godot/imported/Song 2 _ Skyfire High Score.mp3-136d14c610a664ea368004ae42501e3d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

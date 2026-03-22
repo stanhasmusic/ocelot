@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -c \":*)"
+      "Bash(python3 -c \":*)",
+      "Bash(__NEW_LINE_3bc6b9730f6edc28__ echo:*)"
     ]
   }
 }
