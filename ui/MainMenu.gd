@@ -38,6 +38,8 @@ func _input(event: InputEvent) -> void:
 			_on_back_pressed()
 
 func _on_play_pressed() -> void:
+	GameManager.reset_score()
+	GameManager.reset_lives()
 	get_tree().change_scene_to_file("res://scenes/Level01.tscn")
 
 func _on_options_pressed() -> void:
