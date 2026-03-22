@@ -4,6 +4,7 @@ signal on_score_updated(new_score: int)
 signal on_boss_health_changed(current: int, max_hp: int)
 signal on_boss_spawned(max_hp: int)
 signal on_boss_died
+signal on_lives_changed(new_lives: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
 
@@ -15,6 +16,7 @@ var sfx_volume: float = 1.0
 var unlocked_level: int = 1
 var current_level: String = "res://scenes/Level01.tscn"
 var next_level: String = ""
+var lives: int = 3
 
 const LEVELS: Array[String] = [
 	"res://scenes/Level01.tscn",
@@ -107,6 +109,10 @@ func add_score(points: int) -> void:
 func reset_score() -> void:
 	score = 0
 	on_score_updated.emit(score)
+
+func reset_lives() -> void:
+	lives = 3
+	on_lives_changed.emit(lives)
 
 func level_complete() -> void:
 	current_level = get_tree().current_scene.scene_file_path

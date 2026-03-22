@@ -148,10 +148,21 @@ func start_invincibility() -> void:
 		$InvincibilityTimer.start()
 
 func die() -> void:
-	print("Player Died!")
 	SoundManager.play_sfx(death_sfx)
-	GameManager.game_over()
-	queue_free()
+	GameManager.lives -= 1
+	GameManager.on_lives_changed.emit(GameManager.lives)
+	if GameManager.lives <= 0:
+		GameManager.game_over()
+		queue_free()
+	else:
+		_respawn()
+
+func _respawn() -> void:
+	current_hp = max_hp
+	update_player_sprite()
+	var vp = get_viewport_rect()
+	position = Vector2(vp.size.x / 2.0, vp.size.y * 0.85)
+	start_invincibility()
 
 func _on_invincibility_timer_timeout() -> void:
 	is_invincible = false

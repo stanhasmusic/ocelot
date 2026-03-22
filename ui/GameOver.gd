@@ -9,8 +9,10 @@ func _ready() -> void:
 func _on_retry_pressed() -> void:
 	var level = GameManager.current_level
 	GameManager.reset_score()
+	GameManager.reset_lives()
 	get_tree().change_scene_to_file(level)
 
 func _on_menu_pressed() -> void:
 	GameManager.reset_score()
+	GameManager.reset_lives()
 	get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
