@@ -8,10 +8,10 @@ extends Node2D
 @export var stage_boss_hp: Array[int] = [50, 75, 100]                 # HP per stage
 @export var stage_start_intervals: Array[float] = [1.5, 1.1, 0.8]    # spawn rate baseline per stage
 @export var spawn_width_offset: float = 200.0
-@export var boss_score_threshold: int = 2000
+@export var boss_score_threshold: int = 3500
 
 const MIN_INTERVAL: float = 0.5
-const SCALE_SCORE_CAP: float = 1500.0
+const SCALE_SCORE_CAP: float = 2500.0
 
 var boss_spawned: bool = false
 var current_stage: int = 0   # 0-indexed
@@ -38,6 +38,8 @@ func _on_score_updated(score: int) -> void:
 	$Timer.wait_time = lerpf(start_interval, MIN_INTERVAL, t)
 
 func spawn_boss() -> void:
+	if boss_spawned:
+		return
 	var scene_to_use: PackedScene
 	if boss_scenes.size() > current_stage:
 		scene_to_use = boss_scenes[current_stage]

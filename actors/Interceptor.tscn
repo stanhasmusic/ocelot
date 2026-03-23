@@ -19,7 +19,7 @@ projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
 speed = 180.0
-hp = 2
+hp = 3
 score_value = 250
 fire_rate = 2.5
 

@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 func take_damage(amount: int) -> void:
 	if is_dead:
 		return
-	current_hp -= amount
+	current_hp -= min(amount, 10)  # cap single-hit damage so bombs don't insta-kill
 	GameManager.report_boss_health(current_hp, max_hp)
 	if _phase == 1 and current_hp <= max_hp / 2:
 		_phase = 2
