@@ -24,6 +24,15 @@ func _ready() -> void:
 
 	$CenterContainer/VBoxContainer/ButtonRow/PlayAgainButton.pressed.connect(_on_play_again)
 	$CenterContainer/VBoxContainer/ButtonRow/NextLevelButton.pressed.connect(_on_next_level)
+	$CenterContainer/VBoxContainer/MainMenuRow/MainMenuButton.pressed.connect(_on_main_menu)
+	$ConfirmDialog.confirmed.connect(_on_main_menu_confirmed)
+	$ConfirmDialog.canceled.connect(_on_main_menu_canceled)
+
+	# Give initial focus for keyboard/controller navigation
+	if not GameManager.next_level.is_empty():
+		$CenterContainer/VBoxContainer/ButtonRow/NextLevelButton.grab_focus()
+	else:
+		$CenterContainer/VBoxContainer/ButtonRow/PlayAgainButton.grab_focus()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
@@ -36,6 +45,21 @@ func _on_play_again() -> void:
 	GameManager.reset_score()
 	GameManager.reset_lives()
 	get_tree().change_scene_to_file(GameManager.current_level)
+
+func _on_main_menu() -> void:
+	if _advanced:
+		return
+	$ConfirmDialog.popup_centered()
+	$ConfirmDialog.get_ok_button().grab_focus()
+
+func _on_main_menu_confirmed() -> void:
+	_advanced = true
+	GameManager.reset_score()
+	GameManager.reset_lives()
+	get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
+
+func _on_main_menu_canceled() -> void:
+	$CenterContainer/VBoxContainer/MainMenuRow/MainMenuButton.grab_focus()
 
 func _on_next_level() -> void:
 	if _advanced:

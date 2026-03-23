@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://actors/Interceptor.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_05.png" id="2_body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_05_shadow.png" id="8_shadow"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
 [ext_resource type="PackedScene" path="res://objects/InterceptorBullet.tscn" id="4_bullet"]
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
@@ -22,6 +23,13 @@ speed = 180.0
 hp = 3
 score_value = 250
 fire_rate = 2.5
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(6, 6)
+rotation = 3.14159
+modulate = Color(1, 1, 1, 0.35)
+texture = ExtResource("8_shadow")
 
 [node name="Body" type="Sprite2D" parent="."]
 rotation = 3.14159

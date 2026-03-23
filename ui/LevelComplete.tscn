@@ -82,3 +82,22 @@ layout_mode = 2
 custom_minimum_size = Vector2(200, 70)
 theme_override_font_sizes/font_size = 28
 text = "NEXT LEVEL"
+
+
+[node name="MainMenuRow" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 55)
+theme_override_font_sizes/font_size = 22
+modulate = Color(1, 1, 1, 0.65)
+text = "MAIN MENU"
+
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
+title = "Return to Main Menu?"
+dialog_text = "Your current run progress will be lost."
+size = Vector2(360, 140)
+exclusive = true

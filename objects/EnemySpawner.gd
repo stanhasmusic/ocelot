@@ -4,6 +4,9 @@ extends Node2D
 @export var ship_scene: PackedScene
 @export var truck_scene: PackedScene
 @export var helicopter_scene: PackedScene
+@export var ace_fighter_scene: PackedScene
+@export var bomber_scene: PackedScene
+@export var elite_escort_scene: PackedScene
 @export var boss_scene: PackedScene                                    # fallback single boss
 @export var boss_scenes: Array[PackedScene] = []                       # one per stage (overrides boss_scene)
 @export var stage_boss_hp: Array[int] = [50, 75, 100]                 # HP per stage
@@ -66,6 +69,9 @@ func _on_timer_timeout() -> void:
 	if ship_scene: potential_enemies.append(ship_scene)
 	if truck_scene: potential_enemies.append(truck_scene)
 	if helicopter_scene: potential_enemies.append(helicopter_scene)
+	if ace_fighter_scene: potential_enemies.append(ace_fighter_scene)
+	if bomber_scene: potential_enemies.append(bomber_scene)
+	if elite_escort_scene: potential_enemies.append(elite_escort_scene)
 
 	if potential_enemies.is_empty():
 		print("Error: No Enemy Scenes assigned in Spawner")

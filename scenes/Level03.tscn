@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4]
+[gd_scene load_steps=14 format=4]
 
 [ext_resource type="PackedScene" path="res://objects/JungleBackground.tscn" id="1_bg"]
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
@@ -11,6 +11,9 @@
 [ext_resource type="PackedScene" path="res://actors/RocketLauncher.tscn" id="4_rocket"]
 [ext_resource type="PackedScene" uid="uid://c8x4q3k2j1p1" path="res://ui/PauseMenu.tscn" id="5_pause"]
 [ext_resource type="PackedScene" path="res://objects/StageOverlay.tscn" id="7_overlay"]
+[ext_resource type="PackedScene" path="res://actors/AceFighter.tscn" id="8_ace"]
+[ext_resource type="PackedScene" path="res://actors/Bomber.tscn" id="9_bomber"]
+[ext_resource type="PackedScene" path="res://actors/EliteEscort.tscn" id="10_escort"]
 
 [node name="Level03" type="Node2D"]
 script = ExtResource("1_script")
@@ -28,6 +31,9 @@ position = Vector2(270, 480)
 position = Vector2(270, -50)
 enemy_scene = ExtResource("3_enemy")
 truck_scene = ExtResource("4_rocket")
+ace_fighter_scene = ExtResource("8_ace")
+bomber_scene = ExtResource("9_bomber")
+elite_escort_scene = ExtResource("10_escort")
 boss_scene = ExtResource("3_boss")
 boss_scenes = Array[PackedScene]([ExtResource("3_boss"), ExtResource("3_boss"), ExtResource("3_boss")])
 stage_boss_hp = Array[int]([100, 125, 150])

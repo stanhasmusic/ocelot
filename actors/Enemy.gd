@@ -6,8 +6,10 @@ extends Area2D
 @export var loot_pool: Array[PackedScene] = []
 @export var projectile_scene: PackedScene
 @export var fire_rate: float = 2.0
+@export var destroyed_texture: Texture2D
 
 @onready var shoot_timer: Timer = Timer.new()
+@onready var _body: Sprite2D = $Body
 
 @export var hp: int = 1
 var is_dead: bool = false
@@ -33,26 +35,40 @@ func _on_shoot_timer_timeout() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	# Assume mask 2 ensures only PlayerProjectile hits this.
 	take_damage(1)
-	
+
 	# Destroy Bullet
 	area.queue_free()
 
 func take_damage(amount: int) -> void:
 	if is_dead:
 		return
+	_flash_hit()
 	hp -= amount
 	if hp <= 0:
 		is_dead = true
 		die()
 
+func _flash_hit() -> void:
+	if not _body: return
+	var t = create_tween()
+	t.tween_property(_body, "modulate", Color(2.0, 0.5, 0.5, 1.0), 0.0)
+	t.tween_property(_body, "modulate", Color.WHITE, 0.15)
+
 func die() -> void:
 	drop_loot()
 	spawn_explosion()
 	GameManager.add_score(score_value)
-	queue_free()
+	if destroyed_texture and _body:
+		_body.texture = destroyed_texture
+		shoot_timer.stop()
+		await get_tree().create_timer(0.25).timeout
+		if is_instance_valid(self): queue_free()
+	else:
+		queue_free()
 
 
 func _on_body_entered(body: Node2D) -> void:
+	if is_dead: return
 	if body.has_method("take_damage"):
 		body.take_damage(1)
 		spawn_explosion()

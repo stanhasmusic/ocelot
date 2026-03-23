@@ -1,42 +1,42 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://actors/Helicopter.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_07.png" id="2_body"]
-[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_07_shadow.png" id="9_shadow"]
+[ext_resource type="Script" path="res://actors/AceFighter.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_03.png" id="2_body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_03_shadow.png" id="8_shadow"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
-[ext_resource type="PackedScene" path="res://objects/TurretBullet.tscn" id="4_bullet"]
+[ext_resource type="PackedScene" path="res://objects/InterceptorBullet.tscn" id="4_bullet"]
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fighter"]
-size = Vector2(60, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ace"]
+size = Vector2(70, 55)
 
-[node name="Fighter" type="Area2D" groups=["Enemies"]]
+[node name="AceFighter" type="Area2D" groups=["Enemies"]]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_script")
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
-speed = 120.0
+speed = 170.0
 hp = 2
-score_value = 150
-fire_rate = 2.0
+score_value = 200
+fire_rate = 2.2
 
 [node name="Shadow" type="Sprite2D" parent="."]
 z_index = -1
 position = Vector2(6, 6)
 rotation = 3.14159
 modulate = Color(1, 1, 1, 0.35)
-texture = ExtResource("9_shadow")
+texture = ExtResource("8_shadow")
 
 [node name="Body" type="Sprite2D" parent="."]
 rotation = 3.14159
 texture = ExtResource("2_body")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_fighter")
+shape = SubResource("RectangleShape2D_ace")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 scale = Vector2(2, 2)
