@@ -18,11 +18,11 @@ var current_stage: int = 0   # 0-indexed
 var stage_start_score: int = 0
 
 func _ready() -> void:
-	GameManager.on_score_updated.connect(_on_score_updated)
+	GameManager.on_spawn_score_updated.connect(_on_score_updated)
 
 func reset_for_stage(stage_index: int) -> void:
 	current_stage = stage_index
-	stage_start_score = GameManager.score
+	stage_start_score = GameManager.spawn_score
 	boss_spawned = false
 	var start_interval = stage_start_intervals[stage_index] if stage_index < stage_start_intervals.size() else 1.5
 	$Timer.wait_time = start_interval

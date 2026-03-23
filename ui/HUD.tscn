@@ -24,6 +24,18 @@ grow_horizontal = 2
 text = "0"
 horizontal_alignment = 1
 
+[node name="ComboLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 46.0
+offset_bottom = 80.0
+grow_horizontal = 2
+modulate = Color(1, 0.85, 0.1, 0)
+theme_override_font_sizes/font_size = 36
+text = "x2"
+horizontal_alignment = 1
+
 [node name="LivesLabel" type="Label" parent="Control"]
 layout_mode = 1
 anchors_preset = 2

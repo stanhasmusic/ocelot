@@ -1,6 +1,8 @@
 extends Node
 
 signal on_score_updated(new_score: int)
+signal on_spawn_score_updated(spawn_score: int)
+signal on_combo_changed(new_multiplier: int)
 signal on_boss_health_changed(current: int, max_hp: int)
 signal on_boss_spawned(max_hp: int)
 signal on_boss_died
@@ -10,6 +12,8 @@ signal on_bomb_count_changed(new_count: int)
 const SAVE_PATH: String = "user://savegame.tres"
 
 var score: int = 0
+var spawn_score: int = 0
+var combo_count: int = 0
 var high_score: int = 0
 var master_volume: float = 1.0
 var music_volume: float = 1.0
@@ -104,12 +108,25 @@ func _add_axis(action: String, axis: int, val: float) -> void:
 	e.axis_value = val
 	if not InputMap.action_has_event(action, e): InputMap.action_add_event(action, e)
 
+func get_multiplier() -> int:
+	return clampi(1 + combo_count / 5, 1, 5)
+
 func add_score(points: int) -> void:
-	score += points
+	combo_count += 1
+	spawn_score += points
+	score += points * get_multiplier()
 	on_score_updated.emit(score)
+	on_spawn_score_updated.emit(spawn_score)
+	on_combo_changed.emit(get_multiplier())
+
+func reset_combo() -> void:
+	combo_count = 0
+	on_combo_changed.emit(1)
 
 func reset_score() -> void:
 	score = 0
+	spawn_score = 0
+	reset_combo()
 	on_score_updated.emit(score)
 
 func reset_lives() -> void:

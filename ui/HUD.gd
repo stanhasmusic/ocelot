@@ -14,6 +14,7 @@ func _ready() -> void:
 	GameManager.on_score_updated.connect(_update_score_label)
 	GameManager.on_lives_changed.connect(_update_lives_label)
 	GameManager.on_bomb_count_changed.connect(_update_bomb_label)
+	GameManager.on_combo_changed.connect(_on_combo_changed)
 	$Control/BombButton.pressed.connect(_on_bomb_button_pressed)
 
 func _update_score_label(new_score: int) -> void:
@@ -43,6 +44,18 @@ func _play_life_lost_feedback() -> void:
 
 func _update_bomb_label(new_count: int) -> void:
 	$Control/BombLabel.text = "Bombs: " + str(new_count)
+
+func _on_combo_changed(m: int) -> void:
+	var label = $Control/ComboLabel
+	if m <= 1:
+		var t = create_tween()
+		t.tween_property(label, "modulate:a", 0.0, 0.25)
+	else:
+		label.text = "x" + str(m)
+		label.modulate.a = 1.0
+		label.scale = Vector2(0.8, 0.8)
+		var t = create_tween()
+		t.tween_property(label, "scale", Vector2(1.0, 1.0), 0.12)
 
 func _on_bomb_button_pressed() -> void:
 	var players = get_tree().get_nodes_in_group("Player")

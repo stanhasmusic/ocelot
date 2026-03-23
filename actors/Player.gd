@@ -194,6 +194,7 @@ func take_damage(amount: int) -> void:
 	if is_invincible or current_hp <= 0:
 		return
 
+	GameManager.reset_combo()
 	current_hp -= amount
 	update_player_sprite()
 	_play_hit_feedback()
