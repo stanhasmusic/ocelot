@@ -15,6 +15,10 @@ var score: int = 0
 var spawn_score: int = 0
 var combo_count: int = 0
 var high_score: int = 0
+var level_stars: Dictionary = {}
+var last_level_stars: int = 0
+var last_level_new_record: bool = false
+var _level_start_lives: int = 3
 var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
@@ -131,6 +135,7 @@ func reset_score() -> void:
 
 func reset_lives() -> void:
 	lives = 3
+	_level_start_lives = 3
 	on_lives_changed.emit(lives)
 
 func add_life() -> void:
@@ -145,6 +150,21 @@ func level_complete() -> void:
 		unlocked_level = max(unlocked_level, idx + 2) # 1-based
 	else:
 		next_level = ""
+
+	# Star rating: 3 = no lives lost, 2 = lost 1, 1 = lost 2+
+	var lives_lost = _level_start_lives - lives
+	last_level_stars = clampi(3 - lives_lost, 1, 3)
+
+	# Persist best star count per level
+	if idx >= 0:
+		var key = str(idx)
+		level_stars[key] = max(level_stars.get(key, 0), last_level_stars)
+
+	# New record check
+	last_level_new_record = score > high_score
+	if last_level_new_record:
+		high_score = score
+
 	save_data()
 	get_tree().call_deferred("change_scene_to_file", "res://ui/LevelComplete.tscn")
 
@@ -162,6 +182,7 @@ func save_data() -> void:
 	save_game.music_volume = music_volume
 	save_game.sfx_volume = sfx_volume
 	save_game.unlocked_level = unlocked_level
+	save_game.level_stars = level_stars
 	ResourceSaver.save(save_game, SAVE_PATH)
 
 func load_data() -> void:
@@ -173,6 +194,7 @@ func load_data() -> void:
 			music_volume = save_game.music_volume
 			sfx_volume = save_game.sfx_volume
 			unlocked_level = save_game.unlocked_level
+			level_stars = save_game.level_stars
 		else:
 			print("Error loading save data. File may be corrupted or script path changed. Creating new save.")
 			save_data()

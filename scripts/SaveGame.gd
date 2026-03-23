@@ -6,3 +6,4 @@ extends Resource
 @export var music_volume: float = 1.0
 @export var sfx_volume: float = 1.0
 @export var unlocked_level: int = 1
+@export var level_stars: Dictionary = {}

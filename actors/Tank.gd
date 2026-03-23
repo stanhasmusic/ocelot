@@ -50,7 +50,7 @@ func shoot() -> void:
 		var dir = global_position.direction_to(player.global_position)
 		b.global_position = turret.global_position + dir * 40
 		# TankBullet moves along Vector2.UP.rotated(rotation), so rotation = dir.angle() - PI/2
-		b.rotation = dir.angle() - PI/2
+		b.rotation = dir.angle() + PI/2
 
 		if shoot_sound:
 			shoot_sound.play()

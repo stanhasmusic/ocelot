@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1pmwuqd1siry"]
+[gd_scene load_steps=11 format=3 uid="uid://c1pmwuqd1siry"]
 
 [ext_resource type="PackedScene" uid="uid://cyq2x5k2y104" path="res://objects/Background.tscn" id="1_bg"]
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c8x2y5k2y108" path="res://actors/Enemy.tscn" id="3_enemy"]
 [ext_resource type="PackedScene" path="res://actors/Ship.tscn" id="4_ship"]
 [ext_resource type="PackedScene" path="res://objects/EnemySpawner.tscn" id="3_tmtxv"]
+[ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="7_heli"]
 [ext_resource type="PackedScene" uid="uid://c8y2x5k2y103" path="res://ui/HUD.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://ui/PauseMenu.tscn" id="5_pause"]
 [ext_resource type="PackedScene" path="res://objects/StageOverlay.tscn" id="6_overlay"]
@@ -28,6 +29,7 @@ position = Vector2(270, 480)
 position = Vector2(270, -50)
 enemy_scene = ExtResource("3_enemy")
 ship_scene = ExtResource("4_ship")
+helicopter_scene = ExtResource("7_heli")
 boss_scene = ExtResource("3_boss")
 boss_scenes = Array[PackedScene]([ExtResource("3_boss"), ExtResource("3_boss"), ExtResource("3_boss")])
 
