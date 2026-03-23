@@ -44,28 +44,13 @@ func _on_shoot_timer_timeout() -> void:
 func shoot() -> void:
 	if bullet_scene:
 		var b = bullet_scene.instantiate()
-		
-		# Bullet usually moves in its +X direction or +Y?
-		# EnemyBullet.gd:
-		#	func _physics_process(delta):
-		#		position += transform.x * speed * delta (Standard)
-		#       OR position.y += speed * delta (Vertical only)
-		
-		# Let's check EnemyBullet.gd to be sure how it moves!
-		
 		get_parent().add_child(b)
-		
-		# Spawning at Tip
-		var direction = Vector2.UP.rotated(turret.global_rotation)
-		b.global_position = turret.global_position + (direction * 40)
-		
-		# If bullet moves by its rotation, we set rotation.
-		# If bullet moves down strictly, this won't work well for a turret.
-		# We likely need a "TrackingBullet" or set the EnemyBullet direction.
-		
-		# Assuming standard bullet behavior (moves along forward vector)
-		b.rotation = turret.global_rotation
-		# Actually, let's verify EnemyBullet.gd first before finalizing this logic.
-		
+
+		# Direction toward player (pure travel vector, no sprite correction)
+		var dir = global_position.direction_to(player.global_position)
+		b.global_position = turret.global_position + dir * 40
+		# TankBullet moves along Vector2.UP.rotated(rotation), so rotation = dir.angle() - PI/2
+		b.rotation = dir.angle() - PI/2
+
 		if shoot_sound:
 			shoot_sound.play()
