@@ -8,12 +8,14 @@ extends Area2D
 @export var vertical_speed: float = 20.0 # Slow descent
 
 @export var bullet_scene: PackedScene
+@export var fan_bullet_scene: PackedScene  # TurretBullet — used for spread shots
 @export var explosion_scene: PackedScene
 @export var drop_scene: PackedScene
 
 var current_hp: int
 var time_alive: float = 0.0
 var is_dead: bool = false
+var _phase: int = 1
 
 func _ready() -> void:
 	current_hp = max_hp
@@ -39,6 +41,8 @@ func take_damage(amount: int) -> void:
 		return
 	current_hp -= amount
 	GameManager.report_boss_health(current_hp, max_hp)
+	if _phase == 1 and current_hp <= max_hp / 2:
+		_phase = 2
 	if current_hp <= 0:
 		is_dead = true
 		die()
@@ -62,7 +66,17 @@ func die() -> void:
 	queue_free()
 
 func _on_shoot_timer_timeout() -> void:
-	if bullet_scene:
-		var b = bullet_scene.instantiate()
-		get_parent().add_child(b)
-		b.global_position = $Muzzle.global_position
+	if _phase == 1:
+		# Single straight-down shot
+		if bullet_scene:
+			var b = bullet_scene.instantiate()
+			get_parent().add_child(b)
+			b.global_position = $Muzzle.global_position
+	else:
+		# Phase 2: 3-bullet fan spread
+		if fan_bullet_scene:
+			for angle_offset in [0.0, -0.3, 0.3]:
+				var b = fan_bullet_scene.instantiate()
+				get_parent().add_child(b)
+				b.global_position = $Muzzle.global_position
+				b.rotation = PI / 2.0 + angle_offset

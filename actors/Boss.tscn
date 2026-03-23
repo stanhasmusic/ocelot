@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://boss1x5k2y101"]
+[gd_scene load_steps=7 format=3 uid="uid://boss1x5k2y101"]
 
 [ext_resource type="Script" uid="uid://o5q0xojp614w" path="res://actors/Boss.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dgw7nmhnafqrv" path="res://assets/sprites/aircrafts/images/aircraft_3.png" id="2_sprite"]
 [ext_resource type="PackedScene" uid="uid://djetgxd0o5vbf" path="res://objects/Explosion.tscn" id="3_explosion"]
 [ext_resource type="PackedScene" uid="uid://c8j2x5k2y1enemybul" path="res://objects/EnemyBullet.tscn" id="4_bullet"]
 [ext_resource type="PackedScene" path="res://objects/DiagonalGunPickup.tscn" id="5_drop"]
+[ext_resource type="PackedScene" path="res://objects/TurretBullet.tscn" id="6_fan"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_boss"]
 radius = 60.0
@@ -16,6 +17,7 @@ collision_mask = 3
 script = ExtResource("1_script")
 max_hp = 50
 bullet_scene = ExtResource("4_bullet")
+fan_bullet_scene = ExtResource("6_fan")
 explosion_scene = ExtResource("3_explosion")
 drop_scene = ExtResource("5_drop")
 

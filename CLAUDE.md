@@ -62,7 +62,7 @@ Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 30
 | `on_boss_spawned` | GameManager | Show boss health bar |
 | `on_boss_health_changed(hp)` | GameManager | Update boss health bar |
 | `on_boss_died` | GameManager | Hide boss health bar |
-| `shoot_projectile(bullet, pos, rot)` | Player | Decouple bullet spawning |
+| `shoot_projectile` | Player | Emitted after each volley fires (no args) |
 | `on_bomb_count_changed(count)` | Player | HUD bomb count |
 
 ### Editor Scripts (`scripts/`)

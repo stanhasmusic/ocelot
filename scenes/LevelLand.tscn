@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
 [ext_resource type="AudioStream" path="res://assets/audio/Song 2 _ Skyfire High Score.mp3" id="2_music"]
 [ext_resource type="PackedScene" uid="uid://b8j2x5k2y103" path="res://actors/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" uid="uid://boss1x5k2y101" path="res://actors/Boss.tscn" id="3_boss"]
+[ext_resource type="PackedScene" path="res://actors/BossL2.tscn" id="3_boss"]
 [ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="3_enemy"]
 [ext_resource type="PackedScene" uid="uid://b8y2x5k2y11a" path="res://objects/EnemySpawner.tscn" id="3_tmtxv"]
 [ext_resource type="PackedScene" uid="uid://c8y2x5k2y103" path="res://ui/HUD.tscn" id="4_hud"]

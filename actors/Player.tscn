@@ -191,6 +191,7 @@ one_shot = true
 [node name="BombFlashLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="BombFlashLayer"]
+mouse_filter = 2
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -199,6 +200,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="DamageFlash" type="ColorRect" parent="BombFlashLayer"]
+mouse_filter = 2
 modulate = Color(1, 0, 0, 0)
 anchors_preset = 15
 anchor_right = 1.0
