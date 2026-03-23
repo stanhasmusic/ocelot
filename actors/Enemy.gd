@@ -10,6 +10,7 @@ extends Area2D
 @onready var shoot_timer: Timer = Timer.new()
 
 @export var hp: int = 1
+var is_dead: bool = false
 
 func _ready() -> void:
 	if projectile_scene:
@@ -37,8 +38,11 @@ func _on_area_entered(area: Area2D) -> void:
 	area.queue_free()
 
 func take_damage(amount: int) -> void:
+	if is_dead:
+		return
 	hp -= amount
 	if hp <= 0:
+		is_dead = true
 		die()
 
 func die() -> void:
