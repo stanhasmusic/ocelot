@@ -71,10 +71,6 @@ func setup_inputs() -> void:
 	_map_action("move_down", [KEY_S, KEY_DOWN], [JOY_BUTTON_DPAD_DOWN])
 	
 	_map_action("shoot", [KEY_SPACE], [], [JOY_AXIS_TRIGGER_RIGHT])
-	_map_action("bomb", [KEY_ALT], [JOY_BUTTON_X]) # Xbox X is usually bomb? User said A for confirm. Let's start with defaults.
-	# User Request: A for Confirm (ui_accept).
-	# Previously Bomb was Alt/A. This conflicts.
-	# Let's move Bomb to X (Xbox) / Square (PS) / Key Alt.
 	_map_action("bomb", [KEY_ALT], [JOY_BUTTON_X])
 	
 	_map_action("ui_accept", [KEY_ENTER, KEY_SPACE], [JOY_BUTTON_A])
@@ -165,6 +161,7 @@ func level_complete() -> void:
 	if last_level_new_record:
 		high_score = score
 
+	_level_start_lives = lives  # snapshot for next level's star calc
 	save_data()
 	get_tree().call_deferred("change_scene_to_file", "res://ui/LevelComplete.tscn")
 
