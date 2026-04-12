@@ -81,9 +81,13 @@ func spawn_explosion() -> void:
 		get_parent().add_child(expl)
 
 func drop_loot() -> void:
-	if loot_pool.is_empty() or randf() >= 0.3:
+	if loot_pool.is_empty() or randf() >= 0.22:
 		return
-	var pickup = loot_pool.pick_random().instantiate()
+	var pickup_scene = loot_pool.pick_random()
+	# Bombs get an extra 50% filter to roughly halve their drop rate
+	if "Bomb" in pickup_scene.resource_path and randf() >= 0.5:
+		return
+	var pickup = pickup_scene.instantiate()
 	pickup.global_position = global_position
 	get_parent().call_deferred("add_child", pickup)
 

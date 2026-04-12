@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Song 3_16-bit, FM synthesis, Yamaha YM2610, 9
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

@@ -7,7 +7,7 @@ func _ready() -> void:
 	var star_text = ""
 	for i in range(3):
 		star_text += "★" if i < stars else "☆"
-	$CenterContainer/VBoxContainer/StarsLabel.text = star_text
+	$StarsLabel.text = star_text
 
 	$CenterContainer/VBoxContainer/ScoreLabel.text = "SCORE: " + str(GameManager.score)
 	$CenterContainer/VBoxContainer/BestLabel.text = "BEST: " + str(GameManager.high_score)
