@@ -8,3 +8,6 @@ the goal is to create a full game loop with 5 levels and fun, challenging gamepl
 the game uses free-to-use assets (add source here). 
 
 it started out in antigravity using Gemini to code, then moved to VS code and Claude Code.  
+
+
+## this line is an experiment test for the git lessons. 
