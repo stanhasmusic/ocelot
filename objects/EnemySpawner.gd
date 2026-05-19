@@ -1,84 +1,29 @@
 extends Node2D
 
-@export var enemy_scene: PackedScene
-@export var ship_scene: PackedScene
-@export var truck_scene: PackedScene
-@export var helicopter_scene: PackedScene
-@export var ace_fighter_scene: PackedScene
-@export var bomber_scene: PackedScene
-@export var elite_escort_scene: PackedScene
-@export var boss_scene: PackedScene                                    # fallback single boss
-@export var boss_scenes: Array[PackedScene] = []                       # one per stage (overrides boss_scene)
-@export var stage_boss_hp: Array[int] = [50, 75, 100]                 # HP per stage
-@export var stage_start_intervals: Array[float] = [1.5, 1.1, 0.8]    # spawn rate baseline per stage
-@export var spawn_width_offset: float = 200.0
-@export var boss_score_threshold: int = 3500
+var _config: StageConfig = null
 
-const MIN_INTERVAL: float = 0.5
-const SCALE_SCORE_CAP: float = 2500.0
+@onready var _director: SpawnDirector = $SpawnDirector
 
-var boss_spawned: bool = false
-var current_stage: int = 0   # 0-indexed
-var stage_start_score: int = 0
+
+func start_stage(_stage_index: int, config: StageConfig) -> void:
+	_config = config
+	_director.stop()
+	_director.start(config, get_tree().current_scene)
+
 
 func _ready() -> void:
-	GameManager.on_spawn_score_updated.connect(_on_score_updated)
+	_director.boss_threshold_reached.connect(_on_boss_threshold_reached)
 
-func reset_for_stage(stage_index: int) -> void:
-	current_stage = stage_index
-	stage_start_score = GameManager.spawn_score
-	boss_spawned = false
-	var start_interval = stage_start_intervals[stage_index] if stage_index < stage_start_intervals.size() else 1.5
-	$Timer.wait_time = start_interval
-	$Timer.start()
 
-func _on_score_updated(score: int) -> void:
-	var stage_score = score - stage_start_score
-	if stage_score >= boss_score_threshold and not boss_spawned:
-		call_deferred("spawn_boss")
+func _on_boss_threshold_reached() -> void:
+	_director.stop()
+	_spawn_boss()
+
+
+func _spawn_boss() -> void:
+	if _config == null or _config.boss_scene == null:
 		return
-	var t = clampf(float(stage_score) / SCALE_SCORE_CAP, 0.0, 1.0)
-	var start_interval = stage_start_intervals[current_stage] if current_stage < stage_start_intervals.size() else 1.5
-	$Timer.wait_time = lerpf(start_interval, MIN_INTERVAL, t)
-
-func spawn_boss() -> void:
-	if boss_spawned:
-		return
-	var scene_to_use: PackedScene
-	if boss_scenes.size() > current_stage:
-		scene_to_use = boss_scenes[current_stage]
-	elif boss_scene:
-		scene_to_use = boss_scene
-	else:
-		return
-
-	boss_spawned = true
-	$Timer.stop()
-
-	var boss = scene_to_use.instantiate()
-	if current_stage < stage_boss_hp.size():
-		boss.max_hp = stage_boss_hp[current_stage]
+	var boss: Node = _config.boss_scene.instantiate()
+	boss.max_hp = _config.boss_hp
 	boss.global_position = Vector2(270, -100)
 	get_tree().current_scene.add_child(boss)
-
-func _on_timer_timeout() -> void:
-	if boss_spawned: return
-
-	var potential_enemies: Array[PackedScene] = []
-	if enemy_scene: potential_enemies.append(enemy_scene)
-	if ship_scene: potential_enemies.append(ship_scene)
-	if truck_scene: potential_enemies.append(truck_scene)
-	if helicopter_scene: potential_enemies.append(helicopter_scene)
-	if ace_fighter_scene: potential_enemies.append(ace_fighter_scene)
-	if bomber_scene: potential_enemies.append(bomber_scene)
-	if elite_escort_scene: potential_enemies.append(elite_escort_scene)
-
-	if potential_enemies.is_empty():
-		print("Error: No Enemy Scenes assigned in Spawner")
-		return
-
-	var enemy = potential_enemies.pick_random().instantiate()
-	var spawn_pos = global_position
-	spawn_pos.x += randf_range(-spawn_width_offset, spawn_width_offset)
-	enemy.global_position = spawn_pos
-	get_tree().current_scene.add_child(enemy)
