@@ -69,3 +69,17 @@ Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 30
 
 - **SetupInputs.gd** — `@tool` script; run once in editor to register input actions (normally handled by GameManager at runtime).
 - **SetupExplosionResource.gd** — `@tool` script; parses JSON sprite sheet to generate `ExplosionFrames.tres`.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in GitHub Issues (`stanhasmusic/ocelot`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default label vocabulary — no custom mappings. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context repo — one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
