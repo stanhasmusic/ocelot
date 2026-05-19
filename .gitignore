@@ -4,3 +4,6 @@
 
 # Windows metadata
 desktop.ini
+
+# Claude Code local settings (machine-specific)
+.claude/settings.local.json
