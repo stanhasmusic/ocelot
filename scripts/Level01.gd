@@ -18,7 +18,7 @@ func _ready() -> void:
 		SoundManager.play_music(level_music)
 	if not GameManager.on_boss_died.is_connected(_on_boss_died):
 		GameManager.on_boss_died.connect(_on_boss_died)
-	_begin_stage(stage_index)
+	_start_stage_transition()
 
 
 func _begin_stage(idx: int) -> void:
