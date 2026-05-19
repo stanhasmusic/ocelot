@@ -7,7 +7,7 @@ extends Node2D
 @onready var stage_overlay = $StageOverlay
 
 const TOTAL_STAGES: int = 3
-var current_stage: int = 1
+var stage_index: int = 0
 var _transitioning: bool = false
 
 func _ready() -> void:
@@ -20,8 +20,8 @@ func _on_boss_died() -> void:
 	if _transitioning:
 		return
 	_transitioning = true
-	if current_stage < TOTAL_STAGES:
-		current_stage += 1
+	if stage_index + 1 < TOTAL_STAGES:
+		stage_index += 1
 		_start_stage_transition()
 	else:
 		stage_overlay.show_level_clear()
@@ -29,9 +29,9 @@ func _on_boss_died() -> void:
 		GameManager.level_complete()
 
 func _start_stage_transition() -> void:
-	stage_overlay.show_stage(current_stage)
+	stage_overlay.show_stage(stage_index + 1)
 	await get_tree().create_timer(2.5).timeout
-	enemy_spawner.reset_for_stage(current_stage - 1)  # spawner is 0-indexed
+	enemy_spawner.reset_for_stage(stage_index)
 	_transitioning = false
 
 func _input(event: InputEvent) -> void:
