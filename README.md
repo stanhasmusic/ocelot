@@ -7,7 +7,7 @@ learning project — don't expect polish.
 ## what it is
 
 classic shmup gameplay: dodge enemy fire, shoot things, pick up power-ups, fight a boss.
-score-based progression with a handful of enemy types and a procedurally generated ground background.
+score-based progression with a handful of enemy types and a scrolling background.
 
 ## stack
 
