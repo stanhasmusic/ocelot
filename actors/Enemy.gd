@@ -9,7 +9,7 @@ extends Area2D
 @export var destroyed_texture: Texture2D
 
 @onready var shoot_timer: Timer = Timer.new()
-@onready var _body: Sprite2D = $Body
+@onready var _body: Sprite2D = get_node_or_null("Body")
 
 @export var hp: int = 1
 var is_dead: bool = false

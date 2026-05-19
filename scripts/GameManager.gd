@@ -170,7 +170,7 @@ func game_over() -> void:
 		high_score = score
 		save_data()
 	current_level = get_tree().current_scene.scene_file_path
-	get_tree().change_scene_to_file("res://ui/GameOver.tscn")
+	get_tree().call_deferred("change_scene_to_file", "res://ui/GameOver.tscn")
 
 func save_data() -> void:
 	var save_game = SaveGame.new()
