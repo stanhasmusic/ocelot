@@ -42,4 +42,4 @@ func _spawn_boss() -> void:
 	var boss: Node = _config.boss_scene.instantiate()
 	boss.max_hp = _config.boss_hp
 	boss.global_position = Vector2(270, -100)
-	get_tree().current_scene.add_child(boss)
+	get_tree().current_scene.add_child.call_deferred(boss)

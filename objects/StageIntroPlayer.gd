@@ -59,7 +59,6 @@ func _process(delta: float) -> void:
 		_fire(_sorted_events[_next_index])
 		_next_index += 1
 	if _elapsed >= _finish_at:
-		var root: Node = _stage_root
 		_playing = false
 		set_process(false)
 		_timeline = null
