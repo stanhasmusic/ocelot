@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="StageConfig" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/StageConfig.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://actors/Interceptor.tscn" id="2_interceptor"]
+[ext_resource type="PackedScene" path="res://actors/RocketLauncher.tscn" id="3_rocket"]
+[ext_resource type="PackedScene" path="res://actors/AceFighter.tscn" id="4_ace"]
+[ext_resource type="PackedScene" path="res://actors/Bomber.tscn" id="5_bomber"]
+[ext_resource type="PackedScene" path="res://actors/EliteEscort.tscn" id="6_escort"]
+[ext_resource type="PackedScene" path="res://actors/BossL3.tscn" id="7_boss"]
+
+[resource]
+script = ExtResource("1_script")
+enemy_scenes = Array[PackedScene]([ExtResource("2_interceptor"), ExtResource("3_rocket"), ExtResource("4_ace"), ExtResource("5_bomber"), ExtResource("6_escort")])
+enemy_weights = Array[float]([1.0, 1.0, 1.0, 1.0, 1.0])
+spawn_interval_start = 0.6
+spawn_interval_end = 0.5
+max_concurrent_enemies = 6
+min_gap_between_aimed_shots = 0.0
+projectile_speed_mult = 1.0
+boss_scene = ExtResource("7_boss")
+boss_hp = 150
+boss_score_threshold = 3500
