@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="StageIntroTimeline" format=3 uid="uid://bodi4iudtv5bp"]
 
-[ext_resource type="Script" path="res://scripts/StageIntroTimeline.gd" id="1_timeline"]
-[ext_resource type="Script" path="res://scripts/StageIntroEvent.gd" id="2_event"]
+[ext_resource type="Script" uid="uid://7d8xy0lb08al" path="res://scripts/StageIntroTimeline.gd" id="1_timeline"]
+[ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" uid="uid://chhrenac06pbd" path="res://actors/Ship.tscn" id="3_ship"]
 
 [sub_resource type="Resource" id="Event_1"]

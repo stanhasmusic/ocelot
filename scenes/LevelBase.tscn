@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dlbase1ocelot01"]
+[gd_scene format=3 uid="uid://bjbcokny7ourw"]
 
 [ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/LevelBase.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://b8j2x5k2y103" path="res://actors/Player.tscn" id="2_player"]

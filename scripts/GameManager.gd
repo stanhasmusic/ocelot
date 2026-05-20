@@ -23,14 +23,14 @@ var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
 var unlocked_level: int = 1
-var current_level: String = "res://scenes/Level01.tscn"
+var current_level: String = "res://scenes/LevelOcean.tscn"
 var next_level: String = ""
 var lives: int = 3
 
 const LEVELS: Array[String] = [
-	"res://scenes/Level01.tscn",
+	"res://scenes/LevelOcean.tscn",
 	"res://scenes/LevelLand.tscn",
-	"res://scenes/Level03.tscn",
+	"res://scenes/LevelJungle.tscn",
 ]
 
 func _ready() -> void:

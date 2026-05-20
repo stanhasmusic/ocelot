@@ -7,7 +7,7 @@
 [ext_resource type="Resource" path="res://resources/stage_configs/level03_stage1.tres" id="5_s1"]
 [ext_resource type="Resource" path="res://resources/stage_configs/level03_stage2.tres" id="6_s2"]
 
-[node name="Level03" instance=ExtResource("1_base")]
+[node name="LevelJungle" instance=ExtResource("1_base")]
 background_scene = ExtResource("2_bg")
 level_music = ExtResource("3_music")
 stages = Array[StageConfig]([ExtResource("4_s0"), ExtResource("5_s1"), ExtResource("6_s2")])
