@@ -1,21 +1,22 @@
 [gd_resource type="Resource" script_class="StageConfig" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/StageConfig.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://actors/Enemy.tscn" id="2_enemy"]
-[ext_resource type="PackedScene" path="res://actors/Ship.tscn" id="3_ship"]
-[ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="4_heli"]
-[ext_resource type="PackedScene" path="res://actors/AceFighter.tscn" id="5_ace"]
-[ext_resource type="PackedScene" path="res://actors/Boss.tscn" id="6_boss"]
+[ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="2_truck"]
+[ext_resource type="PackedScene" uid="uid://chhrenac06pbd" path="res://actors/Ship.tscn" id="3_ship"]
+[ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="4_tank"]
+[ext_resource type="PackedScene" path="res://actors/Boss.tscn" id="5_boss"]
+[ext_resource type="Resource" path="res://resources/stage_intros/level01_stage1_intro.tres" id="6_intro"]
 
 [resource]
 script = ExtResource("1_script")
-enemy_scenes = Array[PackedScene]([ExtResource("2_enemy"), ExtResource("3_ship"), ExtResource("4_heli"), ExtResource("5_ace")])
-enemy_weights = Array[float]([1.0, 1.0, 1.0, 1.0])
-spawn_interval_start = 1.1
-spawn_interval_end = 0.5
-max_concurrent_enemies = 6
-min_gap_between_aimed_shots = 0.0
+intro_timeline = ExtResource("6_intro")
+enemy_scenes = Array[PackedScene]([ExtResource("2_truck"), ExtResource("3_ship"), ExtResource("4_tank")])
+enemy_weights = Array[float]([1.0, 1.0, 0.6])
+spawn_interval_start = 1.6
+spawn_interval_end = 1.0
+max_concurrent_enemies = 5
+min_gap_between_aimed_shots = 1.0
 projectile_speed_mult = 1.0
-boss_scene = ExtResource("6_boss")
+boss_scene = ExtResource("5_boss")
 boss_hp = 75
 boss_score_threshold = 3500

@@ -1,21 +1,25 @@
-[gd_resource type="Resource" script_class="StageConfig" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="StageConfig" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/StageConfig.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://actors/Enemy.tscn" id="2_enemy"]
-[ext_resource type="PackedScene" path="res://actors/Ship.tscn" id="3_ship"]
-[ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="4_heli"]
-[ext_resource type="PackedScene" path="res://actors/AceFighter.tscn" id="5_ace"]
-[ext_resource type="PackedScene" path="res://actors/Boss.tscn" id="6_boss"]
+[ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="2_truck"]
+[ext_resource type="PackedScene" uid="uid://chhrenac06pbd" path="res://actors/Ship.tscn" id="3_ship"]
+[ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="4_tank"]
+[ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="5_heli"]
+[ext_resource type="PackedScene" path="res://actors/AceFighter.tscn" id="6_ace"]
+[ext_resource type="PackedScene" path="res://actors/Bomber.tscn" id="7_bomber"]
+[ext_resource type="PackedScene" path="res://actors/BossL3.tscn" id="8_boss"]
+[ext_resource type="Resource" path="res://resources/stage_intros/level01_stage2_intro.tres" id="9_intro"]
 
 [resource]
 script = ExtResource("1_script")
-enemy_scenes = Array[PackedScene]([ExtResource("2_enemy"), ExtResource("3_ship"), ExtResource("4_heli"), ExtResource("5_ace")])
-enemy_weights = Array[float]([1.0, 1.0, 1.0, 1.0])
-spawn_interval_start = 0.8
-spawn_interval_end = 0.5
-max_concurrent_enemies = 6
-min_gap_between_aimed_shots = 0.0
-projectile_speed_mult = 1.0
-boss_scene = ExtResource("6_boss")
+intro_timeline = ExtResource("9_intro")
+enemy_scenes = Array[PackedScene]([ExtResource("2_truck"), ExtResource("3_ship"), ExtResource("4_tank"), ExtResource("5_heli"), ExtResource("6_ace"), ExtResource("7_bomber")])
+enemy_weights = Array[float]([1.0, 1.0, 0.8, 0.8, 0.6, 0.5])
+spawn_interval_start = 1.2
+spawn_interval_end = 0.7
+max_concurrent_enemies = 7
+min_gap_between_aimed_shots = 0.5
+projectile_speed_mult = 1.15
+boss_scene = ExtResource("8_boss")
 boss_hp = 100
 boss_score_threshold = 3500
