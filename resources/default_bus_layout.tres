@@ -2,13 +2,13 @@
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_j3pel"]
 resource_name = "Limiter"
-ceiling_db = -0.6
-threshold_db = -0.6
+ceiling_db = -0.5
+threshold_db = -3.0
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_g28q7"]
 resource_name = "Limiter"
-ceiling_db = -0.5
-threshold_db = -0.6
+ceiling_db = -1.0
+threshold_db = -8.0
 
 [resource]
 bus/0/effect/0/effect = SubResource("AudioEffectLimiter_j3pel")
