@@ -6,19 +6,19 @@
 
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
-time = 4.0
+time = 2.0
 scene = ExtResource("3_tank")
 spawn_position = Vector2(270, -50)
 
 [sub_resource type="Resource" id="Event_2"]
 script = ExtResource("2_event")
-time = 13.0
+time = 5.0
 scene = ExtResource("3_tank")
 spawn_position = Vector2(160, -50)
 
 [sub_resource type="Resource" id="Event_3"]
 script = ExtResource("2_event")
-time = 22.0
+time = 8.0
 scene = ExtResource("3_tank")
 spawn_position = Vector2(380, -50)
 

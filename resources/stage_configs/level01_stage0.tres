@@ -17,4 +17,4 @@ min_gap_between_aimed_shots = 0.0
 projectile_speed_mult = 0.85
 boss_scene = ExtResource("3_boss")
 boss_hp = 50
-boss_score_threshold = 3500
+boss_score_threshold = 800
