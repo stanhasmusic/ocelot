@@ -2,6 +2,8 @@ extends Node2D
 
 const TOTAL_STAGES: int = 3
 
+@export var background_scene: PackedScene
+@export var background_overrides: Dictionary = {}
 @export var level_music: AudioStream
 @export var stages: Array[StageConfig] = []
 
@@ -11,14 +13,26 @@ var _transitioning: bool = false
 @onready var pause_menu = $PauseMenu
 @onready var enemy_spawner = $EnemySpawner
 @onready var stage_overlay = $StageOverlay
+@onready var background_slot = $BackgroundSlot
 
 
 func _ready() -> void:
+	_instantiate_background()
 	if level_music:
 		SoundManager.play_music(level_music)
 	if not GameManager.on_boss_died.is_connected(_on_boss_died):
 		GameManager.on_boss_died.connect(_on_boss_died)
 	_start_stage_transition()
+
+
+func _instantiate_background() -> void:
+	if background_scene == null:
+		push_warning("LevelBase: background_scene is null; no backdrop will be shown.")
+		return
+	var bg = background_scene.instantiate()
+	background_slot.add_child(bg)
+	for key in background_overrides.keys():
+		bg.set(key, background_overrides[key])
 
 
 func _begin_stage(idx: int) -> void:

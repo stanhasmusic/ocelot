@@ -1,35 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1pmwuqd1siry"]
+[gd_scene format=3 uid="uid://c1pmwuqd1siry"]
 
-[ext_resource type="PackedScene" uid="uid://cyq2x5k2y104" path="res://objects/Background.tscn" id="1_bg"]
-[ext_resource type="Script" uid="uid://dp7ybjm64o6v5" path="res://scripts/Level01.gd" id="1_script"]
-[ext_resource type="AudioStream" uid="uid://cwfnphhq3oo4x" path="res://assets/audio/Song 1.mp3" id="2_music"]
-[ext_resource type="PackedScene" uid="uid://b8j2x5k2y103" path="res://actors/Player.tscn" id="2_player"]
-[ext_resource type="PackedScene" path="res://objects/EnemySpawner.tscn" id="3_tmtxv"]
-[ext_resource type="PackedScene" uid="uid://c8y2x5k2y103" path="res://ui/HUD.tscn" id="4_hud"]
-[ext_resource type="PackedScene" path="res://ui/PauseMenu.tscn" id="5_pause"]
-[ext_resource type="PackedScene" path="res://objects/StageOverlay.tscn" id="6_overlay"]
-[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage0.tres" id="7_s0"]
-[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage1.tres" id="8_s1"]
-[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage2.tres" id="9_s2"]
+[ext_resource type="PackedScene" path="res://scenes/LevelBase.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://cyq2x5k2y1z4" path="res://objects/Background.tscn" id="2_bg"]
+[ext_resource type="Script" uid="uid://dtfcyfjeimtos" path="res://scripts/StageConfig.gd" id="3_kchta"]
+[ext_resource type="AudioStream" uid="uid://cwfnphhq3oo4x" path="res://assets/audio/Song 1.mp3" id="3_music"]
+[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage0.tres" id="4_s0"]
+[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage1.tres" id="5_s1"]
+[ext_resource type="Resource" path="res://resources/stage_configs/level01_stage2.tres" id="6_s2"]
 
-[node name="Level01" type="Node2D"]
-script = ExtResource("1_script")
-level_music = ExtResource("2_music")
-stages = Array[StageConfig]([ExtResource("7_s0"), ExtResource("8_s1"), ExtResource("9_s2")])
-
-[node name="Background" parent="." instance=ExtResource("1_bg")]
-
-[node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(270, 850)
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(270, 480)
-
-[node name="EnemySpawner" parent="." instance=ExtResource("3_tmtxv")]
-position = Vector2(270, -50)
-
-[node name="HUD" parent="." instance=ExtResource("4_hud")]
-
-[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
-
-[node name="StageOverlay" parent="." instance=ExtResource("6_overlay")]
+[node name="Level01" unique_id=2086267223 instance=ExtResource("1_base")]
+background_scene = ExtResource("2_bg")
+level_music = ExtResource("3_music")
+stages = Array[ExtResource("3_kchta")]([ExtResource("4_s0"), ExtResource("5_s1"), ExtResource("6_s2")])
