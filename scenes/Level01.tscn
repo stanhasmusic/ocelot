@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1pmwuqd1siry"]
+[gd_scene format=3 uid="uid://c1pmwuqd1siry"]
 
-[ext_resource type="PackedScene" uid="uid://dlbase1ocelot01" path="res://scenes/LevelBase.tscn" id="1_base"]
-[ext_resource type="PackedScene" path="res://objects/Background.tscn" id="2_bg"]
+[ext_resource type="PackedScene" path="res://scenes/LevelBase.tscn" id="1_base"]
+[ext_resource type="PackedScene" uid="uid://cyq2x5k2y1z4" path="res://objects/Background.tscn" id="2_bg"]
+[ext_resource type="Script" uid="uid://dtfcyfjeimtos" path="res://scripts/StageConfig.gd" id="3_kchta"]
 [ext_resource type="AudioStream" uid="uid://cwfnphhq3oo4x" path="res://assets/audio/Song 1.mp3" id="3_music"]
 [ext_resource type="Resource" path="res://resources/stage_configs/level01_stage0.tres" id="4_s0"]
 [ext_resource type="Resource" path="res://resources/stage_configs/level01_stage1.tres" id="5_s1"]
 [ext_resource type="Resource" path="res://resources/stage_configs/level01_stage2.tres" id="6_s2"]
 
-[node name="Level01" instance=ExtResource("1_base")]
+[node name="Level01" unique_id=2086267223 instance=ExtResource("1_base")]
 background_scene = ExtResource("2_bg")
 level_music = ExtResource("3_music")
-stages = Array[StageConfig]([ExtResource("4_s0"), ExtResource("5_s1"), ExtResource("6_s2")])
+stages = Array[ExtResource("3_kchta")]([ExtResource("4_s0"), ExtResource("5_s1"), ExtResource("6_s2")])
