@@ -65,8 +65,11 @@ func _on_timer_timeout() -> void:
 	if _config.min_gap_between_aimed_shots > 0.0 and _is_aimed_scene(scene):
 		var now: float = Time.get_ticks_msec() / 1000.0
 		if now - _last_aimed_spawn_time < _config.min_gap_between_aimed_shots:
-			return
-		_last_aimed_spawn_time = now
+			scene = _pick_weighted_non_aimed()
+			if scene == null:
+				return
+		else:
+			_last_aimed_spawn_time = now
 	_spawn(scene)
 
 
@@ -97,6 +100,28 @@ func _pick_weighted() -> PackedScene:
 		if r <= cumulative:
 			return _config.enemy_scenes[i]
 	return _config.enemy_scenes[-1]
+
+
+func _pick_weighted_non_aimed() -> PackedScene:
+	var non_aimed: Array[PackedScene] = []
+	var weights: Array[float] = []
+	for i: int in _config.enemy_scenes.size():
+		var s: PackedScene = _config.enemy_scenes[i]
+		if not _is_aimed_scene(s):
+			non_aimed.append(s)
+			weights.append(_config.enemy_weights[i] if i < _config.enemy_weights.size() else 1.0)
+	if non_aimed.is_empty():
+		return null
+	var total: float = 0.0
+	for w: float in weights:
+		total += w
+	var r: float = randf() * total
+	var cumulative: float = 0.0
+	for i: int in non_aimed.size():
+		cumulative += weights[i]
+		if r <= cumulative:
+			return non_aimed[i]
+	return non_aimed[-1]
 
 
 func _is_aimed_scene(scene: PackedScene) -> bool:
