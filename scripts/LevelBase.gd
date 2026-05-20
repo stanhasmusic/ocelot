@@ -1,5 +1,7 @@
 extends Node2D
 
+signal stage_started(stage_index: int)
+
 const TOTAL_STAGES: int = 3
 
 @export var background_scene: PackedScene
@@ -36,6 +38,7 @@ func _instantiate_background() -> void:
 
 
 func _begin_stage(idx: int) -> void:
+	stage_started.emit(idx)
 	if idx < stages.size():
 		enemy_spawner.start_stage(idx, stages[idx])
 

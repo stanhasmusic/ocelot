@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="LevelBackground" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/LevelBackground.gd" id="1_lb"]
+[ext_resource type="Script" path="res://scripts/StageBackground.gd" id="2_sb"]
+
+[sub_resource type="Gradient" id="Gradient_s0"]
+offsets = PackedFloat32Array(0, 0.85, 0.88, 1)
+colors = PackedColorArray(0.1, 0.45, 0.75, 1, 0.15, 0.5, 0.8, 1, 1, 0.85, 0.2, 1, 1, 0.7, 0.1, 1)
+
+[sub_resource type="GradientTexture2D" id="Tex_s0"]
+gradient = SubResource("Gradient_s0")
+width = 540
+height = 2400
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_s1"]
+offsets = PackedFloat32Array(0, 0.85, 0.88, 1)
+colors = PackedColorArray(0.05, 0.3, 0.55, 1, 0.05, 0.25, 0.5, 1, 0.6, 0.6, 0.6, 1, 0.4, 0.4, 0.4, 1)
+
+[sub_resource type="GradientTexture2D" id="Tex_s1"]
+gradient = SubResource("Gradient_s1")
+width = 540
+height = 2600
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_s2"]
+offsets = PackedFloat32Array(0, 0.8, 0.85, 1)
+colors = PackedColorArray(0.15, 0.1, 0.3, 1, 0.2, 0.15, 0.35, 1, 0.1, 0.1, 0.15, 1, 0.05, 0.05, 0.08, 1)
+
+[sub_resource type="GradientTexture2D" id="Tex_s2"]
+gradient = SubResource("Gradient_s2")
+width = 540
+height = 2800
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_arena"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0.08, 0.2, 0.4, 1, 0.05, 0.15, 0.35, 1)
+
+[sub_resource type="GradientTexture2D" id="Tex_arena"]
+gradient = SubResource("Gradient_arena")
+width = 540
+height = 960
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Resource" id="SB_s0"]
+script = ExtResource("2_sb")
+strip_texture = SubResource("Tex_s0")
+scroll_speed = 90.0
+parallax_layers = Array[PackedScene]([])
+
+[sub_resource type="Resource" id="SB_s1"]
+script = ExtResource("2_sb")
+strip_texture = SubResource("Tex_s1")
+scroll_speed = 110.0
+parallax_layers = Array[PackedScene]([])
+
+[sub_resource type="Resource" id="SB_s2"]
+script = ExtResource("2_sb")
+strip_texture = SubResource("Tex_s2")
+scroll_speed = 130.0
+parallax_layers = Array[PackedScene]([])
+
+[resource]
+script = ExtResource("1_lb")
+stage_backgrounds = Array[Resource]([SubResource("SB_s0"), SubResource("SB_s1"), SubResource("SB_s2")])
+boss_arena_texture = SubResource("Tex_arena")
