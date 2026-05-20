@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b3sbg5c0ll5b1"]
+
+[ext_resource type="Script" path="res://objects/ScrollingBackground.gd" id="1_script"]
+
+[node name="ScrollingBackground" type="CanvasLayer"]
+layer = -100
+script = ExtResource("1_script")
+
+[node name="Arena" type="TextureRect" parent="."]
+offset_right = 540.0
+offset_bottom = 960.0
+stretch_mode = 0
+
+[node name="Strip" type="TextureRect" parent="."]
+offset_right = 540.0
+stretch_mode = 2
