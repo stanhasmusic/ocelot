@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwmryog6dgfml"]
+[gd_scene format=3 uid="uid://cwmryog6dgfml"]
 
 [ext_resource type="Script" uid="uid://bqm56crta27ab" path="res://ui/LevelComplete.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://c3uemp47xwwgf" path="res://assets/sprites/menu_backgrounds/Ocelot_Level_Complete.jpg" id="2_bg"]
 
-[node name="LevelComplete" type="Control"]
+[node name="LevelComplete" type="Control" unique_id=235932816]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="BG" type="TextureRect" parent="."]
+[node name="BG" type="TextureRect" parent="." unique_id=1112247648]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +23,7 @@ texture = ExtResource("2_bg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="StarsLabel" type="Label" parent="."]
+[node name="StarsLabel" type="Label" parent="." unique_id=2011826720]
 modulate = Color(1, 0.85, 0.1, 1)
 layout_mode = 1
 anchors_preset = 10
@@ -35,7 +35,7 @@ theme_override_font_sizes/font_size = 72
 text = "★★★"
 horizontal_alignment = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1099531664]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.35
@@ -44,24 +44,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=790032272]
 layout_mode = 2
 theme_override_constants/separation = 28
 
-[node name="ScoreLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1557770404]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "SCORE: 0"
 horizontal_alignment = 1
 
-[node name="BestLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="BestLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=577319985]
 modulate = Color(1, 1, 1, 0.55)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "BEST: 0"
 horizontal_alignment = 1
 
-[node name="NewRecordLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="NewRecordLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2064986778]
 visible = false
 modulate = Color(1, 0.85, 0.1, 1)
 layout_mode = 2
@@ -69,36 +69,36 @@ theme_override_font_sizes/font_size = 38
 text = "✦ NEW RECORD! ✦"
 horizontal_alignment = 1
 
-[node name="ButtonRow" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="ButtonRow" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=317744086]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="PlayAgainButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonRow"]
+[node name="PlayAgainButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonRow" unique_id=293279409]
 custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "PLAY AGAIN"
 
-[node name="NextLevelButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonRow"]
+[node name="NextLevelButton" type="Button" parent="CenterContainer/VBoxContainer/ButtonRow" unique_id=477515428]
 custom_minimum_size = Vector2(200, 70)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "NEXT LEVEL"
 
-[node name="MainMenuRow" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+[node name="MainMenuRow" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=258176451]
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuRow"]
+[node name="MainMenuButton" type="Button" parent="CenterContainer/VBoxContainer/MainMenuRow" unique_id=1867807534]
 modulate = Color(1, 1, 1, 0.65)
 custom_minimum_size = Vector2(180, 55)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "MAIN MENU"
 
-[node name="ConfirmDialog" type="ConfirmationDialog" parent="."]
+[node name="ConfirmDialog" type="ConfirmationDialog" parent="." unique_id=1293074370]
 title = "Return to Main Menu?"
 size = Vector2i(360, 140)
 dialog_text = "Your current run progress will be lost."
