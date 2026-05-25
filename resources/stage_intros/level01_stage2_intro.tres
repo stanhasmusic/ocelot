@@ -4,24 +4,46 @@
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" path="res://actors/Bomber.tscn" id="3_bomber"]
 
+; Bombers in isolation — pattern-tier introduction.
+; Wide slow spreads; teach the player to read and reposition before the body mixes everything.
+; Closing pair raises the stakes before procedural spawning takes over.
+
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
-time = 4.0
+time = 2.0
 scene = ExtResource("3_bomber")
 spawn_position = Vector2(270, -50)
 
 [sub_resource type="Resource" id="Event_2"]
 script = ExtResource("2_event")
-time = 12.0
+time = 7.0
 scene = ExtResource("3_bomber")
-spawn_position = Vector2(170, -50)
+spawn_position = Vector2(180, -50)
 
 [sub_resource type="Resource" id="Event_3"]
 script = ExtResource("2_event")
-time = 20.0
+time = 12.0
 scene = ExtResource("3_bomber")
-spawn_position = Vector2(370, -50)
+spawn_position = Vector2(360, -50)
+
+[sub_resource type="Resource" id="Event_4"]
+script = ExtResource("2_event")
+time = 17.0
+scene = ExtResource("3_bomber")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_5"]
+script = ExtResource("2_event")
+time = 22.0
+scene = ExtResource("3_bomber")
+spawn_position = Vector2(180, -50)
+
+[sub_resource type="Resource" id="Event_6"]
+script = ExtResource("2_event")
+time = 22.0
+scene = ExtResource("3_bomber")
+spawn_position = Vector2(390, -50)
 
 [resource]
 script = ExtResource("1_timeline")
-events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3")]
+events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6")]

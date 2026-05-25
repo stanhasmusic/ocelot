@@ -4,24 +4,64 @@
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="3_tank"]
 
+; Tanks in isolation — no grunts mixed in.
+; Teach aimed-tier: shots fire at player's position, so standing still is punished.
+; Positions vary left/right to force movement in both directions.
+
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
-time = 2.0
+time = 1.5
 scene = ExtResource("3_tank")
 spawn_position = Vector2(270, -50)
 
 [sub_resource type="Resource" id="Event_2"]
 script = ExtResource("2_event")
-time = 5.0
+time = 4.5
 scene = ExtResource("3_tank")
-spawn_position = Vector2(160, -50)
+spawn_position = Vector2(180, -50)
 
 [sub_resource type="Resource" id="Event_3"]
 script = ExtResource("2_event")
-time = 8.0
+time = 7.5
 scene = ExtResource("3_tank")
-spawn_position = Vector2(380, -50)
+spawn_position = Vector2(360, -50)
+
+[sub_resource type="Resource" id="Event_4"]
+script = ExtResource("2_event")
+time = 11.0
+scene = ExtResource("3_tank")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_5"]
+script = ExtResource("2_event")
+time = 14.0
+scene = ExtResource("3_tank")
+spawn_position = Vector2(150, -50)
+
+[sub_resource type="Resource" id="Event_6"]
+script = ExtResource("2_event")
+time = 17.5
+scene = ExtResource("3_tank")
+spawn_position = Vector2(390, -50)
+
+[sub_resource type="Resource" id="Event_7"]
+script = ExtResource("2_event")
+time = 21.0
+scene = ExtResource("3_tank")
+spawn_position = Vector2(180, -50)
+
+[sub_resource type="Resource" id="Event_8"]
+script = ExtResource("2_event")
+time = 23.5
+scene = ExtResource("3_tank")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_9"]
+script = ExtResource("2_event")
+time = 23.5
+scene = ExtResource("3_tank")
+spawn_position = Vector2(390, -50)
 
 [resource]
 script = ExtResource("1_timeline")
-events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3")]
+events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6"), SubResource("Event_7"), SubResource("Event_8"), SubResource("Event_9")]
