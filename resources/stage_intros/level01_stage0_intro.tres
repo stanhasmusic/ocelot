@@ -1,45 +1,130 @@
-[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=4 format=3 uid="uid://bodi4iudtv5bp"]
+[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=5 format=3 uid="uid://bodi4iudtv5bp"]
 
 [ext_resource type="Script" uid="uid://7d8xy0lb08al" path="res://scripts/StageIntroTimeline.gd" id="1_timeline"]
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="3_truck"]
+[ext_resource type="PackedScene" path="res://actors/Interceptor.tscn" id="4_interceptor"]
+
+; --- Phase 1: Solo Trucks (t=0.5-7s) — teach shooting, faster pace ---
 
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
-time = 1.5
+time = 0.5
+scene = ExtResource("3_truck")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_2"]
+script = ExtResource("2_event")
+time = 2.0
 scene = ExtResource("3_truck")
 spawn_position = Vector2(180, -50)
 
-[sub_resource type="Resource" id="Event_2"]
+[sub_resource type="Resource" id="Event_3"]
 script = ExtResource("2_event")
 time = 3.5
 scene = ExtResource("3_truck")
 spawn_position = Vector2(360, -50)
 
-[sub_resource type="Resource" id="Event_3"]
-script = ExtResource("2_event")
-time = 6.0
-scene = ExtResource("3_truck")
-spawn_position = Vector2(270, -50)
-
 [sub_resource type="Resource" id="Event_4"]
 script = ExtResource("2_event")
-time = 9.0
+time = 5.5
 scene = ExtResource("3_truck")
-spawn_position = Vector2(150, -50)
+spawn_position = Vector2(270, -50)
 
 [sub_resource type="Resource" id="Event_5"]
 script = ExtResource("2_event")
-time = 9.0
+time = 7.0
 scene = ExtResource("3_truck")
-spawn_position = Vector2(270, -50)
+spawn_position = Vector2(150, -50)
 
 [sub_resource type="Resource" id="Event_6"]
 script = ExtResource("2_event")
-time = 9.0
+time = 7.0
+scene = ExtResource("3_truck")
+spawn_position = Vector2(390, -50)
+
+; --- Phase 2: Interceptors in isolation (t=10-16s) — teach lateral dodge ---
+
+[sub_resource type="Resource" id="Event_7"]
+script = ExtResource("2_event")
+time = 10.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_8"]
+script = ExtResource("2_event")
+time = 13.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(180, -50)
+
+[sub_resource type="Resource" id="Event_9"]
+script = ExtResource("2_event")
+time = 16.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(360, -50)
+
+; --- Phase 3: Mixed buildup (t=19-32s) — both threats, closing 3-truck cluster ---
+
+[sub_resource type="Resource" id="Event_10"]
+script = ExtResource("2_event")
+time = 19.0
+scene = ExtResource("3_truck")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_11"]
+script = ExtResource("2_event")
+time = 21.0
+scene = ExtResource("3_truck")
+spawn_position = Vector2(150, -50)
+
+[sub_resource type="Resource" id="Event_12"]
+script = ExtResource("2_event")
+time = 21.5
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(390, -50)
+
+[sub_resource type="Resource" id="Event_13"]
+script = ExtResource("2_event")
+time = 24.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(180, -50)
+
+[sub_resource type="Resource" id="Event_14"]
+script = ExtResource("2_event")
+time = 24.5
+scene = ExtResource("3_truck")
+spawn_position = Vector2(360, -50)
+
+[sub_resource type="Resource" id="Event_15"]
+script = ExtResource("2_event")
+time = 27.0
+scene = ExtResource("3_truck")
+spawn_position = Vector2(150, -50)
+
+[sub_resource type="Resource" id="Event_16"]
+script = ExtResource("2_event")
+time = 27.5
+scene = ExtResource("3_truck")
+spawn_position = Vector2(390, -50)
+
+[sub_resource type="Resource" id="Event_17"]
+script = ExtResource("2_event")
+time = 31.5
+scene = ExtResource("3_truck")
+spawn_position = Vector2(150, -50)
+
+[sub_resource type="Resource" id="Event_18"]
+script = ExtResource("2_event")
+time = 31.5
+scene = ExtResource("3_truck")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_19"]
+script = ExtResource("2_event")
+time = 31.5
 scene = ExtResource("3_truck")
 spawn_position = Vector2(390, -50)
 
 [resource]
 script = ExtResource("1_timeline")
-events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6")]
+events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6"), SubResource("Event_7"), SubResource("Event_8"), SubResource("Event_9"), SubResource("Event_10"), SubResource("Event_11"), SubResource("Event_12"), SubResource("Event_13"), SubResource("Event_14"), SubResource("Event_15"), SubResource("Event_16"), SubResource("Event_17"), SubResource("Event_18"), SubResource("Event_19")]
