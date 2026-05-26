@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=4 format=3 uid="uid://bodi4iudtv5bp"]
+[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=5 format=3 uid="uid://bodi4iudtv5bp"]
 
 [ext_resource type="Script" uid="uid://7d8xy0lb08al" path="res://scripts/StageIntroTimeline.gd" id="1_timeline"]
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="3_truck"]
+[ext_resource type="PackedScene" path="res://actors/Interceptor.tscn" id="4_interceptor"]
 
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
@@ -40,6 +41,24 @@ time = 9.0
 scene = ExtResource("3_truck")
 spawn_position = Vector2(390, -50)
 
+[sub_resource type="Resource" id="Event_7"]
+script = ExtResource("2_event")
+time = 13.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(270, -50)
+
+[sub_resource type="Resource" id="Event_8"]
+script = ExtResource("2_event")
+time = 16.5
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(180, -50)
+
+[sub_resource type="Resource" id="Event_9"]
+script = ExtResource("2_event")
+time = 20.0
+scene = ExtResource("4_interceptor")
+spawn_position = Vector2(360, -50)
+
 [resource]
 script = ExtResource("1_timeline")
-events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6")]
+events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6"), SubResource("Event_7"), SubResource("Event_8"), SubResource("Event_9")]

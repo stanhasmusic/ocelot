@@ -13,7 +13,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts/images/aircraft_1b_prop_3.png" id="11_prop3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bomber"]
-size = Vector2(90, 70)
+size = Vector2(135, 105)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bomber"]
 animations = [{
@@ -41,16 +41,18 @@ explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
 destroyed_texture = ExtResource("8_destroyed")
 speed = 65.0
-hp = 5
+hp = 15
 score_value = 400
 fire_rate = 3.5
 
 [node name="Body" type="Sprite2D" parent="."]
 rotation = 3.14159
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_body")
 
 [node name="Prop" type="AnimatedSprite2D" parent="."]
 rotation = 3.14159
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_bomber")
 autoplay = "default"
 

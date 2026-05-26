@@ -10,6 +10,7 @@ signal on_lives_changed(new_lives: int)
 signal on_bomb_count_changed(new_count: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
+const BUS_TRIM_DB: Array[float] = [0.0, 0.0, -10.0]  # Master, Music, SFX
 
 var score: int = 0
 var spawn_score: int = 0
@@ -23,14 +24,14 @@ var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
 var unlocked_level: int = 1
-var current_level: String = "res://scenes/LevelOcean.tscn"
+var current_level: String = "res://scenes/LevelLand.tscn"
 var next_level: String = ""
 var lives: int = 3
 
 const LEVELS: Array[String] = [
-	"res://scenes/LevelOcean.tscn",
 	"res://scenes/LevelLand.tscn",
 	"res://scenes/LevelJungle.tscn",
+	"res://scenes/LevelOcean.tscn",
 ]
 
 func _ready() -> void:
@@ -57,7 +58,7 @@ func update_volume(bus_index: int, value: float) -> void:
 		2: sfx_volume = value
 	
 	# Apply to AudioServer
-	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value) + BUS_TRIM_DB[bus_index])
 	save_data() # Auto-save settings
 
 func setup_inputs() -> void:

@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(python3 -c \":*)",
-      "Bash(__NEW_LINE_3bc6b9730f6edc28__ echo:*)"
+      "Bash(__NEW_LINE_3bc6b9730f6edc28__ echo:*)",
+      "Bash(gh issue *)",
+      "Bash(gh pr *)",
+      "Bash(git checkout *)",
+      "Bash(grep -viE '\\\\.import$')",
+      "Bash(gh label *)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "godot"
+  ]
 }

@@ -22,6 +22,14 @@ There is no CLI build system, test runner, or lint command — all development h
 - **GameManager.gd** — Central state: score, high score, volumes, unlocked levels. Handles save/load (`SaveGame` resource), programmatic input mapping, and emits signals for boss health/spawn/death and score updates. Input actions are registered here at `_ready()` — do not add them in the editor.
 - **SoundManager.gd** — Music crossfading via tweens; SFX via dynamic AudioStreamPlayer pooling (new players created on demand to avoid lag).
 
+### Audio Bus Architecture
+
+Three buses: **Master** → receives all output; has a brickwall limiter (ceiling −0.5 dB, threshold −3.0 dB). **Music** (index 1) and **SFX** (index 2) both send to Master and carry their own gain trims set in `resources/default_bus_layout.tres`.
+
+`GameManager.update_volume(bus_index, value)` applies `linear_to_db(value) + BUS_TRIM_DB[bus_index]` to the AudioServer. `BUS_TRIM_DB` is a const in GameManager (`[0.0, 0.0, -10.0]` for Master/Music/SFX) and is the canonical place for fixed gain offsets — the bus layout's `volume_db` fields are overwritten at startup by `update_volume`, so they cannot hold trims. The SFX bus has a separate limiter (ceiling −1.0 dB, threshold −8.0 dB) to tame loud one-shots without affecting music. When adjusting the SFX/Music balance, edit `BUS_TRIM_DB` in GameManager, not the bus layout file.
+
+Per-source `volume_db` trims on individual AudioStreamPlayers are deferred to end-of-project polish.
+
 ### Physics Layers
 
 | Layer | Name |
