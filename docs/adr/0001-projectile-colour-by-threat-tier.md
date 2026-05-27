@@ -1,5 +1,7 @@
 # Projectile colour encodes threat tier, not shooter identity
 
+> _Amended by [[0012-player-fire-is-a-visual-class-outside-the-threat-palette]]: the "player shots are yellow/white" clause below is superseded — player fire is a separate visual class (white/pale-gold) outside the threat palette, not a fourth slice of it. The enemy-fire principle here still holds._
+
 Enemy projectiles are coloured by **how the player must dodge them** (straight = blue, aimed = orange, pattern = purple), not by which enemy fired them. Player shots are yellow/white so ownership is never ambiguous.
 
 We picked this over colour-by-ownership (under-uses the 3-colour asset palette and gives the player no dodging cue) and sprite-by-shooter (poor readability on a 540×960 mobile screen at speed, and forces new art for every new enemy). Threat-tier colouring scales for free: classifying a new enemy's bullet pattern is the design work; the sprite is already drawn.

@@ -1,5 +1,6 @@
 # PRD-01 — Flight & Fire
 
+> **Published as [issue #26](https://github.com/stanhasmusic/ocelot/issues/26)** (`ready-for-agent`) — the tracker is canonical.
 > Phase 1 tracer-bullet slice. Implements the positional movement + always-on auto-fire model from
 > ADR-0006 by refactoring the existing `Player`. Canonical design lives in `CONTEXT.md` and
 > `docs/adr/0006-input-aware-controls-shared-difficulty.md`.

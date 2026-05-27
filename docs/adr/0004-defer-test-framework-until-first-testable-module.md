@@ -7,3 +7,7 @@ We picked deferral over picking GUT or GdUnit4 now because the current codebase 
 We picked GUT over GdUnit4 for the future setup because GUT is the de facto Godot-community standard with the most documentation and prior art for a solo developer to lean on; GdUnit4's more modern API and IDE integration are real but don't outweigh the docs gap at this scale.
 
 Consequence: when issue #9 is about to merge, the implementing agent (or Stan) must open a follow-up issue "Set up GUT + initial tests for SpawnDirector and StageIntroPlayer" before merge. The deep-module shapes in PRD #8 were designed specifically to be testable from day one — losing that shape because the framework wasn't ready when #9 landed would forfeit the insurance.
+
+---
+
+**Update (2026-05-26):** GUT was never stood up when `SpawnDirector`/`StageConfig` landed, so the trigger is overdue. **GUT is now adopted in PRD-01 / issue #26** (Flight & Fire), which adds the first tests against the new `PlayerMovement` and `AutoFireClock` pure modules. The `SpawnDirector` / `StageIntroPlayer` tests this ADR originally called for are **now scoped in PRD-04 / issue #29** (Stage engine hardening) — the weighted pick, concurrency cap, interval ramp, aimed-gap, boss-threshold, and intro-player scheduling tests, plus replacing the fragile filename-based aimed classifier with declared threat-tier data. They land on the `test/` layout + GUT config #26 establishes.

@@ -17,23 +17,29 @@ A projectile fired toward the player's position at the moment of firing. Punishe
 **Pattern tier** (purple):
 A projectile that's part of a multi-shot pattern (fan, spread, homing). Reserved for bosses and rare elites — dodged by reading the pattern.
 
-**Player shot** (yellow/white):
-Any projectile fired by the player. Visually distinct from all enemy tiers so ownership is never ambiguous.
+**Player shot** (white/pale-gold):
+Any projectile fired by the player — its own visual class, deliberately *outside* the blue/orange/purple threat palette so ownership is never ambiguous. The hue means "mine" and is fixed; firepower growth (**Guns tier**) reads through the *amount* of fire (count/size/brightness), never a shift in hue. _Avoid_: letting the player register drift toward the **aimed** orange.
 
 **Armor** (on a target):
 A damage-type modifier on heavy ground/sea targets: they take *reduced* damage from the player's **guns** and *bonus* damage from explosives (**bombs**, **missiles**). Armor makes explosives the efficient tool, never a required one — guns can always still chip an armored target down. _Avoid_: confusing with the player's **Armour tier** (that's player toughness).
 
 **Campaign**:
-The ordered sequence of levels that forms the game's WWII arc. Progress through the campaign is permanent (saved); upgrades bought along the way are kept forever.
+The ordered sequence of levels that forms the game's WWII arc — **four levels**, in escalating order: **Pacific Beachhead → Countryside → City → Naval** (the naval engagement is the finale). One pass through it is a **Playthrough**.
+
+**Playthrough**:
+One forward pass through the campaign (L1→L4). Coins and permanent upgrades are kept *across levels within* a Playthrough, and the Playthrough is saved so it can be quit and resumed; death sends the player to a **checkpoint**, never a reset. Progress is forward-only — the **Hangar** between levels is the only branch. _Avoid_: "run" (overloaded — could also mean a single **life**).
+
+**New Game**:
+Starts a fresh **Playthrough**. Coins, owned upgrades, and campaign progress all reset to zero — nothing carries across Playthroughs. The game is a self-contained arcade arc (weak → strong in one push), replayed from scratch for score and to try different builds.
 
 **Level**:
-The player-facing unit shown on Level Select. Each level is themed to a single **biome / front** (e.g. Beachhead, Countryside, City). One level contains a fixed number of stages and a final boss.
+The player-facing unit shown on Level Select. Each level is themed to a single **biome / front** (the four: Pacific Beachhead, Countryside, City, Naval). One level contains a fixed number of stages and a final boss.
 
 **Hangar** (a.k.a. Airfield):
 The between-levels screen, set on an airfield. Where the player spends **coins** on **permanent upgrades** before deploying to the next level. The only place permanent upgrades are bought.
 
 **Coins**:
-Meta-currency earned during missions (kills, pickups). Persists between levels and is spent in the Hangar. Distinct from **score**, which is for ranking only.
+Meta-currency earned during missions (kills, pickups). Persists between levels *within a* **Playthrough** and is spent in the Hangar; reset to zero on a **New Game**. Each level pays its coins only on first clear within a Playthrough (no farming by replay). Distinct from **score**, which is for ranking only.
 
 **Permanent upgrade**:
 An upgrade bought in the Hangar with coins and kept for the rest of the campaign. Organised into tiered categories (Guns, Armour, Engine, Bombs, Items). _Avoid_: "power-up" (that's an in-run pickup).
@@ -51,7 +57,7 @@ The *shape* of the player's fire, set temporarily by an in-run pickup — **conc
 A temporary escort drone gained from a pickup that flies alongside the player and adds fire. Lost on death.
 
 **Damage state**:
-The player plane's visible health, drawn on the sprite itself (`d0` pristine → `d4` critical/smoking) instead of a separate HUD bar. Each hit advances the state; death occurs past the last survivable state.
+The player plane's visible health, shown in two reinforcing places: drawn on the plane sprite itself (`d0` pristine → `d4` critical/smoking) *and* mirrored in the HUD (a cockpit damage gauge). Each hit advances the state; death occurs past the last survivable state. _Note_: earlier design had this sprite-only; the HUD readout was added once the cockpit-bezel art revealed a dedicated damage gauge — two readouts aid noob readability.
 
 **Armour tier**:
 The player's permanent toughness level (Hangar category, tiers 0–3) — increases the number of hits the plane survives before death (stretches the `d0`→`d4` budget).
