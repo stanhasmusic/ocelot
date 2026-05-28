@@ -67,7 +67,7 @@ func test_large_delta_still_clamped() -> void:
 	var result := PlayerMovement.next_position(
 		Vector2(100, 100), Vector2(10000, 10000), MAX_SPEED, FULL_LERP, 100.0, BOUNDS
 	)
-	assert_le(result.x, BOUNDS.position.x + BOUNDS.size.x, "x stays within right bound")
-	assert_le(result.y, BOUNDS.position.y + BOUNDS.size.y, "y stays within bottom bound")
-	assert_ge(result.x, BOUNDS.position.x, "x stays within left bound")
-	assert_ge(result.y, BOUNDS.position.y, "y stays within top bound")
+	assert_lte(result.x, BOUNDS.position.x + BOUNDS.size.x, "x stays within right bound")
+	assert_lte(result.y, BOUNDS.position.y + BOUNDS.size.y, "y stays within bottom bound")
+	assert_gte(result.x, BOUNDS.position.x, "x stays within left bound")
+	assert_gte(result.y, BOUNDS.position.y, "y stays within top bound")
