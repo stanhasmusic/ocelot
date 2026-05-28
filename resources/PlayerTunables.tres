@@ -1,12 +1,9 @@
-[gd_resource type="Resource" script_class="PlayerTunables" load_steps=2 format=3 uid="uid://b0ocp7tunbls0"]
+[gd_resource type="Resource" script_class="PlayerTunables" format=3 uid="uid://b0ocp7tunbls0"]
 
-[ext_resource type="Script" path="res://resources/PlayerTunables.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dgawbdkcgur22" path="res://resources/PlayerTunables.gd" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")
-max_speed = 1200.0
-follow_lerp = 0.35
-fire_interval = 0.15
-shot_speed = 600.0
-scroll_speed = 120.0
-finger_offset = Vector2(0.0, -120.0)
+max_speed = 800.0
+fire_interval = 0.25
+shot_speed = 300.0
