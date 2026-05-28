@@ -1,6 +1,6 @@
 # Ocelot — Design Status (resume-here pointer)
 
-Last updated: 2026-05-26. A pointer for any session picking this work back up.
+Last updated: 2026-05-27. A pointer for any session picking this work back up.
 
 ## What this game is (one line)
 
@@ -11,7 +11,7 @@ mobile-first + PC, built asset-first from `assets/`, for a noob/mid-tier audienc
 
 - **`CONTEXT.md`** — the glossary. All in-game vocabulary (threat tiers, campaign/level/stage,
   Hangar/coins/pickups, player loadout, enemy archetypes, bosses).
-- **`docs/adr/0005`–`0013`** — the foundational decisions made this design pass:
+- **`docs/adr/0005`–`0015`** — the foundational decisions made this design pass:
   - 0005 persistent campaign + Hangar metagame *(amended by 0011: persistence is per-Playthrough, not forever)*
   - 0006 input-aware controls over one shared difficulty curve
   - 0007 Hangar = 4 stat tracks + gadget loadout
@@ -21,10 +21,13 @@ mobile-first + PC, built asset-first from `assets/`, for a noob/mid-tier audienc
   - 0011 economy = Guns-spine pace track + scarce skill-fed slack, reset every Playthrough
   - 0012 player fire = its own visual class (white/pale-gold), tier escalates by mass not hue *(amends 0001)*
   - 0013 onboarding = invisible scenario-teaching + self-suppressing hints (no tutorial, no first-run state)
+  - 0014 boss music = hard-swap crossfade with a leitmotif-linked track family (1 shared L1/L2 + bespoke L3/L4); adaptive layering deferred
+  - 0015 SFX organised by weapon class (diegetic), not by threat tier — threat language stays visual-only
   - (pre-existing/prototype-era, take with a grain of salt: 0001 projectile colour *(amended by 0012)*,
     0002 hybrid stage difficulty, 0003 hand-authored backgrounds, 0004 defer test framework)
 - **`docs/prd/ROADMAP.md`** — the build plan: 20 PRDs in 5 phases, with the human-in-the-loop split.
 - **`docs/prd/PRD-01-flight-and-fire.md`** — the PRD detail-format exemplar.
+- **`docs/prd/PRD-16-audio-direction.md`** — the audio direction detail (transition rules, slot table, stinger architecture, SFX taxonomy).
 
 ## Locked design pillars
 
@@ -67,10 +70,24 @@ tunable `.tres` knobs (the first module worth a test harness).
 
 ## Open / not yet grilled
 
-- Audio direction (per-biome music mapping, adaptive layers) — PRD-16.
+*(none — all design open items resolved this pass.)*
 
 ## Resolved this pass
 
+- **Audio direction** (grilled 2026-05-27 → **ADR-0014** + **ADR-0015** + **PRD-16** / issue #42).
+  Boss music is a **hard-swap crossfade** to a dedicated track on named-boss spawn; mini-bosses get
+  no music event; music carries through death/respawn; on boss death a victory stinger fires, music
+  ducks under it, then ~2s silence, then Hangar music plays through level-complete + Hangar.
+  **Boss-track family = 3** (shared L1/L2 "encounter" + bespoke BIG MAMA + bespoke Double Trouble),
+  all linked by a **shared melodic leitmotif** so the family reads as one idiom. **Adaptive
+  layering** is the explicitly-deferred upgrade — wanted eventually, an asset-class commitment we
+  don't take on for the first audio pass. **SFX organised by weapon class** (diegetic — a tank
+  goes BOOM, an MG goes rat-tat-tat), not by threat tier; threat-language teaching stays
+  visual-only (the colour palette, plus the eventual shape-redundancy upgrade from ADR-0012). The
+  user **personally composes music** ([[user-can-author-music]]), so the **10-slot inventory**
+  (menu + hangar + 4 levels + 3 boss tracks) isn't budget-constrained; 7 tracks exist, the rest are
+  authored as needed. Player gun SFX escalates per Guns tier (4 distinct sounds, with "1 shared
+  sound" as the playtest-fallback). Pause halts all audio and resumes exactly where it left off.
 - **Onboarding / FTUE** (grilled 2026-05-26 → **ADR-0013** + **PRD-17** / issue #43). Onboarding is
   invisible scenario-teaching baked into the Level-1 Stage-1 intro + self-suppressing behavioural hints
   (no tutorial, no first-run flag — competence suppresses the hint). Teaches blue-vs-orange via clean
@@ -88,16 +105,16 @@ tunable `.tres` knobs (the first module worth a test harness).
   class (white/pale-gold, escalates by mass not hue). Implementation lands in PRD-02 (the `ThreatTier`
   module + recolouring the player pill); colour-blind palette + shape-redundancy remain deferred.
 
-## Tracker state (2026-05-26)
+## Tracker state (2026-05-27)
 
 The whole roadmap is now on GitHub Issues:
-- **Detailed, `ready-for-agent` PRDs:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31. (PRD-02–06 are *gap-closing refactors* — much of the engine/cast/pickups already exists; each issue states built-vs-missing.)
-- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-07 #32 · PRD-08 #36 · PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-16 #42 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
-- Both formerly-`needs-triage` issues are now **grilled**: #41 (Levels 2…N) and #39 (Economy, → ADR-0011).
-  They can earn full `ready-for-agent` PRD detail off the locked-campaign table + ADR-0011.
+- **Detailed, `ready-for-agent` PRDs:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · PRD-16 #42. (PRD-02–06 are *gap-closing refactors* — much of the engine/cast/pickups already exists; each issue states built-vs-missing. PRD-16 detail at `docs/prd/PRD-16-audio-direction.md`.)
+- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-07 #32 · PRD-08 #36 · PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
+- All formerly-`needs-triage` issues are now **grilled**: #41 (Levels 2…N), #39 (Economy → ADR-0011), #42 (Audio → ADR-0014 + ADR-0015).
 
 ## Next action
 
-Build a `ready-for-agent` issue (#26–#31, start with #26→#27), or **detail PRD-11 (#39)** off ADR-0011
-(the structure is locked; PRD-11 just needs the tunable payout/price curves + the test harness).
-Remaining un-grilled open item: audio (#42). (FTUE resolved → ADR-0013 + PRD-17; threat-tier colour rework → ADR-0012.)
+Build a `ready-for-agent` issue (#26→#27 first), or **detail PRD-11 (#39)** off ADR-0011 (structure
+locked; PRD-11 needs the tunable payout/price curves + the test harness). No un-grilled design open
+items remain. (Audio → ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour →
+ADR-0012.)

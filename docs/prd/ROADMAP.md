@@ -198,8 +198,11 @@ Goal: **at least one complete named-boss level**, then a repeatable template for
 
 Goal: **a shippable vertical slice.**
 
-- **PRD-16 — Audio direction** ([issue #42](https://github.com/stanhasmusic/ocelot/issues/42))**:** per-biome music mapping, adaptive layers / boss stingers, full SFX
-  mapping. *(You own curation; the Game Audio Engineer agent can help.)*
+- **PRD-16 — Audio direction** ([issue #42](https://github.com/stanhasmusic/ocelot/issues/42)) · `PRD-16-audio-direction.md` —
+  per-level music identity, named-boss hard-swap + leitmotif-linked boss-track family
+  ([[0014-boss-music-hard-swap-with-leitmotif-track-family]]), victory stinger + event-triggered
+  ducking, SFX organised by weapon class ([[0015-sfx-organised-by-weapon-class-not-threat-tier]]).
+  *(You own track composition + curation taste; adaptive layering deferred to a later pass.)*
 - **PRD-17 — Onboarding / FTUE** ([issue #43](https://github.com/stanhasmusic/ocelot/issues/43))**:** the non-gamer's first 60 seconds, tutorialization, difficulty easing.
   *(You own validation — this is the make-or-break for the [[project-ocelot-target-audience]].)*
 - **PRD-18 — HUD & menus** ([issue #40](https://github.com/stanhasmusic/ocelot/issues/40))**:** `game_hud`, level select, pause, options, level-complete screen.
