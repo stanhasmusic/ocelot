@@ -27,6 +27,17 @@ Explore the repo. Key things to know:
 - Physics layers: 1=Player, 2=PlayerProjectile, 3=Enemy, 4=EnemyProjectile, 5=World, 6=PowerUp
 - See `CLAUDE.md` for full architecture reference
 
+# BRANCH FIRST
+
+Before making **any** edits, create and check out a feature branch off an up-to-date `main`:
+
+```
+git checkout main && git pull --ff-only
+git checkout -b <type>/<short-slug>-<issue-number>
+```
+
+Use `feat/` for features, `fix/` for bugfixes, `chore/` for infra — e.g. `feat/stage-engine-hardening-29`. Do **all** work on this branch; never commit to `main` directly. This way, if the run is interrupted mid-build, the work is left on a branch instead of leaving `main` dirty for the next run to trip over.
+
 # IMPLEMENTATION
 
 Use `/tdd` **only if a test framework is set up in the repo** (check for `addons/gut/` or `addons/gdunit4/`). If no framework is present, follow the issue body's "manual verification checklist" instead — this is the documented project posture per ADR 0004, not a gap to fill.
