@@ -77,6 +77,15 @@ gh issue close <number> --repo stanhasmusic/ocelot
 
 If you open a PR for human review instead of closing the issue directly (the holding-pattern path), include `Closes #<n>` in the PR **body** so merging the PR auto-closes the issue.
 
+**Set the PR body via a temp file, never an inline string.** Passing the body inline (`--body "..."`) or via a stdin redirect is fragile in this shell — it has dropped the body entirely (landing a literal `@-`), which silently kills the auto-close keyword. Instead, write the body to a file and pass `--body-file`:
+
+```
+# write the full body (including `Closes #<n>`) to a temp file, then:
+gh pr create --repo stanhasmusic/ocelot --title "..." --body-file /tmp/pr_body.md
+```
+
+After creating the PR, verify the body stuck: `gh pr view <n> --repo stanhasmusic/ocelot --json body -q .body` should show your text, not `@-`.
+
 If not complete, add a comment with what was done:
 ```
 gh issue comment <number> --repo stanhasmusic/ocelot --body "..."
