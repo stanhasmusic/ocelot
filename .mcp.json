@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "godot": {
-      "command": "node",
-      "args": ["C:\\Users\\stanh\\OneDrive\\Documents\\AI Projects\\Godot-MCP\\server\\dist\\index.js"]
+      "command": "npx",
+      "args": ["-y", "@coding-solo/godot-mcp"]
     }
   }
 }
