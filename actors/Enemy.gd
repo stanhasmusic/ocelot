@@ -8,11 +8,18 @@ extends Area2D
 @export var fire_rate: float = 2.0
 @export var destroyed_texture: Texture2D
 
+@export var hp: int = 1
+
+# Declared primary threat tier (PRD-04 classifier contract; PRD-05 sets it per
+# archetype). The stage director reads this from the packed scene to decide
+# whether the enemy counts as "aimed" for the anti-frustration spacing rule —
+# data, not the scene filename. Default STRAIGHT = not aimed.
+@export var primary_threat_tier: ThreatTier.Tier = ThreatTier.Tier.STRAIGHT
+
+var is_dead: bool = false
+
 @onready var shoot_timer: Timer = Timer.new()
 @onready var _body: Sprite2D = get_node_or_null("Body")
-
-@export var hp: int = 1
-var is_dead: bool = false
 
 func _ready() -> void:
 	if projectile_scene:

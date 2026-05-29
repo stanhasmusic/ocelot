@@ -12,7 +12,9 @@ func start_stage(_stage_index: int, config: StageConfig) -> void:
 	_intro_player.cancel()
 	if config.intro_timeline != null and config.intro_timeline is StageIntroTimeline:
 		_intro_player.intro_finished.connect(_on_intro_finished, CONNECT_ONE_SHOT)
-		_intro_player.play(config.intro_timeline, get_tree().current_scene)
+		_intro_player.play(
+			config.intro_timeline, get_tree().current_scene, config.intro_tail_pad_seconds
+		)
 	else:
 		_start_procedural_body()
 
@@ -41,5 +43,5 @@ func _spawn_boss() -> void:
 		return
 	var boss: Node = _config.boss_scene.instantiate()
 	boss.max_hp = _config.boss_hp
-	boss.global_position = Vector2(270, -100)
+	boss.global_position = _config.boss_spawn_position
 	get_tree().current_scene.add_child.call_deferred(boss)

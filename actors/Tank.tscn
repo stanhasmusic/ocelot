@@ -24,6 +24,7 @@ shoot_range = 400.0
 speed = 80.0
 hp = 4
 score_value = 200
+primary_threat_tier = 1
 explosion_scene = ExtResource("4_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("8_bomb"), ExtResource("9_repair"), ExtResource("10_lifeup")])
 
