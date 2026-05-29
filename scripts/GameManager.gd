@@ -9,6 +9,11 @@ signal on_boss_died
 signal on_lives_changed(new_lives: int)
 signal on_bomb_count_changed(new_count: int)
 signal on_checkpoint_banked(stage_index: int)
+# PRD-03 input-aware controls. `scheme` drives the movement branch (POSITIONAL /
+# VELOCITY); `device` is the finer EventKind (MOUSE/TOUCH/JOYPAD/KEY) the HUD
+# uses for prompt glyphs and touch-button visibility.
+signal on_input_scheme_changed(new_scheme: int)
+signal on_input_device_changed(new_device: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
 const BUS_TRIM_DB: Array[float] = [0.0, 0.0, -10.0]  # Master, Music, SFX
@@ -33,6 +38,11 @@ var unlocked_level: int = 1
 var current_level: String = "res://scenes/LevelLand.tscn"
 var next_level: String = ""
 var lives: int = 3
+
+# Active control scheme + device (PRD-03). Read by the player controller (scheme)
+# and the HUD (device); seeded to the default so frame-one is controllable.
+var input_scheme: int = InputScheme.DEFAULT_SCHEME
+var input_device: int = InputScheme.EventKind.MOUSE
 
 # Furthest safe resume point reached this run (PRD-02). In-memory only —
 # cross-restart persistence is PRD-07. LevelBase records into it; respawn reads it.
@@ -225,3 +235,13 @@ func report_boss_died() -> void:
 
 func report_bomb_count(count: int) -> void:
 	on_bomb_count_changed.emit(count)
+
+func report_input_scheme(scheme: int) -> void:
+	if scheme != input_scheme:
+		input_scheme = scheme
+		on_input_scheme_changed.emit(scheme)
+
+func report_input_device(device: int) -> void:
+	if device != input_device:
+		input_device = device
+		on_input_device_changed.emit(device)

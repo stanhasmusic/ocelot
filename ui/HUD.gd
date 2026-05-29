@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 var _displayed_lives: int = -1
+var _bomb_count: int = 3
 
 func _ready() -> void:
 	_displayed_lives = GameManager.lives
@@ -8,14 +9,15 @@ func _ready() -> void:
 	$Control/LivesLabel.text = "LIVES: " + str(GameManager.lives)
 	var players = get_tree().get_nodes_in_group("Player")
 	if players.size() > 0:
-		$Control/BombLabel.text = "Bombs: " + str(players[0].bomb_count)
-	else:
-		$Control/BombLabel.text = "Bombs: 3"
+		_bomb_count = players[0].bomb_count
+	_refresh_bomb_label()
 	GameManager.on_score_updated.connect(_update_score_label)
 	GameManager.on_lives_changed.connect(_update_lives_label)
 	GameManager.on_bomb_count_changed.connect(_update_bomb_label)
 	GameManager.on_combo_changed.connect(_on_combo_changed)
+	GameManager.on_input_device_changed.connect(_on_input_device_changed)
 	$Control/BombButton.pressed.connect(_on_bomb_button_pressed)
+	_on_input_device_changed(GameManager.input_device)
 
 func _update_score_label(new_score: int) -> void:
 	$Control/ScoreLabel.text = str(new_score)
@@ -43,7 +45,21 @@ func _play_life_lost_feedback() -> void:
 	ptween.tween_property(popup, "modulate:a", 0.0, 0.3)
 
 func _update_bomb_label(new_count: int) -> void:
-	$Control/BombLabel.text = "Bombs: " + str(new_count)
+	_bomb_count = new_count
+	_refresh_bomb_label()
+
+# Bomb label = device-appropriate input prompt + current count, kept in one place
+# so the count update and the device-glyph swap never overwrite each other.
+func _refresh_bomb_label() -> void:
+	var prompt: String
+	match GameManager.input_device:
+		InputScheme.EventKind.JOYPAD:
+			prompt = "Bombs (X): "
+		InputScheme.EventKind.TOUCH:
+			prompt = "Bombs: "
+		_:
+			prompt = "Bombs (ALT): "
+	$Control/BombLabel.text = prompt + str(_bomb_count)
 
 func _on_combo_changed(m: int) -> void:
 	var label = $Control/ComboLabel
@@ -56,6 +72,14 @@ func _on_combo_changed(m: int) -> void:
 		label.scale = Vector2(0.8, 0.8)
 		var t = create_tween()
 		t.tween_property(label, "scale", Vector2(1.0, 1.0), 0.12)
+
+# PRD-03: on-screen action buttons appear only in touch mode; the bomb prompt
+# glyph follows the active device so instructions are never wrong.
+func _on_input_device_changed(_device: int) -> void:
+	var is_touch: bool = GameManager.input_device == InputScheme.EventKind.TOUCH
+	$Control/BombButton.visible = is_touch
+	$Control/BombButton.text = "BOMB" if is_touch else ""
+	_refresh_bomb_label()
 
 func _on_bomb_button_pressed() -> void:
 	var players = get_tree().get_nodes_in_group("Player")

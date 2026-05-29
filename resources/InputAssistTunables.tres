@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="InputAssistTunables" format=3]
+
+[ext_resource type="Script" path="res://resources/InputAssistTunables.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+swap_debounce_seconds = 0.1
+stick_deadzone = 0.2
+magnet_radius_positional = 0.0
+magnet_radius_velocity = 60.0
+hitbox_forgiveness_positional = 1.0
+hitbox_forgiveness_velocity = 0.9
+aim_snap_velocity = 0.0

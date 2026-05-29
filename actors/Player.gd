@@ -2,11 +2,10 @@ extends CharacterBody2D
 
 signal shoot_projectile
 
-enum InputSource { POSITIONAL, VELOCITY }
-
-const STICK_DEADZONE: float = 0.2
-
 @export var tunables: PlayerTunables = preload("res://resources/PlayerTunables.tres")
+@export var assist_tunables: InputAssistTunables = preload(
+	"res://resources/InputAssistTunables.tres"
+)
 @export var bullet_scene: PackedScene
 @export var max_hp: int = 4
 @export var hit_shake_strength: float = 8.0
@@ -19,10 +18,11 @@ var weapon_level: int = 0
 var is_invincible: bool = false
 var bomb_count: int = 3
 
-var _input_source: int = InputSource.POSITIONAL
+var _input_source: int = InputScheme.DEFAULT_SCHEME
 var _positional_target: Vector2 = Vector2.ZERO
 var _touch_id: int = -1
 var _fire_clock: AutoFireClock
+var _scheme_resolver: InputScheme
 
 func _ready() -> void:
 	add_to_group("Player")
@@ -30,15 +30,30 @@ func _ready() -> void:
 	update_player_sprite()
 	_positional_target = global_position
 	_fire_clock = AutoFireClock.new(tunables.fire_interval)
+	_scheme_resolver = InputScheme.new(
+		assist_tunables.stick_deadzone, assist_tunables.swap_debounce_seconds
+	)
+	_input_source = GameManager.input_scheme
+	_apply_hitbox_forgiveness(_input_source)
 	GameManager.report_bomb_count(bomb_count)
 
+# Translate a raw event into its device kind (+ stick magnitude), keeping the
+# positional target fresh, then let the pure InputScheme resolver decide the
+# movement branch. Device kind is published immediately (cosmetic, for HUD
+# glyphs); the gameplay scheme is debounced so a stray event cannot thrash it.
 func _unhandled_input(event: InputEvent) -> void:
+	var kind: int = -1
+	var magnitude: float = 1.0
+
 	if event is InputEventMouseMotion:
-		_input_source = InputSource.POSITIONAL
+		kind = InputScheme.EventKind.MOUSE
+		_positional_target = event.position
+	elif event is InputEventMouseButton and event.pressed:
+		kind = InputScheme.EventKind.MOUSE
 		_positional_target = event.position
 	elif event is InputEventScreenTouch:
 		if event.pressed:
-			_input_source = InputSource.POSITIONAL
+			kind = InputScheme.EventKind.TOUCH
 			if _touch_id == -1:
 				_touch_id = event.index
 				_positional_target = event.position + tunables.finger_offset
@@ -47,25 +62,49 @@ func _unhandled_input(event: InputEvent) -> void:
 				_touch_id = -1
 	elif event is InputEventScreenDrag:
 		if event.index == _touch_id:
-			_input_source = InputSource.POSITIONAL
+			kind = InputScheme.EventKind.TOUCH
 			_positional_target = event.position + tunables.finger_offset
 	elif event is InputEventJoypadMotion:
-		if absf(event.axis_value) > STICK_DEADZONE:
-			_input_source = InputSource.VELOCITY
+		kind = InputScheme.EventKind.JOYPAD
+		magnitude = absf(event.axis_value)
 	elif event is InputEventJoypadButton and event.pressed:
-		_input_source = InputSource.VELOCITY
+		kind = InputScheme.EventKind.JOYPAD
 	elif event is InputEventKey and event.pressed:
 		if (event.is_action("move_left") or event.is_action("move_right")
 				or event.is_action("move_up") or event.is_action("move_down")):
-			_input_source = InputSource.VELOCITY
+			kind = InputScheme.EventKind.KEY
+
+	if kind != -1:
+		# A sub-deadzone stick wobble is not a deliberate device touch.
+		if not (kind == InputScheme.EventKind.JOYPAD
+				and magnitude < assist_tunables.stick_deadzone):
+			GameManager.report_input_device(kind)
+		var now: float = Time.get_ticks_msec() / 1000.0
+		var resolved: int = _scheme_resolver.resolve(_input_source, kind, magnitude, now)
+		if resolved != _input_source:
+			_set_scheme(resolved)
 
 	if event.is_action_pressed("bomb"):
 		drop_bomb()
 
+func _set_scheme(scheme: int) -> void:
+	_input_source = scheme
+	_apply_hitbox_forgiveness(scheme)
+	GameManager.report_input_scheme(scheme)
+
+func _apply_hitbox_forgiveness(scheme: int) -> void:
+	if has_node("CollisionShape2D"):
+		$CollisionShape2D.scale = Vector2.ONE * assist_tunables.hitbox_forgiveness(scheme)
+
+# Current pickup-magnet radius for the active scheme; pickups query this so the
+# magnet honours the per-input assist knob (PRD-03).
+func current_magnet_radius() -> float:
+	return assist_tunables.magnet_radius(_input_source)
+
 func _physics_process(delta: float) -> void:
 	var vp_rect: Rect2 = get_viewport_rect()
 
-	if _input_source == InputSource.VELOCITY:
+	if _input_source == InputScheme.Scheme.VELOCITY:
 		var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		velocity = direction * tunables.max_speed
 		move_and_slide()
