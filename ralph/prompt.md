@@ -75,6 +75,8 @@ If the task is complete, close the GitHub issue:
 gh issue close <number> --repo stanhasmusic/ocelot
 ```
 
+If you open a PR for human review instead of closing the issue directly (the holding-pattern path), include `Closes #<n>` in the PR **body** so merging the PR auto-closes the issue.
+
 If not complete, add a comment with what was done:
 ```
 gh issue comment <number> --repo stanhasmusic/ocelot --body "..."
