@@ -6,7 +6,7 @@ $issues  = gh issue list --repo stanhasmusic/ocelot --label ready-for-agent --js
 $prompt  = Get-Content "$PSScriptRoot\prompt.md" -Raw
 
 $fullPrompt = "Previous commits: $commits`n`nIssues: $issues`n`n$prompt"
-$fullPrompt | claude --permission-mode bypassPermissions --model claude-opus-4-7 -p --output-format stream-json --verbose |
+$fullPrompt | claude --permission-mode bypassPermissions --model claude-opus-4-8 -p --output-format stream-json --verbose |
     ForEach-Object {
         try {
             $obj = $_ | ConvertFrom-Json -ErrorAction Stop
