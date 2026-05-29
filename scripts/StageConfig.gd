@@ -12,3 +12,9 @@ extends Resource
 @export var boss_scene: PackedScene
 @export var boss_hp: int = 50
 @export var boss_score_threshold: int = 3500
+
+# Feel knobs lifted out of code (PRD-04). Defaults equal the previous hard-coded
+# values so existing stages play identically until deliberately retuned.
+@export var spawn_width_offset: float = 200.0
+@export var boss_spawn_position: Vector2 = Vector2(270, -100)
+@export var intro_tail_pad_seconds: float = 0.5
