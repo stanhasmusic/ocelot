@@ -24,6 +24,8 @@ func _ready() -> void:
 		SoundManager.play_music(level_music)
 	if not GameManager.on_boss_died.is_connected(_on_boss_died):
 		GameManager.on_boss_died.connect(_on_boss_died)
+	# Fresh run through this level: clear any prior stage progress (PRD-02).
+	GameManager.reset_checkpoint()
 	_start_stage_transition()
 
 
@@ -39,6 +41,10 @@ func _instantiate_background() -> void:
 
 func _begin_stage(idx: int) -> void:
 	stage_started.emit(idx)
+	# Bank the stage boundary so a mid-level death resumes here, not the level
+	# start. Respawn keeps the player in-place, so the checkpoint is honoured by
+	# construction; this also seeds the resume point for campaign persistence (PRD-07).
+	GameManager.bank_checkpoint(idx, CheckpointState.Marker.STAGE_START)
 	if idx < stages.size():
 		enemy_spawner.start_stage(idx, stages[idx])
 
