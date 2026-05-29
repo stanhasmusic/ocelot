@@ -8,9 +8,15 @@ signal on_boss_spawned(max_hp: int)
 signal on_boss_died
 signal on_lives_changed(new_lives: int)
 signal on_bomb_count_changed(new_count: int)
+signal on_checkpoint_banked(stage_index: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
 const BUS_TRIM_DB: Array[float] = [0.0, 0.0, -10.0]  # Master, Music, SFX
+const LEVELS: Array[String] = [
+	"res://scenes/LevelLand.tscn",
+	"res://scenes/LevelJungle.tscn",
+	"res://scenes/LevelOcean.tscn",
+]
 
 var score: int = 0
 var spawn_score: int = 0
@@ -28,11 +34,9 @@ var current_level: String = "res://scenes/LevelLand.tscn"
 var next_level: String = ""
 var lives: int = 3
 
-const LEVELS: Array[String] = [
-	"res://scenes/LevelLand.tscn",
-	"res://scenes/LevelJungle.tscn",
-	"res://scenes/LevelOcean.tscn",
-]
+# Furthest safe resume point reached this run (PRD-02). In-memory only —
+# cross-restart persistence is PRD-07. LevelBase records into it; respawn reads it.
+var checkpoint: CheckpointState = CheckpointState.new()
 
 func _ready() -> void:
 	# Ensure audio buses are loaded (Project Settings bug workaround)
@@ -134,6 +138,17 @@ func reset_lives() -> void:
 	lives = 3
 	_level_start_lives = 3
 	on_lives_changed.emit(lives)
+
+
+# Record progress through a stage so a death mid-level resumes here, not the
+# level start. Monotonic via CheckpointState — never moves the player backward.
+func bank_checkpoint(stage_index: int, marker: int = CheckpointState.Marker.STAGE_START) -> void:
+	checkpoint.record(stage_index, marker)
+	on_checkpoint_banked.emit(checkpoint.resume_point()["stage_index"])
+
+
+func reset_checkpoint() -> void:
+	checkpoint.reset()
 
 func add_life() -> void:
 	lives += 1

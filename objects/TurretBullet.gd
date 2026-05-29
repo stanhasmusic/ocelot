@@ -2,6 +2,13 @@ extends Area2D
 
 const SPEED: float = 400.0
 
+# Directional fire shared by the Train turret (aimed) and the Bomber/Interceptor
+# spreads (pattern). Tier is declared per-scene so the colour matches behaviour.
+@export var threat_tier: ThreatTier.Tier = ThreatTier.Tier.AIMED
+
+func _ready() -> void:
+	ThreatTier.apply_to_sprite(get_node_or_null("Sprite2D"), threat_tier)
+
 func _physics_process(delta: float) -> void:
 	# Move forward based on rotation (assuming 0 rotation is RIGHT, but we might need to adjust based on sprite)
 	# If we use standard Godot 0 degrees = Right.
