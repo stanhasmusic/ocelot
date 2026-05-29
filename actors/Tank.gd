@@ -28,7 +28,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Turret Tracking
 	if is_instance_valid(player):
-		var dir = global_position.direction_to(player.global_position)
+		var dir = FirePattern.aimed_direction(global_position, player.global_position)
 		# Assuming the Gun sprite points UP by default.
 		# look_at aligns the node's +X axis with the target.
 		# If sprite is UP (+Y is down in Godot, but Sprite UP is usually -Y local), 
@@ -47,7 +47,7 @@ func shoot() -> void:
 		get_parent().add_child(b)
 
 		# Direction toward player (pure travel vector, no sprite correction)
-		var dir = global_position.direction_to(player.global_position)
+		var dir = FirePattern.aimed_direction(global_position, player.global_position)
 		b.global_position = turret.global_position + dir * 40
 		# TankBullet moves along Vector2.UP.rotated(rotation), so rotation = dir.angle() - PI/2
 		b.rotation = dir.angle() + PI/2

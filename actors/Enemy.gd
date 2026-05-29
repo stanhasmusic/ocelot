@@ -16,6 +16,12 @@ extends Area2D
 # data, not the scene filename. Default STRAIGHT = not aimed.
 @export var primary_threat_tier: ThreatTier.Tier = ThreatTier.Tier.STRAIGHT
 
+# Coin drop (PRD-05). Currency the metagame spends; separate from the power-up
+# `loot_pool` so the two are tuned independently. `coin_value` is per-archetype
+# data; `coin_scene` is delivered in PRD-06 — until then the hook is a no-op.
+@export var coin_value: int = 0
+@export var coin_scene: PackedScene
+
 var is_dead: bool = false
 
 @onready var shoot_timer: Timer = Timer.new()
@@ -63,6 +69,7 @@ func _flash_hit() -> void:
 
 func die() -> void:
 	drop_loot()
+	drop_coins()
 	spawn_explosion()
 	GameManager.add_score(score_value)
 	if destroyed_texture and _body:
@@ -88,15 +95,26 @@ func spawn_explosion() -> void:
 		get_parent().add_child(expl)
 
 func drop_loot() -> void:
-	if loot_pool.is_empty() or randf() >= 0.22:
-		return
-	var pickup_scene = loot_pool.pick_random()
-	# Bombs get an extra 50% filter to roughly halve their drop rate
-	if "Bomb" in pickup_scene.resource_path and randf() >= 0.5:
+	# The 22%-drop / half-rate-bomb rule now lives in the pure EnemyLoot helper;
+	# the node just rolls the dice and spawns the result.
+	var pickup_scene := EnemyLoot.loot_roll(loot_pool, randf(), randf(), randf())
+	if pickup_scene == null:
 		return
 	var pickup = pickup_scene.instantiate()
 	pickup.global_position = global_position
 	get_parent().call_deferred("add_child", pickup)
+
+# PRD-05 coin-drop hook. The coin pickup scene arrives in PRD-06; until then
+# `coin_scene` is unset and this is a no-op. Kept separate from drop_loot so the
+# currency source and the power-up pool tune independently.
+func drop_coins() -> void:
+	if coin_scene == null or coin_value <= 0:
+		return
+	var coin = coin_scene.instantiate()
+	if "coin_value" in coin:
+		coin.coin_value = coin_value
+	coin.global_position = global_position
+	get_parent().call_deferred("add_child", coin)
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()

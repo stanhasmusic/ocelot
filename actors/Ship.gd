@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 	super._physics_process(delta)
 	
 	if is_instance_valid(player):
-		var dir = global_position.direction_to(player.global_position)
+		var dir = FirePattern.aimed_direction(global_position, player.global_position)
 		# Turret tracking
 		turret.global_rotation = dir.angle() + PI/2 + PI
 
