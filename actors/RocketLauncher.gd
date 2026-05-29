@@ -13,4 +13,4 @@ func _on_shoot_timer_timeout() -> void:
 	get_parent().add_child(b)
 	b.global_position = global_position + Vector2(0, -20)
 	if is_instance_valid(player):
-		b.direction = (player.global_position - b.global_position).normalized()
+		b.direction = FirePattern.aimed_direction(b.global_position, player.global_position)

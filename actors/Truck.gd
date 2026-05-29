@@ -12,18 +12,16 @@ func _on_body_entered(_body: Node2D) -> void:
 	pass
 
 func drop_loot() -> void:
-	if randf() > 0.3: return
-	
 	var drops = []
 	var powerup = load("res://objects/PowerUp.tscn")
 	var bomb = load("res://objects/BombPickup.tscn")
-	
 	if powerup: drops.append(powerup)
 	if bomb: drops.append(bomb)
-	
-	if drops.is_empty(): return
-	
-	var chosen_scene = drops.pick_random()
+
+	# Trucks drop at 30% with no bomb-rarity filter (bomb_keep_chance = 1.0).
+	var chosen_scene := EnemyLoot.loot_roll(drops, randf(), randf(), randf(), 0.3, 1.0)
+	if chosen_scene == null:
+		return
 	var pickup = chosen_scene.instantiate()
 	pickup.global_position = global_position
 	get_parent().call_deferred("add_child", pickup)

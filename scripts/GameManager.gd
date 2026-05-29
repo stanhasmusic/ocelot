@@ -8,6 +8,7 @@ signal on_boss_spawned(max_hp: int)
 signal on_boss_died
 signal on_lives_changed(new_lives: int)
 signal on_bomb_count_changed(new_count: int)
+signal on_coins_changed(new_total: int)
 signal on_checkpoint_banked(stage_index: int)
 # PRD-03 input-aware controls. `scheme` drives the movement branch (POSITIONAL /
 # VELOCITY); `device` is the finer EventKind (MOUSE/TOUCH/JOYPAD/KEY) the HUD
@@ -25,6 +26,10 @@ const LEVELS: Array[String] = [
 
 var score: int = 0
 var spawn_score: int = 0
+# Coins banked this run (PRD-05 drop hook feeds this). In-memory only; the
+# currency store, persistence, and economy balancing are PRD-07 / PRD-11. This
+# seam just accumulates a run total so kills visibly build toward something.
+var run_coins: int = 0
 var combo_count: int = 0
 var high_score: int = 0
 var level_stars: Dictionary = {}
@@ -134,6 +139,10 @@ func add_score(points: int) -> void:
 	on_spawn_score_updated.emit(spawn_score)
 	on_combo_changed.emit(get_multiplier())
 
+func add_coins(amount: int) -> void:
+	run_coins += amount
+	on_coins_changed.emit(run_coins)
+
 func reset_combo() -> void:
 	combo_count = 0
 	on_combo_changed.emit(1)
@@ -141,6 +150,7 @@ func reset_combo() -> void:
 func reset_score() -> void:
 	score = 0
 	spawn_score = 0
+	run_coins = 0
 	reset_combo()
 	on_score_updated.emit(score)
 

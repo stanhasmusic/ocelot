@@ -16,5 +16,5 @@ func _on_shoot_timer_timeout() -> void:
 	var b = projectile_scene.instantiate()
 	get_parent().add_child(b)
 	b.global_position = global_position + Vector2(0, 20)
-	var dir = global_position.direction_to(player.global_position)
+	var dir = FirePattern.aimed_direction(global_position, player.global_position)
 	b.rotation = dir.angle()
