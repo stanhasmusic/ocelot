@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://actors/Train.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/Train/train.png" id="2_tex"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/ground_units.png" id="2_turret_tex"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_explosion"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="4_coin"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_train"]
 atlas = ExtResource("2_tex")
@@ -21,6 +22,8 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_script")
 explosion_scene = ExtResource("3_explosion")
+coin_scene = ExtResource("4_coin")
+coin_value = 1
 speed = 100.0
 hp = 10
 

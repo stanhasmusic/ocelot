@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8x2y5k2y108"]
+[gd_scene load_steps=11 format=3 uid="uid://c8x2y5k2y108"]
 
 [ext_resource type="Script" uid="uid://dp7sdqqby63n" path="res://actors/Enemy.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts/air_units.png" id="2_atlas"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
 [ext_resource type="PackedScene" path="res://objects/LifeUpPickup.tscn" id="8_lifeup"]
+[ext_resource type="PackedScene" path="res://objects/Coin.tscn" id="9_coin"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_plane"]
 atlas = ExtResource("2_atlas")
@@ -23,6 +24,8 @@ script = ExtResource("1_script")
 explosion_scene = ExtResource("3_explosion")
 loot_pool = Array[PackedScene]([ExtResource("4_powerup"), ExtResource("6_bomb"), ExtResource("7_repair"), ExtResource("8_lifeup")])
 projectile_scene = ExtResource("5_bullet")
+coin_value = 1
+coin_scene = ExtResource("9_coin")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 3.14159

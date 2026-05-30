@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://actors/Interceptor.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_05.png" id="2_body"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="9_coin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_inter"]
 size = Vector2(80, 60)
@@ -20,6 +21,8 @@ primary_threat_tier = 2
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
+coin_scene = ExtResource("9_coin")
+coin_value = 1
 speed = 180.0
 hp = 3
 score_value = 250

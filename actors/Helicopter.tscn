@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://actors/Helicopter.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_07.png" id="2_body"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="10_coin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fighter"]
 size = Vector2(60, 50)
@@ -20,6 +21,8 @@ primary_threat_tier = 1
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
+coin_scene = ExtResource("10_coin")
+coin_value = 1
 speed = 120.0
 hp = 2
 score_value = 150
