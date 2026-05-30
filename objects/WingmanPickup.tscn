@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0wingman0pick31"]
+[gd_scene format=3 uid="uid://cesvdj37ugqo5"]
 
 [ext_resource type="Script" path="res://objects/WingmanPickup.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pickups/images/wingman.png" id="2_sprite"]

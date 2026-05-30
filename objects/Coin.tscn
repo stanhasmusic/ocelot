@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0coin0pickup31"]
+[gd_scene format=3 uid="uid://crryufglgwhs5"]
 
 [ext_resource type="Script" path="res://objects/Coin.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pickups/images/coin.png" id="2_sprite"]

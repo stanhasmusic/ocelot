@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0playermissile31"]
+[gd_scene format=3 uid="uid://6roygg2jox67"]
 
 [ext_resource type="Script" path="res://objects/PlayerMissile.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pickups/images/missile.png" id="2_sprite"]

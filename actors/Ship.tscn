@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://chhrenac06pbd"]
+[gd_scene load_steps=20 format=3 uid="uid://chhrenac06pbd"]
 
 [ext_resource type="Script" uid="uid://cqwdl0upov0vn" path="res://actors/Ship.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://els61m4i4gk1" path="res://assets/sprites/shipz/water_units.png" id="2_atlas"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="7_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="8_repair"]
 [ext_resource type="PackedScene" path="res://objects/LifeUpPickup.tscn" id="9_lifeup"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="10_coin"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r0"]
 atlas = ExtResource("2_atlas")
@@ -76,6 +77,8 @@ speed = 70.0
 score_value = 150
 explosion_scene = ExtResource("3_explosion")
 loot_pool = Array[PackedScene]([ExtResource("4_powerup"), ExtResource("7_bomb"), ExtResource("8_repair"), ExtResource("9_lifeup")])
+coin_scene = ExtResource("10_coin")
+coin_value = 1
 hp = 4
 primary_threat_tier = 1
 

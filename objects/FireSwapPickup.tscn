@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0fireswap0pick31"]
+[gd_scene format=3 uid="uid://oc0yp4x6o7fa"]
 
 [ext_resource type="Script" path="res://objects/FireSwapPickup.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pickups/images/diagonal_gun.png" id="2_sprite"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://actors/RocketLauncher.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tank_sprites/rocket_launcher.png" id="2_body"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="8_coin"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rl"]
 size = Vector2(40, 50)
@@ -19,6 +20,8 @@ primary_threat_tier = 1
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
+coin_scene = ExtResource("8_coin")
+coin_value = 1
 speed = 60.0
 hp = 5
 score_value = 350
