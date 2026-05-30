@@ -7,6 +7,10 @@ signal shoot_projectile
 	"res://resources/InputAssistTunables.tres"
 )
 @export var bullet_scene: PackedScene
+@export var missile_scene: PackedScene = preload("res://objects/PlayerMissile.tscn")
+@export var wingman_scene: PackedScene = preload("res://actors/Wingman.tscn")
+@export var fire_swap_count: int = 5
+@export var fire_swap_arc_deg: float = 60.0
 @export var max_hp: int = 4
 @export var hit_shake_strength: float = 8.0
 @export var shoot_sfx: AudioStream = load("res://assets/audio/Sound Effects/SFMG1.wav")
@@ -23,6 +27,11 @@ var _positional_target: Vector2 = Vector2.ZERO
 var _touch_id: int = -1
 var _fire_clock: AutoFireClock
 var _scheme_resolver: InputScheme
+# Live temporary toppings (fire-swap / wingman / missile) layered over the
+# permanent loadout (PRD-06). The stack only ever *adds*; on expiry fire/escort
+# return to today's `weapon_level` floor, never below it.
+var _effects: TemporaryEffectStack
+var _wingman: Node2D
 
 func _ready() -> void:
 	add_to_group("Player")
@@ -30,6 +39,7 @@ func _ready() -> void:
 	update_player_sprite()
 	_positional_target = global_position
 	_fire_clock = AutoFireClock.new(tunables.fire_interval)
+	_effects = TemporaryEffectStack.new()
 	_scheme_resolver = InputScheme.new(
 		assist_tunables.stick_deadzone, assist_tunables.swap_debounce_seconds
 	)
@@ -121,6 +131,9 @@ func _physics_process(delta: float) -> void:
 			vp_rect
 		)
 
+	_effects.tick(delta)
+	_update_wingman()
+
 	var volleys: int = _fire_clock.tick(delta)
 	for i in volleys:
 		_fire()
@@ -129,6 +142,16 @@ func _fire() -> void:
 	if not bullet_scene:
 		return
 	var bullets: Array = []
+	if _effects.is_active("fire_swap"):
+		# Temporary topping: a wide spread from the centre muzzle, computed the
+		# same way enemies fan their fire (PRD-05 FirePattern).
+		var fan: Array[Vector2] = FirePattern.spread_directions(
+			Vector2.UP, fire_swap_count, deg_to_rad(fire_swap_arc_deg)
+		)
+		for dir in fan:
+			bullets.append({"pos": $MuzzleCenter.global_position, "dir": dir})
+		_emit_volley(bullets)
+		return
 	match weapon_level:
 		0:
 			bullets.append({"pos": $MuzzleCenter.global_position, "dir": Vector2.UP})
@@ -145,13 +168,45 @@ func _fire() -> void:
 			bullets.append({"pos": $MuzzleRight.global_position, "dir": Vector2.UP})
 			bullets.append({"pos": $MuzzleDiagLeft.global_position, "dir": Vector2(-0.3, -1.0).normalized()})
 			bullets.append({"pos": $MuzzleDiagRight.global_position, "dir": Vector2(0.3, -1.0).normalized()})
+	_emit_volley(bullets)
+
+# Spawn a volley of player rounds, plus a homing missile while the missile
+# topping is live, then announce the shot. Shared by the permanent loadout and
+# the fire-swap topping so both fire one way.
+func _emit_volley(bullets: Array) -> void:
 	for entry in bullets:
 		var b = bullet_scene.instantiate()
 		get_tree().root.add_child(b)
 		b.global_position = entry["pos"]
 		b.direction = entry["dir"]
+	if _effects.is_active("missile"):
+		_fire_missile()
 	shoot_projectile.emit()
 	SoundManager.play_sfx(shoot_sfx)
+
+func _fire_missile() -> void:
+	if not missile_scene:
+		return
+	var missile = missile_scene.instantiate()
+	get_tree().root.add_child(missile)
+	missile.global_position = $MuzzleCenter.global_position
+
+# Grant or refresh a temporary topping (called by the topping pickups).
+func grant_temporary_effect(effect: String, duration: float) -> void:
+	_effects.add(effect, duration)
+
+# Keep the escort node in sync with the "wingman" topping: spawn one when the
+# effect goes live, retire it when the effect expires.
+func _update_wingman() -> void:
+	if _effects.is_active("wingman"):
+		if not is_instance_valid(_wingman) and wingman_scene:
+			_wingman = wingman_scene.instantiate()
+			get_tree().root.add_child(_wingman)
+			_wingman.global_position = global_position
+			_wingman.setup(self, bullet_scene)
+	elif is_instance_valid(_wingman):
+		_wingman.queue_free()
+		_wingman = null
 
 func drop_bomb() -> void:
 	if bomb_count > 0:
@@ -172,12 +227,20 @@ func detonate_bomb() -> void:
 	if not tree:
 		return
 	var screen = get_viewport_rect()
-	for enemy in tree.get_nodes_in_group("Enemies"):
-		if screen.has_point(enemy.global_position):
-			enemy.take_damage(100)
-	for bullet in tree.get_nodes_in_group("EnemyProjectiles"):
-		if screen.has_point(bullet.global_position):
-			bullet.queue_free()
+
+	var enemies: Array = tree.get_nodes_in_group("Enemies")
+	var enemy_positions: Array = []
+	for enemy in enemies:
+		enemy_positions.append(enemy.global_position)
+	for i in BombTargeting.affected_by_bomb(enemy_positions, screen):
+		enemies[i].take_damage(100)
+
+	var enemy_bullets: Array = tree.get_nodes_in_group("EnemyProjectiles")
+	var bullet_positions: Array = []
+	for bullet in enemy_bullets:
+		bullet_positions.append(bullet.global_position)
+	for i in BombTargeting.affected_by_bomb(bullet_positions, screen):
+		enemy_bullets[i].queue_free()
 
 func add_bomb(amount: int) -> void:
 	bomb_count += amount
