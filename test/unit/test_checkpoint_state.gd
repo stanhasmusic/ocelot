@@ -69,3 +69,32 @@ func test_reset_returns_to_origin() -> void:
 	var point := state.resume_point()
 	assert_eq(point["stage_index"], 0, "reset returns to stage 0")
 	assert_eq(point["marker"], STAGE_START, "reset returns to stage start")
+
+
+# --- Persistence round-trip (PRD-07) ---
+
+func test_serialize_round_trips_through_a_dictionary() -> void:
+	var state := _new_state()
+	state.record(2, POST_INTRO)
+	var restored := _new_state()
+	restored.deserialize(state.serialize())
+	var point := restored.resume_point()
+	assert_eq(point["stage_index"], 2, "stage survives a serialize/deserialize round-trip")
+	assert_eq(point["marker"], POST_INTRO, "marker survives a serialize/deserialize round-trip")
+
+
+func test_deserialize_empty_dictionary_falls_back_to_origin() -> void:
+	var state := _new_state()
+	state.record(3, POST_INTRO)
+	state.deserialize({})
+	var point := state.resume_point()
+	assert_eq(point["stage_index"], 0, "empty payload restores stage 0")
+	assert_eq(point["marker"], STAGE_START, "empty payload restores stage start")
+
+
+func test_deserialize_partial_dictionary_defaults_missing_marker() -> void:
+	var state := _new_state()
+	state.deserialize({"stage_index": 2})
+	var point := state.resume_point()
+	assert_eq(point["stage_index"], 2, "present field is restored")
+	assert_eq(point["marker"], STAGE_START, "missing marker defaults to stage start")

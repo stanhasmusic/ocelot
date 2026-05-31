@@ -26,9 +26,9 @@ const LEVELS: Array[String] = [
 
 var score: int = 0
 var spawn_score: int = 0
-# Coins banked this run (PRD-05 drop hook feeds this). In-memory only; the
-# currency store, persistence, and economy balancing are PRD-07 / PRD-11. This
-# seam just accumulates a run total so kills visibly build toward something.
+# Coins collected this run (PRD-05 drop hook feeds this). In-memory tally that
+# commits into the persisted `coins` wallet once per level via bank_run_coins()
+# (PRD-07); economy balancing of payouts is PRD-11.
 var run_coins: int = 0
 var combo_count: int = 0
 var high_score: int = 0
@@ -39,7 +39,17 @@ var _level_start_lives: int = 3
 var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
-var unlocked_level: int = 1
+# Playthrough tier (ADR-0011 / PRD-07): persists within a campaign run, wiped by
+# New Game. `coins` is the banked wallet the Hangar (PRD-08/09) spends; the
+# in-run `run_coins` above commits into it once per level via bank_run_coins().
+var has_playthrough: bool = false
+var campaign_level: int = 1  # 1-based furthest level reached
+var coins: int = 0
+# Reserved Hangar slots — persisted + reset here so PRD-08/09 need no migration.
+# Opaque to this PRD; shapes are owned by those PRDs.
+var owned_tiers: Dictionary = {}
+var owned_gadgets: Array = []
+var equipped_loadout: Array = []
 var current_level: String = "res://scenes/LevelLand.tscn"
 var next_level: String = ""
 var lives: int = 3
@@ -49,8 +59,8 @@ var lives: int = 3
 var input_scheme: int = InputScheme.DEFAULT_SCHEME
 var input_device: int = InputScheme.EventKind.MOUSE
 
-# Furthest safe resume point reached this run (PRD-02). In-memory only —
-# cross-restart persistence is PRD-07. LevelBase records into it; respawn reads it.
+# Furthest safe resume point reached this run (PRD-02). Persisted across restarts
+# via save_data/load_data (PRD-07). LevelBase records into it; respawn reads it.
 var checkpoint: CheckpointState = CheckpointState.new()
 
 func _ready() -> void:
@@ -170,6 +180,44 @@ func bank_checkpoint(stage_index: int, marker: int = CheckpointState.Marker.STAG
 func reset_checkpoint() -> void:
 	checkpoint.reset()
 
+
+# Commit the in-run coin tally into the persisted wallet. The single seam where
+# run_coins → coins (PRD-07); economy tuning of payouts is PRD-11. Idempotent
+# per call — zeroes run_coins so a second call banks nothing.
+func bank_run_coins() -> void:
+	coins += run_coins
+	run_coins = 0
+	on_coins_changed.emit(run_coins)
+
+
+# Begin a fresh Playthrough (New Game): wipe the Playthrough tier, keep the
+# Profile tier (high score + volumes). Returns the scene path of level 1 so the
+# caller can change scenes. Does not itself change scenes.
+func start_new_playthrough() -> String:
+	has_playthrough = true
+	campaign_level = 1
+	coins = 0
+	level_stars = {}
+	owned_tiers = {}
+	owned_gadgets = []
+	equipped_loadout = []
+	current_level = LEVELS[0]
+	next_level = ""
+	reset_checkpoint()
+	reset_score()
+	reset_lives()
+	save_data()
+	return LEVELS[0]
+
+
+# Resume the saved Playthrough at its furthest level (Continue). Returns that
+# level's scene path; clamps to the last real level if the campaign was cleared.
+func continue_playthrough() -> String:
+	reset_score()
+	reset_lives()
+	var idx = clampi(campaign_level, 1, LEVELS.size()) - 1
+	return LEVELS[idx]
+
 func add_life() -> void:
 	lives += 1
 	on_lives_changed.emit(lives)
@@ -179,9 +227,13 @@ func level_complete() -> void:
 	var idx = LEVELS.find(current_level)
 	if idx >= 0 and idx + 1 < LEVELS.size():
 		next_level = LEVELS[idx + 1]
-		unlocked_level = max(unlocked_level, idx + 2) # 1-based
+		campaign_level = max(campaign_level, idx + 2) # 1-based furthest reached
 	else:
 		next_level = ""
+		campaign_level = max(campaign_level, LEVELS.size() + 1) # campaign cleared
+
+	# Commit this run's coins into the persisted wallet exactly once per level.
+	bank_run_coins()
 
 	# Star rating: 3 = no lives lost, 2 = lost 1, 1 = lost 2+
 	var lives_lost = _level_start_lives - lives
@@ -210,29 +262,47 @@ func game_over() -> void:
 
 func save_data() -> void:
 	var save_game = SaveGame.new()
+	save_game.schema_version = SaveGame.SCHEMA_VERSION
+	# Profile tier
 	save_game.high_score = high_score
 	save_game.master_volume = master_volume
 	save_game.music_volume = music_volume
 	save_game.sfx_volume = sfx_volume
-	save_game.unlocked_level = unlocked_level
+	# Playthrough tier
+	save_game.has_playthrough = has_playthrough
+	save_game.campaign_level = campaign_level
+	save_game.coins = coins
 	save_game.level_stars = level_stars
+	save_game.checkpoint = checkpoint.serialize()
+	save_game.owned_tiers = owned_tiers
+	save_game.owned_gadgets = owned_gadgets
+	save_game.equipped_loadout = equipped_loadout
 	ResourceSaver.save(save_game, SAVE_PATH)
 
 func load_data() -> void:
-	if ResourceLoader.exists(SAVE_PATH):
-		var save_game = load(SAVE_PATH) as SaveGame
-		if save_game:
-			high_score = save_game.high_score
-			master_volume = save_game.master_volume
-			music_volume = save_game.music_volume
-			sfx_volume = save_game.sfx_volume
-			unlocked_level = save_game.unlocked_level
-			level_stars = save_game.level_stars
-		else:
-			print("Error loading save data. File may be corrupted or script path changed. Creating new save.")
-			save_data()
-	else:
+	if not ResourceLoader.exists(SAVE_PATH):
 		save_data() # Create initial save if none exists
+		return
+	var save_game = load(SAVE_PATH) as SaveGame
+	if not save_game:
+		print("Error loading save data. File may be corrupted or script path changed. Creating new save.")
+		save_data()
+		return
+	SaveGame.migrate(save_game)
+	# Profile tier
+	high_score = save_game.high_score
+	master_volume = save_game.master_volume
+	music_volume = save_game.music_volume
+	sfx_volume = save_game.sfx_volume
+	# Playthrough tier
+	has_playthrough = save_game.has_playthrough
+	campaign_level = save_game.campaign_level
+	coins = save_game.coins
+	level_stars = save_game.level_stars
+	checkpoint.deserialize(save_game.checkpoint)
+	owned_tiers = save_game.owned_tiers
+	owned_gadgets = save_game.owned_gadgets
+	equipped_loadout = save_game.equipped_loadout
 
 func report_boss_spawned(max_hp: int) -> void:
 	on_boss_spawned.emit(max_hp)

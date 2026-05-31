@@ -65,8 +65,9 @@ func _on_next_level() -> void:
 	if _advanced:
 		return
 	if GameManager.next_level.is_empty():
+		# Campaign cleared — back to the menu (LevelSelect retired in PRD-07).
 		_advanced = true
-		get_tree().change_scene_to_file("res://ui/LevelSelect.tscn")
+		get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
 		return
 	_advanced = true
 	get_tree().change_scene_to_file(GameManager.next_level)

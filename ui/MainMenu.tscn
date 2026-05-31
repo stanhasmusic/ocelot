@@ -48,10 +48,15 @@ theme_override_constants/separation = 20
 
 
 
+[node name="ContinueButton" type="Button" parent="MainContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "CONTINUE"
+
 [node name="PlayButton" type="Button" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "PLAY"
+text = "NEW GAME"
 
 [node name="OptionsButton" type="Button" parent="MainContainer/VBoxContainer"]
 layout_mode = 2
@@ -83,3 +88,10 @@ theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
 [node name="OptionsMenu" parent="OptionsContainer" instance=ExtResource("4_options")]
+
+[node name="NewGameConfirm" type="ConfirmationDialog" parent="."]
+title = "New Game"
+initial_position = 2
+size = Vector2i(360, 120)
+ok_button_text = "New Game"
+dialog_text = "Start a new game? This erases your current run (coins and progress). Your high score is kept."
