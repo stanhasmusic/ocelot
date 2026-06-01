@@ -24,8 +24,15 @@ func _ready() -> void:
 		SoundManager.play_music(level_music)
 	if not GameManager.on_boss_died.is_connected(_on_boss_died):
 		GameManager.on_boss_died.connect(_on_boss_died)
-	# Fresh run through this level: clear any prior stage progress (PRD-02).
-	GameManager.reset_checkpoint()
+	if GameManager.resuming:
+		# Continue: re-enter at the saved checkpoint stage, keeping the loaded
+		# checkpoint intact (PRD-07, Story 3). Consume the flag so advancing to
+		# the next level falls back to the fresh-run path below.
+		stage_index = GameManager.checkpoint.resume_point()["stage_index"]
+		GameManager.resuming = false
+	else:
+		# Fresh run through this level: clear any prior stage progress (PRD-02).
+		GameManager.reset_checkpoint()
 	_start_stage_transition()
 
 

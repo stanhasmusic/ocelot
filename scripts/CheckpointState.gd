@@ -31,3 +31,16 @@ func resume_point() -> Dictionary:
 func reset() -> void:
 	_stage_index = 0
 	_marker = Marker.STAGE_START
+
+
+# Flatten to a plain Dictionary for the save file (PRD-07). Inverse of
+# `deserialize`; pure data, no side effects.
+func serialize() -> Dictionary:
+	return {"stage_index": _stage_index, "marker": _marker}
+
+
+# Restore from a `serialize()` payload. Tolerates missing/partial data by
+# falling back to the origin, so a malformed or empty save never crashes.
+func deserialize(data: Dictionary) -> void:
+	_stage_index = int(data.get("stage_index", 0))
+	_marker = int(data.get("marker", Marker.STAGE_START))
