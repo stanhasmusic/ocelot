@@ -39,10 +39,12 @@ defaulted). Serialize/reset/migrate logic is **isolated from the autoload** (sta
   **single** place it commits into the persisted `coins` wallet — called once per level from
   `level_complete()`. Death-to-checkpoint (respawn in place) never resets `run_coins`; game-over loses the
   run's *uncommitted* coins but never touches the banked wallet. Only New Game clears the wallet.
-- **Checkpoint persistence** is the data round-trip (`CheckpointState.serialize/deserialize` through the
-  save). Continue resumes at **level** granularity (`campaign_level`); `LevelBase` still resets the
-  stage-checkpoint on level entry, so mid-level stage-resume across a relaunch is intentionally out of
-  scope here.
+- **Checkpoint persistence** round-trips through the save (`CheckpointState.serialize/deserialize`) **and
+  is honoured on Continue** (Story 3). `continue_playthrough()` sets a transient `GameManager.resuming`
+  flag; `LevelBase._ready()` consumes it once to seed `stage_index` from the loaded checkpoint and skip
+  the fresh-run `reset_checkpoint()`, so a relaunch drops the player back at the stage they quit on, not
+  the level start. Advancing to the *next* level (flag already consumed) resets as before. Granularity is
+  stage-boundary (the checkpoint's grain); finer in-stage resume stays out of scope.
 - **Legacy field.** `SaveGame.unlocked_level` is kept as a loadable `@export` purely as a migration
   source; it is never read at runtime after migration.
 
@@ -57,7 +59,8 @@ defaulted). Serialize/reset/migrate logic is **isolated from the autoload** (sta
 
 ## Acceptance criteria
 
-- [x] Quit and relaunch restores **coins**, **campaign progress**, and **checkpoint**.
+- [x] Quit and relaunch restores **coins**, **campaign progress**, and **checkpoint** — Continue
+  re-enters at the saved stage, not the level start.
 - [x] **Continue** resumes the saved Playthrough at its furthest level; **New Game** starts fresh at
   level 1 with zero coins/progress/checkpoint.
 - [x] **New Game wipes only the Playthrough tier** — high score and audio volumes are preserved (ADR-0011).
@@ -77,7 +80,8 @@ defaulted). Serialize/reset/migrate logic is **isolated from the autoload** (sta
 - `scripts/SaveGame.gd` — versioned two-tier schema + static `migrate()` / `reset_playthrough()`.
 - `scripts/CheckpointState.gd` — `serialize()` / `deserialize()`.
 - `scripts/GameManager.gd` — two-tier load/save + migration; `bank_run_coins()`,
-  `start_new_playthrough()`, `continue_playthrough()`; `unlocked_level` → `campaign_level`.
+  `start_new_playthrough()`, `continue_playthrough()` (sets `resuming`); `unlocked_level` → `campaign_level`.
+- `scripts/LevelBase.gd` — honours `GameManager.resuming` to re-enter at the saved checkpoint stage.
 - `ui/MainMenu.gd` / `ui/MainMenu.tscn` — Continue + New Game + confirm dialog.
 - `ui/LevelComplete.gd` — campaign-cleared exit routes to the menu (LevelSelect retired).
 - `ui/LevelSelect.gd` / `ui/LevelSelect.tscn` — **removed**.

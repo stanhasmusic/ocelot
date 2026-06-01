@@ -63,6 +63,11 @@ var input_device: int = InputScheme.EventKind.MOUSE
 # via save_data/load_data (PRD-07). LevelBase records into it; respawn reads it.
 var checkpoint: CheckpointState = CheckpointState.new()
 
+# Transient, session-only flag (not persisted): set by continue_playthrough() so
+# the first LevelBase entry honours the loaded checkpoint (seed its stage, skip
+# the fresh-run reset) instead of restarting the level. Consumed once on entry.
+var resuming: bool = false
+
 func _ready() -> void:
 	# Ensure audio buses are loaded (Project Settings bug workaround)
 	if AudioServer.bus_count <= 1:
@@ -203,6 +208,7 @@ func start_new_playthrough() -> String:
 	equipped_loadout = []
 	current_level = LEVELS[0]
 	next_level = ""
+	resuming = false  # fresh start — the level resets its checkpoint as usual
 	reset_checkpoint()
 	reset_score()
 	reset_lives()
@@ -212,9 +218,12 @@ func start_new_playthrough() -> String:
 
 # Resume the saved Playthrough at its furthest level (Continue). Returns that
 # level's scene path; clamps to the last real level if the campaign was cleared.
+# Leaves the loaded checkpoint intact and flags `resuming` so the level re-enters
+# at the saved stage rather than the level start (PRD-07, Story 3).
 func continue_playthrough() -> String:
 	reset_score()
 	reset_lives()
+	resuming = true
 	var idx = clampi(campaign_level, 1, LEVELS.size()) - 1
 	return LEVELS[idx]
 
