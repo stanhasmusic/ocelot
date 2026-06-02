@@ -51,7 +51,7 @@ Per-source `volume_db` trims on individual AudioStreamPlayers are deferred to en
 
 ### Objects (`objects/`)
 
-Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 300 px/s), `TurretBullet` (directional), `TankBullet`, `ShipBullet`. Also: `Explosion`, `PowerUp` (weapon level +1), `BombPickup`.
+Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 300 px/s), `TurretBullet` (directional), `TankBullet`, `ShipBullet`. Also: `Explosion`, `BombPickup`, `Coin` (currency drop). Firepower growth is the permanent Hangar Guns tier (PRD-08), not an in-run pickup.
 
 ### Backgrounds (`objects/`)
 

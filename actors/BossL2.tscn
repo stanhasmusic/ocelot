@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://actors/BossL2.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts/images/aircraft_3b.png" id="2_sprite"]
 [ext_resource type="PackedScene" uid="uid://djetgxd0o5vbf" path="res://objects/Explosion.tscn" id="3_explosion"]
-[ext_resource type="PackedScene" path="res://objects/DiagonalGunPickup.tscn" id="4_drop"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="4_drop"]
 [ext_resource type="PackedScene" path="res://objects/TurretBullet.tscn" id="5_fan"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l2boss"]

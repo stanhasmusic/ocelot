@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/images/tank1_body.png" id="2_body"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tanks_N_trucks/images/tank1_gun.png" id="3_turret"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="4_expl"]
-[ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/TankBullet.tscn" id="6_bullet"]
 [ext_resource type="AudioStream" path="res://assets/audio/Sound Effects/t34fire.wav" id="7_sfx"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="8_bomb"]
@@ -27,7 +26,7 @@ hp = 4
 score_value = 200
 primary_threat_tier = 1
 explosion_scene = ExtResource("4_expl")
-loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("8_bomb"), ExtResource("9_repair"), ExtResource("10_lifeup")])
+loot_pool = Array[PackedScene]([ExtResource("8_bomb"), ExtResource("9_repair"), ExtResource("10_lifeup")])
 coin_scene = ExtResource("11_coin")
 coin_value = 1
 

@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/tank_sprites/rocket_launcher.png" id="2_body"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
 [ext_resource type="PackedScene" path="res://objects/RocketBullet.tscn" id="4_bullet"]
-[ext_resource type="PackedScene" path="res://objects/PowerUp.tscn" id="5_power"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
 [ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="8_coin"]
@@ -19,7 +18,7 @@ script = ExtResource("1_script")
 primary_threat_tier = 1
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
-loot_pool = Array[PackedScene]([ExtResource("5_power"), ExtResource("6_bomb"), ExtResource("7_repair")])
+loot_pool = Array[PackedScene]([ExtResource("6_bomb"), ExtResource("7_repair")])
 coin_scene = ExtResource("8_coin")
 coin_value = 1
 speed = 60.0

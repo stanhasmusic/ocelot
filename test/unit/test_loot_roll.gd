@@ -6,7 +6,9 @@ extends GutTest
 # Uses the real pickup scenes so the "Bomb in resource_path" filter is exercised
 # against genuine resource paths rather than a hand-made fake.
 
-const POWERUP := preload("res://objects/PowerUp.tscn")
+# A surviving non-bomb pickup stands in for the generic "something dropped"
+# case (the legacy PowerUp fixture was retired with PRD-08).
+const REPAIR := preload("res://objects/RepairPickup.tscn")
 const BOMB := preload("res://objects/BombPickup.tscn")
 
 
@@ -16,18 +18,18 @@ func test_empty_pool_never_drops() -> void:
 
 
 func test_roll_above_drop_chance_returns_null() -> void:
-	var pool: Array[PackedScene] = [POWERUP]
+	var pool: Array[PackedScene] = [REPAIR]
 	# 0.5 >= the 0.22 default drop chance -> nothing drops.
 	assert_null(EnemyLoot.loot_roll(pool, 0.5, 0.0, 0.0))
 
 
 func test_roll_below_drop_chance_returns_a_pool_member() -> void:
-	var pool: Array[PackedScene] = [POWERUP]
-	assert_eq(EnemyLoot.loot_roll(pool, 0.1, 0.0, 0.0), POWERUP)
+	var pool: Array[PackedScene] = [REPAIR]
+	assert_eq(EnemyLoot.loot_roll(pool, 0.1, 0.0, 0.0), REPAIR)
 
 
 func test_pick_roll_selects_across_the_pool() -> void:
-	var pool: Array[PackedScene] = [POWERUP, POWERUP]
+	var pool: Array[PackedScene] = [REPAIR, REPAIR]
 	# pick_roll near 1.0 selects the last index (clamped, never out of range).
 	assert_eq(EnemyLoot.loot_roll(pool, 0.0, 0.99, 0.0), pool[1])
 	assert_eq(EnemyLoot.loot_roll(pool, 0.0, 0.0, 0.0), pool[0])
@@ -46,9 +48,9 @@ func test_bomb_is_filtered_when_over_the_keep_chance() -> void:
 
 
 func test_non_bomb_ignores_the_bomb_roll() -> void:
-	var pool: Array[PackedScene] = [POWERUP]
+	var pool: Array[PackedScene] = [REPAIR]
 	# A high bomb_roll must not suppress a non-bomb pickup.
-	assert_eq(EnemyLoot.loot_roll(pool, 0.0, 0.0, 0.99), POWERUP)
+	assert_eq(EnemyLoot.loot_roll(pool, 0.0, 0.0, 0.99), REPAIR)
 
 
 func test_bomb_keep_chance_one_never_filters() -> void:

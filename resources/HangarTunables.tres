@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HangarTunables" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/HangarTunables.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+armour_max_hp = Array[int]([4, 5, 6, 7])
+engine_speed_mult = Array[float]([1.0, 1.08, 1.16, 1.24])
+bomb_max = Array[int]([3, 4, 5, 6])
+bomb_blast_mult = Array[float]([1.0, 1.15, 1.3, 1.45])
+guns_prices = Array[int]([60, 100, 160])
+armour_prices = Array[int]([60, 100, 160])
+engine_prices = Array[int]([60, 100, 160])
+bombs_prices = Array[int]([60, 100, 160])
