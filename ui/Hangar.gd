@@ -40,31 +40,35 @@ func _ready() -> void:
 
 
 func _build_row(track: String) -> void:
+	# The row fills the container width; the name label takes the slack (EXPAND)
+	# while the tier/price/buy columns keep compact fixed widths, so the row never
+	# overflows the 540 px (9:16) viewport regardless of font tweaks.
 	var row := HBoxContainer.new()
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 20)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 12)
 
 	var name_label := Label.new()
 	name_label.text = TRACK_LABELS[track]
-	name_label.custom_minimum_size = Vector2(180, 0)
-	name_label.add_theme_font_size_override("font_size", 32)
+	name_label.custom_minimum_size = Vector2(120, 0)
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.add_theme_font_size_override("font_size", 30)
 	row.add_child(name_label)
 
 	var tier_label := Label.new()
-	tier_label.custom_minimum_size = Vector2(140, 0)
-	tier_label.add_theme_font_size_override("font_size", 30)
+	tier_label.custom_minimum_size = Vector2(90, 0)
+	tier_label.add_theme_font_size_override("font_size", 28)
 	tier_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(tier_label)
 
 	var price_label := Label.new()
-	price_label.custom_minimum_size = Vector2(140, 0)
-	price_label.add_theme_font_size_override("font_size", 26)
+	price_label.custom_minimum_size = Vector2(96, 0)
+	price_label.add_theme_font_size_override("font_size", 24)
 	price_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	row.add_child(price_label)
 
 	var buy_button := Button.new()
-	buy_button.custom_minimum_size = Vector2(160, 64)
-	buy_button.add_theme_font_size_override("font_size", 26)
+	buy_button.custom_minimum_size = Vector2(110, 60)
+	buy_button.add_theme_font_size_override("font_size", 24)
 	buy_button.pressed.connect(_on_buy.bind(track))
 	row.add_child(buy_button)
 
