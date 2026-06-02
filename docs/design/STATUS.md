@@ -1,6 +1,6 @@
 # Ocelot — Design Status (resume-here pointer)
 
-Last updated: 2026-05-27. A pointer for any session picking this work back up.
+Last updated: 2026-06-01. A pointer for any session picking this work back up.
 
 ## What this game is (one line)
 
@@ -105,16 +105,19 @@ tunable `.tres` knobs (the first module worth a test harness).
   class (white/pale-gold, escalates by mass not hue). Implementation lands in PRD-02 (the `ThreatTier`
   module + recolouring the player pill); colour-blind palette + shape-redundancy remain deferred.
 
-## Tracker state (2026-05-27)
+## Tracker state (2026-06-01)
 
-The whole roadmap is now on GitHub Issues:
-- **Detailed, `ready-for-agent` PRDs:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · PRD-16 #42. (PRD-02–06 are *gap-closing refactors* — much of the engine/cast/pickups already exists; each issue states built-vs-missing. PRD-16 detail at `docs/prd/PRD-16-audio-direction.md`.)
-- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-07 #32 · PRD-08 #36 · PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
-- All formerly-`needs-triage` issues are now **grilled**: #41 (Levels 2…N), #39 (Economy → ADR-0011), #42 (Audio → ADR-0014 + ADR-0015).
+The whole roadmap is on GitHub Issues. Build progress down the dependency spine:
+- **Merged / built:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · **PRD-07 #32** (two-tier save + Continue/New Game; merged via PR #59). Phases 1–2 complete; Phase 3 (metagame) underway.
+- **Detailed, `ready-for-agent` (built next):** **PRD-08 #36** (Hangar stat tracks — detail at `docs/prd/PRD-08-hangar-stat-tracks.md`; the spend half of the metagame loop) · PRD-16 #42 (`docs/prd/PRD-16-audio-direction.md`).
+- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
+- All formerly-`needs-triage` issues are **grilled**: #41 (Levels 2…N), #39 (Economy → ADR-0011), #42 (Audio → ADR-0014 + ADR-0015).
 
 ## Next action
 
-Build a `ready-for-agent` issue (#26→#27 first), or **detail PRD-11 (#39)** off ADR-0011 (structure
-locked; PRD-11 needs the tunable payout/price curves + the test harness). No un-grilled design open
-items remain. (Audio → ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour →
+**PRD-08 (#36) is detailed and `ready-for-agent`** — pick it up to build the Hangar. After it, the
+spine continues PRD-09 (#38, gadget loadout) and PRD-11 (#39, economy — note PRD-08 hands #11 the
+placeholder `HangarTunables` price arrays as its tuning surface). Alternatively **detail PRD-11 (#39)**
+now off ADR-0011 (structure locked; needs the payout/price curves + test harness). No un-grilled design
+open items remain. (Audio → ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour →
 ADR-0012.)
