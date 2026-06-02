@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Ocelot is a 2D top-down scrolling shooter game built with **Godot 4.5.1**, targeting mobile (540x960, 9:16 aspect ratio) with GL Compatibility rendering. No external build tools — it's a native Godot project.
+Ocelot is a 2D top-down scrolling shooter game built with **Godot 4.6.3**, targeting mobile (540x960, 9:16 aspect ratio) with GL Compatibility rendering. No external build tools — it's a native Godot project.
 
 ## Development Workflow
 
-- Open `project.godot` in Godot 4.5+ to develop and run the game
+- Open `project.godot` in Godot 4.6+ to develop and run the game
 - Main entry: `res://ui/SplashScreen.tscn` → MainMenu → Level scenes
 - Save data persists to `user://savegame.tres`
 - Export via Godot's built-in export templates (Android/iOS/Web/Desktop)
@@ -51,7 +51,7 @@ Per-source `volume_db` trims on individual AudioStreamPlayers are deferred to en
 
 ### Objects (`objects/`)
 
-Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 300 px/s), `TurretBullet` (directional), `TankBullet`, `ShipBullet`. Also: `Explosion`, `PowerUp` (weapon level +1), `BombPickup`.
+Projectile types: `Bullet` (player, upward 600 px/s), `EnemyBullet` (downward 300 px/s), `TurretBullet` (directional), `TankBullet`, `ShipBullet`. Also: `Explosion`, `BombPickup`, `Coin` (currency drop). Firepower growth is the permanent Hangar Guns tier (PRD-08), not an in-run pickup.
 
 ### Backgrounds (`objects/`)
 

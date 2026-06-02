@@ -12,13 +12,15 @@ func _on_body_entered(_body: Node2D) -> void:
 	pass
 
 func drop_loot() -> void:
+	# The weapon PowerUp retired with PRD-08 (the Guns tier owns firepower now),
+	# so the Truck's loot is a coin or a bomb. Still 30% drop, no bomb-rarity
+	# filter (bomb_keep_chance = 1.0).
 	var drops = []
-	var powerup = load("res://objects/PowerUp.tscn")
+	var coin = load("res://objects/Coin.tscn")
 	var bomb = load("res://objects/BombPickup.tscn")
-	if powerup: drops.append(powerup)
+	if coin: drops.append(coin)
 	if bomb: drops.append(bomb)
 
-	# Trucks drop at 30% with no bomb-rarity filter (bomb_keep_chance = 1.0).
 	var chosen_scene := EnemyLoot.loot_roll(drops, randf(), randf(), randf(), 0.3, 1.0)
 	if chosen_scene == null:
 		return

@@ -18,6 +18,11 @@ signal on_input_device_changed(new_device: int)
 
 const SAVE_PATH: String = "user://savegame.tres"
 const BUS_TRIM_DB: Array[float] = [0.0, 0.0, -10.0]  # Master, Music, SFX
+
+# Hangar effect curves + placeholder prices (PRD-08). The single spend seam
+# (purchase_tier) and the apply-side getters read these; PRD-11 retunes the
+# .tres without code.
+const HANGAR_TUNABLES: HangarTunables = preload("res://resources/HangarTunables.tres")
 const LEVELS: Array[String] = [
 	"res://scenes/LevelLand.tscn",
 	"res://scenes/LevelJungle.tscn",
@@ -193,6 +198,35 @@ func bank_run_coins() -> void:
 	coins += run_coins
 	run_coins = 0
 	on_coins_changed.emit(run_coins)
+
+
+# --- Hangar stat tracks (PRD-08) ---
+
+# Current tier of a Hangar track ("guns"/"armour"/"engine"/"bombs"), defaulting
+# a missing key to 0 — an empty owned_tiers reads as all-zero, no migration.
+func tier(track: String) -> int:
+	return HangarUpgrades.tier_of(owned_tiers, track)
+
+
+# The single seam where coins leave the wallet for a tier. Delegates the
+# decision to the pure HangarUpgrades.purchase; on success deducts coins, bumps
+# the tier, persists, and announces the new wallet. Refuses (returns false, no
+# mutation) when maxed or unaffordable.
+func purchase_tier(track: String) -> bool:
+	var result: Dictionary = HangarUpgrades.purchase(owned_tiers, coins, track, HANGAR_TUNABLES)
+	if not result["ok"]:
+		return false
+	owned_tiers = result["owned_tiers"]
+	coins = result["coins"]
+	save_data()
+	on_coins_changed.emit(coins)
+	return true
+
+
+# Engine-tier multiplier applied to the player's top speed (read once at level
+# start, on both control branches — the accessibility dial, PRD-08).
+func speed_multiplier() -> float:
+	return HangarUpgrades.speed_mult_for(tier("engine"), HANGAR_TUNABLES)
 
 
 # Begin a fresh Playthrough (New Game): wipe the Playthrough tier, keep the

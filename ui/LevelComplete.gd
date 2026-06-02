@@ -19,8 +19,13 @@ func _ready() -> void:
 		tween.tween_property(label, "modulate:a", 0.3, 0.5)
 		tween.tween_property(label, "modulate:a", 1.0, 0.5)
 
+	# A non-final level routes to the Hangar (the spend beat) before the next
+	# level; the final level has no Hangar after it (PRD-08).
+	var next_button = $CenterContainer/VBoxContainer/ButtonRow/NextLevelButton
 	if GameManager.next_level.is_empty():
-		$CenterContainer/VBoxContainer/ButtonRow/NextLevelButton.visible = false
+		next_button.visible = false
+	else:
+		next_button.text = "TO HANGAR"
 
 	$CenterContainer/VBoxContainer/ButtonRow/PlayAgainButton.pressed.connect(_on_play_again)
 	$CenterContainer/VBoxContainer/ButtonRow/NextLevelButton.pressed.connect(_on_next_level)
@@ -70,4 +75,5 @@ func _on_next_level() -> void:
 		get_tree().change_scene_to_file("res://ui/MainMenu.tscn")
 		return
 	_advanced = true
-	get_tree().change_scene_to_file(GameManager.next_level)
+	# Spend the run's coins before deploying to the next level (PRD-08).
+	get_tree().change_scene_to_file("res://ui/Hangar.tscn")

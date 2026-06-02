@@ -22,6 +22,13 @@ var weapon_level: int = 0
 var is_invincible: bool = false
 var bomb_count: int = 3
 
+# Permanent Hangar floors (PRD-08), read once at level start and re-applied on
+# respawn. Guns seeds weapon_level (never below this floor); Armour sets max_hp;
+# Engine scales top speed on both control branches; Bombs sets stock + blast.
+var _guns_floor: int = 0
+var _max_speed: float
+var _bomb_blast_mult: float = 1.0
+
 var _input_source: int = InputScheme.DEFAULT_SCHEME
 var _positional_target: Vector2 = Vector2.ZERO
 var _touch_id: int = -1
@@ -35,6 +42,7 @@ var _wingman: Node2D
 
 func _ready() -> void:
 	add_to_group("Player")
+	_apply_hangar_tiers()
 	current_hp = max_hp
 	update_player_sprite()
 	_positional_target = global_position
@@ -46,6 +54,19 @@ func _ready() -> void:
 	_input_source = GameManager.input_scheme
 	_apply_hitbox_forgiveness(_input_source)
 	GameManager.report_bomb_count(bomb_count)
+
+# Read the permanent Hangar tiers once (PRD-08): Guns floor → weapon_level,
+# Armour → max_hp, Engine → effective top speed (both branches), Bombs → stock
+# + blast. Buying is impossible mid-level, so there is no live re-apply; respawn
+# re-applies the same floors.
+func _apply_hangar_tiers() -> void:
+	var t: HangarTunables = GameManager.HANGAR_TUNABLES
+	_guns_floor = HangarUpgrades.guns_floor(GameManager.tier("guns"))
+	weapon_level = _guns_floor
+	max_hp = HangarUpgrades.max_hp_for(GameManager.tier("armour"), t)
+	_max_speed = tunables.max_speed * GameManager.speed_multiplier()
+	bomb_count = HangarUpgrades.bomb_max_for(GameManager.tier("bombs"), t)
+	_bomb_blast_mult = HangarUpgrades.bomb_blast_mult_for(GameManager.tier("bombs"), t)
 
 # Translate a raw event into its device kind (+ stick magnitude), keeping the
 # positional target fresh, then let the pure InputScheme resolver decide the
@@ -116,7 +137,7 @@ func _physics_process(delta: float) -> void:
 
 	if _input_source == InputScheme.Scheme.VELOCITY:
 		var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		velocity = direction * tunables.max_speed
+		velocity = direction * _max_speed
 		move_and_slide()
 		position.x = clampf(position.x, vp_rect.position.x, vp_rect.position.x + vp_rect.size.x)
 		position.y = clampf(position.y, vp_rect.position.y, vp_rect.position.y + vp_rect.size.y)
@@ -125,7 +146,7 @@ func _physics_process(delta: float) -> void:
 		global_position = PlayerMovement.next_position(
 			global_position,
 			_positional_target,
-			tunables.max_speed,
+			_max_speed,
 			tunables.follow_lerp,
 			delta,
 			vp_rect
@@ -232,8 +253,9 @@ func detonate_bomb() -> void:
 	var enemy_positions: Array = []
 	for enemy in enemies:
 		enemy_positions.append(enemy.global_position)
+	var bomb_damage: int = int(round(100 * _bomb_blast_mult))
 	for i in BombTargeting.affected_by_bomb(enemy_positions, screen):
-		enemies[i].take_damage(100)
+		enemies[i].take_damage(bomb_damage)
 
 	var enemy_bullets: Array = tree.get_nodes_in_group("EnemyProjectiles")
 	var bullet_positions: Array = []
@@ -245,15 +267,6 @@ func detonate_bomb() -> void:
 func add_bomb(amount: int) -> void:
 	bomb_count += amount
 	GameManager.report_bomb_count(bomb_count)
-
-func power_up_weapon() -> void:
-	if weapon_level < 2:
-		weapon_level += 1
-		update_player_sprite()
-
-func power_up_to_max() -> void:
-	weapon_level = 3
-	update_player_sprite()
 
 func repair_health(amount: int) -> void:
 	current_hp = min(current_hp + amount, max_hp)
@@ -320,7 +333,8 @@ func die() -> void:
 
 func _respawn() -> void:
 	current_hp = max_hp
-	weapon_level = 0
+	# Back to the permanent Guns floor, never 0 (PRD-08).
+	weapon_level = _guns_floor
 	update_player_sprite()
 	var vp = get_viewport_rect()
 	position = Vector2(vp.size.x / 2.0, vp.size.y * 0.85)
