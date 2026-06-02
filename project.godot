@@ -27,6 +27,7 @@ buses/default_layout="res://resources/default_bus_layout.tres"
 
 GameManager="*res://scripts/GameManager.gd"
 SoundManager="*res://scripts/SoundManager.gd"
+DevConsole="*res://scripts/DevConsole.gd"
 
 [display]
 
