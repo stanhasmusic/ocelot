@@ -108,16 +108,16 @@ tunable `.tres` knobs (the first module worth a test harness).
 ## Tracker state (2026-06-01)
 
 The whole roadmap is on GitHub Issues. Build progress down the dependency spine:
-- **Merged / built:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · **PRD-07 #32** (two-tier save + Continue/New Game; merged via PR #59). Phases 1–2 complete; Phase 3 (metagame) underway.
-- **Detailed, `ready-for-agent` (built next):** **PRD-08 #36** (Hangar stat tracks — detail at `docs/prd/PRD-08-hangar-stat-tracks.md`; the spend half of the metagame loop) · PRD-16 #42 (`docs/prd/PRD-16-audio-direction.md`).
+- **Merged / built:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · **PRD-07 #32** (two-tier save + Continue/New Game; PR #59) · **PRD-08 #36** (four stat-track Hangar between levels, Guns-tier firepower floor, legacy weapon pickups retired; PR #60). Phases 1–2 complete; Phase 3 (metagame) underway.
+- **Detailed, `ready-for-agent` (built next):** PRD-16 #42 (`docs/prd/PRD-16-audio-direction.md`).
 - **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
 - All formerly-`needs-triage` issues are **grilled**: #41 (Levels 2…N), #39 (Economy → ADR-0011), #42 (Audio → ADR-0014 + ADR-0015).
 
 ## Next action
 
-**PRD-08 (#36) is detailed and `ready-for-agent`** — pick it up to build the Hangar. After it, the
-spine continues PRD-09 (#38, gadget loadout) and PRD-11 (#39, economy — note PRD-08 hands #11 the
-placeholder `HangarTunables` price arrays as its tuning surface). Alternatively **detail PRD-11 (#39)**
-now off ADR-0011 (structure locked; needs the payout/price curves + test harness). No un-grilled design
-open items remain. (Audio → ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour →
+**PRD-08 merged.** The spine continues with **PRD-09 (#38, gadget loadout)** and **PRD-11 (#39,
+economy)** — both need a full PRD before `ready-for-agent`. Note PRD-08 shipped placeholder prices in
+`resources/HangarTunables.tres`; **PRD-11 inherits those price arrays as its tuning surface** (real
+payout/price curves + anti-grind + the first economy test harness off ADR-0011). PRD-09 builds the
+Items/gadget loadout on the four stat tracks now in place. No un-grilled design open items remain. (Audio → ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour →
 ADR-0012.)
