@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="GadgetCatalog" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/GadgetCatalog.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+slot_prices = Array[int]([120, 220])
+coin_magnet_price = 70
+flare_price = 90
+spotter_price = 90
+auto_repair_price = 110
+magnet_bonus_px = 160.0
+flare_cooldown = 12.0
+flare_radius = 220.0
+flare_iframes = 1.0
+spotter_lead = 0.6
+auto_repair_grace = 5.0
+auto_repair_interval = 8.0
+auto_repair_amount = 1

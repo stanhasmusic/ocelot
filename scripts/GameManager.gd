@@ -23,6 +23,9 @@ const BUS_TRIM_DB: Array[float] = [0.0, 0.0, -10.0]  # Master, Music, SFX
 # (purchase_tier) and the apply-side getters read these; PRD-11 retunes the
 # .tres without code.
 const HANGAR_TUNABLES: HangarTunables = preload("res://resources/HangarTunables.tres")
+# Gadget loadout registry + prices + effect knobs (PRD-09). The buy/equip seams
+# read the prices; Player reads the effect knobs. PRD-11 retunes the .tres.
+const GADGET_CATALOG: GadgetCatalog = preload("res://resources/GadgetCatalog.tres")
 const LEVELS: Array[String] = [
 	"res://scenes/LevelLand.tscn",
 	"res://scenes/LevelJungle.tscn",
@@ -55,6 +58,9 @@ var coins: int = 0
 var owned_tiers: Dictionary = {}
 var owned_gadgets: Array = []
 var equipped_loadout: Array = []
+# Gadget slot capacity (PRD-09). Persisted; defaults to MIN_SLOTS so a pre-PRD-09
+# save reads as 1 slot with no migration. equipped_loadout never exceeds this.
+var gadget_slots: int = GadgetLoadout.MIN_SLOTS
 var current_level: String = "res://scenes/LevelLand.tscn"
 var next_level: String = ""
 var lives: int = 3
@@ -229,6 +235,64 @@ func speed_multiplier() -> float:
 	return HangarUpgrades.speed_mult_for(tier("engine"), HANGAR_TUNABLES)
 
 
+# --- Hangar gadget loadout (PRD-09) ---
+
+# Buy a gadget slot (1→3). The single seam where coins leave the wallet for a
+# slot; delegates the decision to the pure GadgetLoadout. On success raises
+# capacity, deducts coins, persists, announces the wallet. Refuses (false, no
+# mutation) at the cap or when unaffordable.
+func purchase_gadget_slot() -> bool:
+	var result: Dictionary = GadgetLoadout.purchase_slot(gadget_slots, coins, GADGET_CATALOG)
+	if not result["ok"]:
+		return false
+	gadget_slots = result["gadget_slots"]
+	coins = result["coins"]
+	save_data()
+	on_coins_changed.emit(coins)
+	return true
+
+
+# Buy a gadget. Delegates to the pure GadgetLoadout; on success marks it owned,
+# deducts coins, persists, announces the wallet. Refuses (false, no mutation) for
+# an unknown / already-owned id or when unaffordable — no debt, no double-buy.
+func purchase_gadget(id: String) -> bool:
+	var result: Dictionary = GadgetLoadout.purchase_gadget(
+		owned_gadgets, coins, id, GADGET_CATALOG
+	)
+	if not result["ok"]:
+		return false
+	owned_gadgets = result["owned_gadgets"]
+	coins = result["coins"]
+	save_data()
+	on_coins_changed.emit(coins)
+	return true
+
+
+# Equip an owned gadget into a free slot (free, reversible). Refuses (false, no
+# mutation) for an unowned / already-equipped id or a full loadout. Persists so
+# the loadout survives a relaunch.
+func equip_gadget(id: String) -> bool:
+	var result: Dictionary = GadgetLoadout.equip(
+		owned_gadgets, equipped_loadout, gadget_slots, id
+	)
+	if not result["ok"]:
+		return false
+	equipped_loadout = result["equipped_loadout"]
+	save_data()
+	return true
+
+
+# Unequip a gadget back into ownership (free). Refuses (false, no mutation) for an
+# id that is not currently equipped. Persists.
+func unequip_gadget(id: String) -> bool:
+	var result: Dictionary = GadgetLoadout.unequip(equipped_loadout, id)
+	if not result["ok"]:
+		return false
+	equipped_loadout = result["equipped_loadout"]
+	save_data()
+	return true
+
+
 # Begin a fresh Playthrough (New Game): wipe the Playthrough tier, keep the
 # Profile tier (high score + volumes). Returns the scene path of level 1 so the
 # caller can change scenes. Does not itself change scenes.
@@ -240,6 +304,7 @@ func start_new_playthrough() -> String:
 	owned_tiers = {}
 	owned_gadgets = []
 	equipped_loadout = []
+	gadget_slots = GadgetLoadout.MIN_SLOTS
 	current_level = LEVELS[0]
 	next_level = ""
 	resuming = false  # fresh start — the level resets its checkpoint as usual
@@ -320,6 +385,7 @@ func save_data() -> void:
 	save_game.owned_tiers = owned_tiers
 	save_game.owned_gadgets = owned_gadgets
 	save_game.equipped_loadout = equipped_loadout
+	save_game.gadget_slots = gadget_slots
 	ResourceSaver.save(save_game, SAVE_PATH)
 
 func load_data() -> void:
@@ -346,6 +412,7 @@ func load_data() -> void:
 	owned_tiers = save_game.owned_tiers
 	owned_gadgets = save_game.owned_gadgets
 	equipped_loadout = save_game.equipped_loadout
+	gadget_slots = save_game.gadget_slots
 
 func report_boss_spawned(max_hp: int) -> void:
 	on_boss_spawned.emit(max_hp)

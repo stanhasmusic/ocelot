@@ -26,6 +26,9 @@ func test_fresh_savegame_defaults_to_oldest_schema() -> void:
 	# The default must be the floor so an un-versioned (v1) file on disk — which
 	# never stored schema_version — loads as v1 and triggers migration.
 	assert_eq(SaveGame.new().schema_version, 1, "default schema_version is the v1 floor")
+	# PRD-09: a pre-PRD-09 save never stored gadget_slots, so the field defaults to
+	# 1 slot (no migration, no crash) — the empty-slot default guarantee.
+	assert_eq(SaveGame.new().gadget_slots, 1, "default gadget_slots is the 1-slot floor")
 
 
 # --- Migration (v1 → v2) ---
@@ -80,6 +83,7 @@ func test_reset_playthrough_zeroes_playthrough_tier() -> void:
 	s.owned_tiers = {"guns": 2}
 	s.owned_gadgets = ["flare"]
 	s.equipped_loadout = ["flare"]
+	s.gadget_slots = 3
 	s.reset_playthrough()
 	assert_false(s.has_playthrough, "has_playthrough cleared")
 	assert_eq(s.campaign_level, 1, "campaign_level back to 1")
@@ -89,6 +93,7 @@ func test_reset_playthrough_zeroes_playthrough_tier() -> void:
 	assert_eq(s.owned_tiers, {}, "owned tiers cleared")
 	assert_eq(s.owned_gadgets, [], "owned gadgets cleared")
 	assert_eq(s.equipped_loadout, [], "equipped loadout cleared")
+	assert_eq(s.gadget_slots, 1, "gadget slots back to 1 (PRD-09)")
 
 
 func test_reset_playthrough_keeps_profile_tier() -> void:
@@ -110,8 +115,9 @@ func test_save_load_round_trip_preserves_all_fields() -> void:
 	s.level_stars = {"0": 3, "1": 2}
 	s.checkpoint = {"stage_index": 1, "marker": 1}
 	s.owned_tiers = {"armour": 1}
-	s.owned_gadgets = ["magnet"]
-	s.equipped_loadout = ["magnet"]
+	s.owned_gadgets = ["coin_magnet", "flare"]
+	s.equipped_loadout = ["coin_magnet"]
+	s.gadget_slots = 2
 	assert_eq(ResourceSaver.save(s, TEST_PATH), OK, "save succeeds")
 
 	var loaded := ResourceLoader.load(TEST_PATH, "", ResourceLoader.CACHE_MODE_IGNORE) as SaveGame
@@ -123,3 +129,7 @@ func test_save_load_round_trip_preserves_all_fields() -> void:
 	assert_eq(loaded.checkpoint, {"stage_index": 1, "marker": 1}, "checkpoint round-trips")
 	assert_eq(loaded.level_stars, {"0": 3, "1": 2}, "level stars round-trip")
 	assert_eq(loaded.owned_tiers, {"armour": 1}, "owned tiers round-trip")
+	# PRD-09 loadout round-trip: slots, ownership, and the equipped subset persist.
+	assert_eq(loaded.gadget_slots, 2, "gadget slot capacity round-trips")
+	assert_eq(loaded.owned_gadgets, ["coin_magnet", "flare"], "owned gadgets round-trip")
+	assert_eq(loaded.equipped_loadout, ["coin_magnet"], "equipped loadout round-trips")

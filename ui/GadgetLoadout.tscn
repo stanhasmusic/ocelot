@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://ui/Hangar.gd" id="1_script"]
+[ext_resource type="Script" path="res://ui/GadgetLoadout.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bf1vjhppgs2dj" path="res://assets/sprites/upgrade_screen/images/Airfield.png" id="2_bg"]
 
-[node name="Hangar" type="Control"]
+[node name="GadgetLoadout" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,41 +29,51 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 24.0
-offset_top = 48.0
+offset_top = 40.0
 offset_right = -24.0
-offset_bottom = -48.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="Layout"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 56
-text = "HANGAR"
+theme_override_font_sizes/font_size = 48
+text = "LOADOUT"
 horizontal_alignment = 1
 
 [node name="CoinsLabel" type="Label" parent="Layout"]
 modulate = Color(1, 0.85, 0.1, 1)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_font_sizes/font_size = 32
 text = "COINS: 0"
 horizontal_alignment = 1
 
-[node name="TracksContainer" type="VBoxContainer" parent="Layout"]
+[node name="SlotsRow" type="HBoxContainer" parent="Layout"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 12
 
-[node name="LoadoutButton" type="Button" parent="Layout"]
-custom_minimum_size = Vector2(260, 64)
+[node name="SlotsLabel" type="Label" parent="Layout/SlotsRow"]
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 28
-text = "LOADOUT"
+text = "SLOTS"
+vertical_alignment = 1
 
-[node name="DeployButton" type="Button" parent="Layout"]
-custom_minimum_size = Vector2(260, 80)
+[node name="BuySlotButton" type="Button" parent="Layout/SlotsRow"]
+custom_minimum_size = Vector2(150, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "BUY SLOT"
+
+[node name="GadgetsContainer" type="VBoxContainer" parent="Layout"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackButton" type="Button" parent="Layout"]
+custom_minimum_size = Vector2(220, 72)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 34
-text = "DEPLOY"
+theme_override_font_sizes/font_size = 30
+text = "BACK"

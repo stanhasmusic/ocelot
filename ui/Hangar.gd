@@ -20,12 +20,14 @@ var _deploying: bool = false
 
 @onready var _coins_label: Label = $Layout/CoinsLabel
 @onready var _tracks: VBoxContainer = $Layout/TracksContainer
+@onready var _loadout_button: Button = $Layout/LoadoutButton
 @onready var _deploy_button: Button = $Layout/DeployButton
 
 
 func _ready() -> void:
 	for track in HangarUpgrades.TRACKS:
 		_build_row(track)
+	_loadout_button.pressed.connect(_on_loadout)
 	_deploy_button.pressed.connect(_on_deploy)
 	GameManager.on_coins_changed.connect(_on_coins_changed)
 	_refresh()
@@ -117,6 +119,12 @@ func _pips(tier: int) -> String:
 	for i in HangarUpgrades.MAX_TIER:
 		pips += "●" if i < tier else "○"
 	return pips
+
+
+func _on_loadout() -> void:
+	# The gadget loadout is the build-variety surface beside the stat tracks
+	# (PRD-09); [Back] there returns here, Deploy is unchanged.
+	get_tree().change_scene_to_file("res://ui/GadgetLoadout.tscn")
 
 
 func _on_deploy() -> void:

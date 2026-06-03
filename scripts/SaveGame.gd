@@ -38,6 +38,10 @@ const SCHEMA_VERSION: int = 2
 @export var owned_tiers: Dictionary = {}
 @export var owned_gadgets: Array = []
 @export var equipped_loadout: Array = []
+# PRD-09 gadget slot capacity. Defaults to MIN_SLOTS so a pre-PRD-09 save (which
+# never stored it) loads as 1 slot — same no-migration story as owned_tiers, so
+# no SCHEMA_VERSION bump.
+@export var gadget_slots: int = 1
 
 # --- v1 legacy fields (migration source only; do not read at runtime) ---
 # Kept so a v1 .tres still loads its value in for `migrate()` to map across.
@@ -67,3 +71,4 @@ func reset_playthrough() -> void:
 	owned_tiers = {}
 	owned_gadgets = []
 	equipped_loadout = []
+	gadget_slots = 1

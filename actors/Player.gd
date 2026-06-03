@@ -29,6 +29,20 @@ var _guns_floor: int = 0
 var _max_speed: float
 var _bomb_blast_mult: float = 1.0
 
+# Equipped gadget loadout (PRD-09), cached once at level start beside the tier
+# read — the Hangar is the only place it changes, and only between levels, so
+# there is no live re-equip. Each gadget below is a thin behaviour gated on
+# membership in this list.
+var _equipped: Array = []
+var _spotter_overlay: Node2D
+# Flare cooldown clock (counts down to 0 = ready).
+var _flare_cooldown_remaining: float = 0.0
+# Auto-Repair clocks: time since the last hit (its out-of-combat grace) and the
+# accumulator that fires one heal tick every interval once past the grace.
+var _time_since_damage: float = 0.0
+var _repair_accum: float = 0.0
+var _default_iframe_time: float = 1.5
+
 var _input_source: int = InputScheme.DEFAULT_SCHEME
 var _positional_target: Vector2 = Vector2.ZERO
 var _touch_id: int = -1
@@ -54,6 +68,21 @@ func _ready() -> void:
 	_input_source = GameManager.input_scheme
 	_apply_hitbox_forgiveness(_input_source)
 	GameManager.report_bomb_count(bomb_count)
+	if has_node("InvincibilityTimer"):
+		_default_iframe_time = $InvincibilityTimer.wait_time
+	_apply_gadgets()
+
+# Cache the equipped loadout once (PRD-09) and stand up any gadget that needs a
+# live node (Spotter's overlay). The rest are checked inline by membership.
+func _apply_gadgets() -> void:
+	_equipped = GameManager.equipped_loadout.duplicate()
+	if _has_gadget("spotter"):
+		_spotter_overlay = SpotterOverlay.new()
+		_spotter_overlay.setup(self, GameManager.GADGET_CATALOG.spotter_lead)
+		get_tree().root.add_child(_spotter_overlay)
+
+func _has_gadget(id: String) -> bool:
+	return _equipped.has(id)
 
 # Read the permanent Hangar tiers once (PRD-08): Guns floor → weapon_level,
 # Armour → max_hp, Engine → effective top speed (both branches), Bombs → stock
@@ -128,9 +157,13 @@ func _apply_hitbox_forgiveness(scheme: int) -> void:
 		$CollisionShape2D.scale = Vector2.ONE * assist_tunables.hitbox_forgiveness(scheme)
 
 # Current pickup-magnet radius for the active scheme; pickups query this so the
-# magnet honours the per-input assist knob (PRD-03).
+# magnet honours the per-input assist knob (PRD-03). The Coin Magnet gadget
+# (PRD-09) widens it by a flat bonus while equipped.
 func current_magnet_radius() -> float:
-	return assist_tunables.magnet_radius(_input_source)
+	var radius: float = assist_tunables.magnet_radius(_input_source)
+	if _has_gadget("coin_magnet"):
+		radius += GameManager.GADGET_CATALOG.magnet_bonus_px
+	return radius
 
 func _physics_process(delta: float) -> void:
 	var vp_rect: Rect2 = get_viewport_rect()
@@ -154,6 +187,7 @@ func _physics_process(delta: float) -> void:
 
 	_effects.tick(delta)
 	_update_wingman()
+	_tick_gadgets(delta)
 
 	var volleys: int = _fire_clock.tick(delta)
 	for i in volleys:
@@ -229,6 +263,57 @@ func _update_wingman() -> void:
 		_wingman.queue_free()
 		_wingman = null
 
+# Advance the time-based gadget clocks (PRD-09): the Flare cooldown counts down
+# to ready, and Auto-Repair heals one tick per interval once the player has been
+# undamaged for the grace window.
+func _tick_gadgets(delta: float) -> void:
+	if _flare_cooldown_remaining > 0.0:
+		_flare_cooldown_remaining = maxf(0.0, _flare_cooldown_remaining - delta)
+	if _has_gadget("auto_repair"):
+		_tick_auto_repair(delta)
+
+func _tick_auto_repair(delta: float) -> void:
+	var catalog: GadgetCatalog = GameManager.GADGET_CATALOG
+	_time_since_damage += delta
+	if current_hp >= max_hp or _time_since_damage < catalog.auto_repair_grace:
+		_repair_accum = 0.0
+		return
+	_repair_accum += delta
+	if _repair_accum >= catalog.auto_repair_interval:
+		_repair_accum -= catalog.auto_repair_interval
+		repair_health(catalog.auto_repair_amount)
+
+# Flare (PRD-09): on an otherwise-fatal hit, if equipped and off cooldown, negate
+# the lethal blow — clear nearby enemy fire (radius variant of the bomb clear),
+# grant brief i-frames, and start the cooldown. Returns true when it saved the
+# player (so the caller skips the death). Auto-trigger only; no input.
+func _try_flare(amount: int) -> bool:
+	if not _has_gadget("flare") or _flare_cooldown_remaining > 0.0:
+		return false
+	if current_hp - amount > 0:
+		return false  # not a fatal hit; take it normally
+	var catalog: GadgetCatalog = GameManager.GADGET_CATALOG
+	_flare_cooldown_remaining = catalog.flare_cooldown
+	_time_since_damage = 0.0  # a near-death counts as combat — restart repair grace
+	_repair_accum = 0.0
+	_clear_fire_in_radius(catalog.flare_radius)
+	_play_hit_feedback()
+	start_invincibility(catalog.flare_iframes)
+	return true
+
+# Clear every enemy projectile within `radius` of the player (Flare's defensive
+# pop), reusing the pure BombTargeting selection.
+func _clear_fire_in_radius(radius: float) -> void:
+	var tree := get_tree()
+	if not tree:
+		return
+	var bullets: Array = tree.get_nodes_in_group("EnemyProjectiles")
+	var positions: Array = []
+	for bullet in bullets:
+		positions.append(bullet.global_position)
+	for i in BombTargeting.within_radius(positions, global_position, radius):
+		bullets[i].queue_free()
+
 func drop_bomb() -> void:
 	if bomb_count > 0:
 		bomb_count -= 1
@@ -290,8 +375,14 @@ func take_damage(amount: int) -> void:
 	if is_invincible or current_hp <= 0:
 		return
 
+	# Flare intercepts an otherwise-fatal hit before any HP is lost (PRD-09).
+	if _try_flare(amount):
+		return
+
 	GameManager.reset_combo()
 	current_hp -= amount
+	_time_since_damage = 0.0  # back into combat — Auto-Repair grace restarts
+	_repair_accum = 0.0
 	update_player_sprite()
 	_play_hit_feedback()
 
@@ -315,10 +406,11 @@ func _play_hit_feedback() -> void:
 		tween.tween_property(cam, "offset", Vector2(-s * 0.7, -s * 0.4), 0.05)
 		tween.tween_property(cam, "offset", Vector2.ZERO, 0.08)
 
-func start_invincibility() -> void:
+func start_invincibility(duration: float = -1.0) -> void:
 	is_invincible = true
 	modulate.a = 0.5
 	if has_node("InvincibilityTimer"):
+		$InvincibilityTimer.wait_time = duration if duration > 0.0 else _default_iframe_time
 		$InvincibilityTimer.start()
 
 func die() -> void:

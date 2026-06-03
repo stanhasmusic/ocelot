@@ -22,3 +22,19 @@ static func affected_by_bomb(positions: Array, screen_rect: Rect2) -> Array[int]
 		if screen_rect.has_point(positions[i]):
 			hit.append(i)
 	return hit
+
+
+# Indices into `positions` within `radius` of `center` (inclusive of the rim).
+# The Flare's nearby-fire clear (PRD-09) uses this radius variant while the bomb
+# keeps its whole-screen `affected_by_bomb`. Pure, like its sibling above:
+# distances in, indices out. A non-positive radius hits nothing; empty in ->
+# empty out.
+static func within_radius(positions: Array, center: Vector2, radius: float) -> Array[int]:
+	var hit: Array[int] = []
+	if radius <= 0.0:
+		return hit
+	var radius_sq: float = radius * radius
+	for i in positions.size():
+		if (positions[i] as Vector2).distance_squared_to(center) <= radius_sq:
+			hit.append(i)
+	return hit
