@@ -75,7 +75,7 @@ The screen-clearing action — clears nearby enemy projectiles and deals area da
 An equippable **Item** bought in the Hangar that modifies how a run plays (e.g. **Flare**, **Auto-Repair**, **Coin Magnet**, **Spotter**). Gadgets occupy a limited number of slots, so the player mixes and matches rather than running everything at once. The build-variety layer of the metagame.
 
 **Flare**:
-A defensive **gadget** that clears nearby enemy projectiles to save the player from an otherwise-fatal moment (auto-triggered on near-death, or manual on a cooldown). Smaller and more frequent than a **bomb**.
+A defensive **gadget** that clears nearby enemy projectiles to save the player from an otherwise-fatal moment: **auto-triggered** on an otherwise-fatal hit (negate the blow + brief invulnerability), then on a **cooldown** before it can save again. Auto-only — no input binding of its own (resolved in PRD-09; an earlier draft floated a manual activation). Smaller, radius-limited, and more frequent than a **bomb**.
 
 **Stage**:
 An internal escalation within a level. Each stage ends with its own boss fight; clearing the last stage clears the level. Currently 3 stages per level. Stages 1–2 end in a **mini-boss**; the final stage ends in the level's named **boss**.
