@@ -7,6 +7,7 @@ issues=$(gh issue list --repo stanhasmusic/ocelot --label ready-for-agent --json
 prompt=$(cat "$(dirname "$0")/prompt.md")
 
 claude --permission-mode acceptEdits \
+  --model claude-opus-4-8 \
   "Previous commits: $commits
 
 Issues: $issues

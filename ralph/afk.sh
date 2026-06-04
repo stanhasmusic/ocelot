@@ -21,6 +21,7 @@ for ((i=1; i<=$1; i++)); do
   prompt=$(cat "$(dirname "$0")/prompt.md")
 
   docker sandbox run claude . -- \
+    --model claude-opus-4-8 \
     --verbose \
     --print \
     --output-format stream-json \
