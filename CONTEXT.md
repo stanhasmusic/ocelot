@@ -39,7 +39,7 @@ The player-facing unit shown on Level Select. Each level is themed to a single *
 The between-levels screen, set on an airfield. Where the player spends **coins** on **permanent upgrades** before deploying to the next level. The only place permanent upgrades are bought.
 
 **Coins**:
-Meta-currency earned during missions (kills, pickups). Persists between levels *within a* **Playthrough** and is spent in the Hangar; reset to zero on a **New Game**. Each level pays its coins only on first clear within a Playthrough (no farming by replay). Distinct from **score**, which is for ranking only.
+Meta-currency earned during missions (kills, pickups). Persists between levels *within a* **Playthrough** and is spent in the Hangar; reset to zero on a **New Game**. Each level pays its coins only on first clear within a Playthrough (no farming by replay). Distinct from **score**, which is for ranking only — the one bridge between them is one-way and terminal: on campaign completion any *unspent* coins cash out to a one-time score bonus (the arcade end-of-run mop-up), so coins stranded after the last Hangar — notably all of the finale level, which has no Hangar after it — still count for ranking.
 
 **Permanent upgrade**:
 An upgrade bought in the Hangar with coins and kept for the rest of the campaign. Organised into tiered categories (Guns, Armour, Engine, Bombs, Items). _Avoid_: "power-up" (that's an in-run pickup).
