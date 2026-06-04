@@ -33,6 +33,10 @@ const SCHEMA_VERSION: int = 2
 @export var coins: int = 0                         # persisted wallet
 @export var checkpoint: Dictionary = {}            # CheckpointState.serialize()
 @export var level_stars: Dictionary = {}           # best stars per level index
+# PRD-11 first-clear ledger: the level indices already cleared this Playthrough.
+# A first clear pays out; a replay banks nothing (no farming). An absent field on
+# an old save loads as empty — no-migration story, same as owned_tiers.
+@export var cleared_levels: Array = []
 # Reserved for PRD-08/09 — persisted + reset here so those PRDs need no migration.
 # Shapes are owned by PRD-08/09; this PRD treats them as opaque pass-through.
 @export var owned_tiers: Dictionary = {}
@@ -68,6 +72,7 @@ func reset_playthrough() -> void:
 	coins = 0
 	checkpoint = {}
 	level_stars = {}
+	cleared_levels = []
 	owned_tiers = {}
 	owned_gadgets = []
 	equipped_loadout = []

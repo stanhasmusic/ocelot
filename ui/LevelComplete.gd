@@ -12,6 +12,14 @@ func _ready() -> void:
 	$CenterContainer/VBoxContainer/ScoreLabel.text = "SCORE: " + str(GameManager.score)
 	$CenterContainer/VBoxContainer/BestLabel.text = "BEST: " + str(GameManager.high_score)
 
+	# Terminal coins→score cash-out (PRD-11): only the final level cashes the
+	# wallet out, and only show the line when something actually converted. The
+	# bonus is already folded into the SCORE above; this calls it out.
+	var cashout_label = $CenterContainer/VBoxContainer/CashoutLabel
+	if GameManager.last_coin_cashout > 0:
+		cashout_label.text = "COINS CASHED OUT: +" + str(GameManager.last_coin_cashout)
+		cashout_label.visible = true
+
 	if GameManager.last_level_new_record:
 		var label = $CenterContainer/VBoxContainer/NewRecordLabel
 		label.visible = true
@@ -47,6 +55,8 @@ func _on_play_again() -> void:
 	if _advanced:
 		return
 	_advanced = true
+	# Replaying an already-cleared level banks no coins — the first-clear gate in
+	# GameManager.level_complete() handles that, so [Play Again] is farm-safe (PRD-11).
 	GameManager.reset_score()
 	GameManager.reset_lives()
 	get_tree().change_scene_to_file(GameManager.current_level)
