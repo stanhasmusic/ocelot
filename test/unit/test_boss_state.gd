@@ -146,7 +146,7 @@ func test_mini_boss_defeated_when_its_one_part_dies() -> void:
 func test_no_mutation_when_damaging_a_destroyed_part() -> void:
 	var s := _two_weakpoint_boss()
 	s.apply_damage("gun_left", 12)  # destroy it
-	var before := s.aggregate_hp()["current"]
+	var before: int = s.aggregate_hp()["current"]
 	var result := s.apply_damage("gun_left", 5)  # hit the corpse
 	assert_false(result["ok"], "a destroyed part takes no further damage")
 	assert_eq(s.aggregate_hp()["current"], before, "state unchanged hitting a dead part")
