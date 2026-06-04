@@ -18,9 +18,14 @@ extends Resource
 @export var bomb_max: Array[int] = [3, 4, 5, 6]
 @export var bomb_blast_mult: Array[float] = [1.0, 1.15, 1.30, 1.45]
 
-# Placeholder prices — flat per track (PRD-11 owns the real per-track curve).
-# Index = current tier; value = cost to buy the next tier.
+# Per-track price curves (PRD-11 grill, 2026-06-03). Index = current tier; value
+# = cost to buy the next tier. Guns (60/100/160 = 320) is the spine the base
+# income paces. Armour/Engine are *survival slack*: a cheap 50-coin entry so a
+# coin-rich-but-shaky player can buy one tier of safety net (ADR-0011's catch-up
+# role). Bombs is *expression slack* — priced a touch higher, surplus flex, not a
+# lifeline. Two survival tracks to t2 (2×140) exceeds the ~230 clean slack budget,
+# so a single Playthrough kits a specialist-with-a-splash, never a maxed board.
 @export var guns_prices: Array[int] = [60, 100, 160]
-@export var armour_prices: Array[int] = [60, 100, 160]
-@export var engine_prices: Array[int] = [60, 100, 160]
-@export var bombs_prices: Array[int] = [60, 100, 160]
+@export var armour_prices: Array[int] = [50, 90, 150]
+@export var engine_prices: Array[int] = [50, 90, 150]
+@export var bombs_prices: Array[int] = [60, 110, 170]

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EconomyTunables" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/EconomyTunables.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+base_income = Array[int]([70, 110, 170, 200])
+no_death_bonus = Array[int]([30, 40, 50, 60])
+collection_pool = Array[int]([30, 40, 40, 90])
+convoy_coin_value = 6
+coin_to_score_rate = 10
