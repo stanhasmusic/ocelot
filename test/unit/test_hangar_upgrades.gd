@@ -34,17 +34,19 @@ func test_price_for_unknown_track_is_minus_one() -> void:
 
 # --- purchase: success ---
 
+# Uses guns — the pinned spine price (60/100/160) — so this mechanism test stays
+# decoupled from the armour/engine/bombs slack prices, which PRD-11 retunes freely.
 func test_purchase_increments_track_and_deducts_price() -> void:
-	var result := HangarUpgrades.purchase({}, 200, "armour", _t)
+	var result := HangarUpgrades.purchase({}, 200, "guns", _t)
 	assert_true(result["ok"], "an affordable buy succeeds")
-	assert_eq(result["owned_tiers"]["armour"], 1, "the track tier bumps to 1")
+	assert_eq(result["owned_tiers"]["guns"], 1, "the track tier bumps to 1")
 	assert_eq(result["coins"], 140, "200 - 60 price = 140 left")
 
 
 func test_purchase_with_exactly_enough_floors_the_wallet() -> void:
-	var result := HangarUpgrades.purchase({"engine": 1}, 100, "engine", _t)
+	var result := HangarUpgrades.purchase({"guns": 1}, 100, "guns", _t)
 	assert_true(result["ok"], "exact-price buy succeeds")
-	assert_eq(result["owned_tiers"]["engine"], 2, "tier bumps from 1 to 2")
+	assert_eq(result["owned_tiers"]["guns"], 2, "tier bumps from 1 to 2")
 	assert_eq(result["coins"], 0, "the wallet floors to 0, never negative")
 
 
