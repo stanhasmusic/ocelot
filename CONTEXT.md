@@ -81,16 +81,22 @@ A defensive **gadget** that clears nearby enemy projectiles to save the player f
 An internal escalation within a level. Each stage ends with its own boss fight; clearing the last stage clears the level. Currently 3 stages per level. Stages 1–2 end in a **mini-boss**; the final stage ends in the level's named **boss**.
 
 **Mini-boss**:
-The tougher-than-an-elite enemy that closes a non-final stage. A single heavy unit (big ship, big tank, gun platform) with one weak-point and aimed fire — no phases. Reuses heavy enemy art rather than a bespoke boss sprite.
+The tougher-than-an-elite enemy that closes a non-final stage. A degenerate **boss**: a single heavy unit (big ship, big tank, gun platform) that is **core**-only — one target, aimed fire, no **weak-points** to peel and no **phases**. Reuses heavy enemy art rather than a bespoke boss sprite.
 
 **Boss**:
-The bespoke, named set-piece that closes a level's final stage (e.g. BIG MAMA, Double Trouble). A multi-part structure fought across escalating, telegraphed **phases**.
+The bespoke, named set-piece that closes a level's final stage (e.g. BIG MAMA, Double Trouble). A multi-part structure — several **weak-points** guarding a **core** — fought across escalating, telegraphed **phases**.
 
-**Weak-point** (a.k.a. part):
-A destructible component of a boss — a turret, engine, or gun emplacement (each with its own `_hit`/`_destroyed` art and **armor**). Destroying weak-points weakens the boss and drives **phase** transitions.
+**Part**:
+A destructible component of a boss, with its own HP, **armor**, hitbox, and `_hit`/`_destroyed` art. A boss is built entirely from parts: its **weak-points** and its **core**.
+
+**Weak-point**:
+A non-core **part** — a turret, engine, or gun emplacement. Destroying a weak-point silences the attack it drives and counts toward **phase** transitions. The boss's **core** stays invulnerable until every weak-point is destroyed.
+
+**Core**:
+The one **part** whose destruction ends the boss fight. It is **invulnerable until all of the boss's weak-points are destroyed** — so every boss fight is "peel the weak-points, then kill the exposed core." A **mini-boss** is the degenerate case: core-only, with no weak-points and nothing to peel.
 
 **Phase**:
-A stage of a boss fight that begins at an HP/weak-point threshold and changes the boss's attack pattern, usually escalating. Telegraphed so the pattern is learnable (and readable early with the **Spotter** gadget).
+A stage of a boss fight that begins when a **weak-point** (or a named set of them) is destroyed and changes the surviving parts' attack patterns, usually escalating. Weak-point destruction is the *only* phase trigger — there are no HP-percentage flips — so the player always sees *why* the boss escalated. The final phase is, by definition, "all weak-points destroyed, **core** exposed," so N weak-points yield up to N+1 phases. Telegraphed so the pattern is learnable (and readable early with the **Spotter** gadget).
 
 **Checkpoint**:
 A stage boundary. On death the player retries from the start of the current stage, not the start of the level. Coins banked before the checkpoint are kept.
