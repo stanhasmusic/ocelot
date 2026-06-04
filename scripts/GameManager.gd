@@ -26,6 +26,10 @@ const HANGAR_TUNABLES: HangarTunables = preload("res://resources/HangarTunables.
 # Gadget loadout registry + prices + effect knobs (PRD-09). The buy/equip seams
 # read the prices; Player reads the effect knobs. PRD-11 retunes the .tres.
 const GADGET_CATALOG: GadgetCatalog = preload("res://resources/GadgetCatalog.tres")
+# Payout side of the economy (PRD-11): per-level income floors, no-death/collection
+# faucets, convoy value, terminal coins→score rate. The thin level_complete seam
+# reads these through the pure CoinEarnings; Enemy reads convoy_coin_value.
+const ECONOMY_TUNABLES: EconomyTunables = preload("res://resources/EconomyTunables.tres")
 const LEVELS: Array[String] = [
 	"res://scenes/LevelLand.tscn",
 	"res://scenes/LevelJungle.tscn",
@@ -43,7 +47,13 @@ var high_score: int = 0
 var level_stars: Dictionary = {}
 var last_level_stars: int = 0
 var last_level_new_record: bool = false
+# Coins routed to score by the terminal cash-out on campaign completion (PRD-11).
+# Surfaced on the final LevelComplete; 0 on every non-final clear.
+var last_coin_cashout: int = 0
 var _level_start_lives: int = 3
+# Whether the player has died anywhere in the current level (PRD-11 no-death
+# faucet). Set in Player.die(); reset at level start, paired with _level_start_lives.
+var died_this_level: bool = false
 var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
@@ -53,6 +63,10 @@ var sfx_volume: float = 1.0
 var has_playthrough: bool = false
 var campaign_level: int = 1  # 1-based furthest level reached
 var coins: int = 0
+# First-clear ledger (PRD-11): level indices already cleared this Playthrough.
+# level_complete() banks a level's payout only on its first appearance here; a
+# replay banks nothing. Persisted; wiped by New Game.
+var cleared_levels: Array = []
 # Reserved Hangar slots — persisted + reset here so PRD-08/09 need no migration.
 # Opaque to this PRD; shapes are owned by those PRDs.
 var owned_tiers: Dictionary = {}
@@ -183,6 +197,7 @@ func reset_score() -> void:
 func reset_lives() -> void:
 	lives = 3
 	_level_start_lives = 3
+	died_this_level = false
 	on_lives_changed.emit(lives)
 
 
@@ -204,6 +219,25 @@ func bank_run_coins() -> void:
 	coins += run_coins
 	run_coins = 0
 	on_coins_changed.emit(run_coins)
+
+
+# Bank a level's payout through the first-clear gate (PRD-11). On a level's FIRST
+# clear this Playthrough: bank what the player collected (run_coins) plus the
+# CoinEarnings payout (floor top-up + no-death bonus), then mark the level
+# cleared. On a REPLAY of an already-cleared level: bank nothing (the [Play Again]
+# farm stays closed) — kills/score still functioned during the replay. Either way
+# the run tally is cleared so it can't double-bank. Does not save; the caller does.
+func bank_level_payout(level_idx: int) -> void:
+	var already_cleared: bool = level_idx >= 0 and cleared_levels.has(level_idx)
+	var added: int = CoinEarnings.level_payout(
+		run_coins, level_idx, died_this_level, already_cleared, ECONOMY_TUNABLES
+	)
+	if not already_cleared:
+		coins += run_coins + added
+		if level_idx >= 0:
+			cleared_levels.append(level_idx)
+	run_coins = 0
+	on_coins_changed.emit(coins)
 
 
 # --- Hangar stat tracks (PRD-08) ---
@@ -300,6 +334,7 @@ func start_new_playthrough() -> String:
 	has_playthrough = true
 	campaign_level = 1
 	coins = 0
+	cleared_levels = []
 	level_stars = {}
 	owned_tiers = {}
 	owned_gadgets = []
@@ -333,15 +368,18 @@ func add_life() -> void:
 func level_complete() -> void:
 	current_level = get_tree().current_scene.scene_file_path
 	var idx = LEVELS.find(current_level)
-	if idx >= 0 and idx + 1 < LEVELS.size():
+	var is_final: bool = not (idx >= 0 and idx + 1 < LEVELS.size())
+	if not is_final:
 		next_level = LEVELS[idx + 1]
 		campaign_level = max(campaign_level, idx + 2) # 1-based furthest reached
 	else:
 		next_level = ""
 		campaign_level = max(campaign_level, LEVELS.size() + 1) # campaign cleared
 
-	# Commit this run's coins into the persisted wallet exactly once per level.
-	bank_run_coins()
+	# Bank this level's payout through the first-clear gate (PRD-11): a first clear
+	# pays collected + floor top-up + no-death bonus and marks the level cleared; a
+	# replay banks nothing. Replaces the old unconditional bank_run_coins().
+	bank_level_payout(idx)
 
 	# Star rating: 3 = no lives lost, 2 = lost 1, 1 = lost 2+
 	var lives_lost = _level_start_lives - lives
@@ -352,12 +390,24 @@ func level_complete() -> void:
 		var key = str(idx)
 		level_stars[key] = max(level_stars.get(key, 0), last_level_stars)
 
+	# Terminal coins→score (PRD-11): on clearing the final level, every unspent
+	# coin cashes out to a one-time score bonus (the arcade end-of-run mop-up), so
+	# finale coins and any surplus still count for ranking. Folded into score
+	# before the record check so a cash-out can set a new high score.
+	last_coin_cashout = 0
+	if is_final:
+		last_coin_cashout = CoinEarnings.score_cashout(coins, ECONOMY_TUNABLES)
+		if last_coin_cashout > 0:
+			score += last_coin_cashout
+			on_score_updated.emit(score)
+
 	# New record check
 	last_level_new_record = score > high_score
 	if last_level_new_record:
 		high_score = score
 
 	_level_start_lives = lives  # snapshot for next level's star calc
+	died_this_level = false     # reset the no-death faucet for the next level
 	save_data()
 	get_tree().call_deferred("change_scene_to_file", "res://ui/LevelComplete.tscn")
 
@@ -380,6 +430,7 @@ func save_data() -> void:
 	save_game.has_playthrough = has_playthrough
 	save_game.campaign_level = campaign_level
 	save_game.coins = coins
+	save_game.cleared_levels = cleared_levels
 	save_game.level_stars = level_stars
 	save_game.checkpoint = checkpoint.serialize()
 	save_game.owned_tiers = owned_tiers
@@ -407,6 +458,7 @@ func load_data() -> void:
 	has_playthrough = save_game.has_playthrough
 	campaign_level = save_game.campaign_level
 	coins = save_game.coins
+	cleared_levels = save_game.cleared_levels
 	level_stars = save_game.level_stars
 	checkpoint.deserialize(save_game.checkpoint)
 	owned_tiers = save_game.owned_tiers

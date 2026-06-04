@@ -22,6 +22,12 @@ extends Area2D
 @export var coin_value: int = 0
 @export var coin_scene: PackedScene
 
+# Convoy flag (PRD-11). A convoy unit (path-following ground traffic, ADR-0009)
+# drops ONE guaranteed coin of EconomyTunables.convoy_coin_value and skips the
+# random loot roll — the reward is the whole point. Placement / counts / which
+# levels get convoys are the level PRDs' job (13/14); this is just the mechanism.
+@export var is_convoy: bool = false
+
 var is_dead: bool = false
 
 @onready var shoot_timer: Timer = Timer.new()
@@ -95,6 +101,10 @@ func spawn_explosion() -> void:
 		get_parent().add_child(expl)
 
 func drop_loot() -> void:
+	# Convoy units skip the random roll — their reward is the guaranteed coin in
+	# drop_coins (PRD-11).
+	if is_convoy:
+		return
 	# The 22%-drop / half-rate-bomb rule now lives in the pure EnemyLoot helper;
 	# the node just rolls the dice and spawns the result.
 	var pickup_scene := EnemyLoot.loot_roll(loot_pool, randf(), randf(), randf())
@@ -106,13 +116,20 @@ func drop_loot() -> void:
 
 # PRD-05 coin-drop hook. The coin pickup scene arrives in PRD-06; until then
 # `coin_scene` is unset and this is a no-op. Kept separate from drop_loot so the
-# currency source and the power-up pool tune independently.
+# currency source and the power-up pool tune independently. A convoy unit (PRD-11)
+# overrides the per-archetype value with the guaranteed convoy_coin_value and is
+# self-contained (loads Coin.tscn directly), so no per-scene wiring is needed.
 func drop_coins() -> void:
-	if coin_scene == null or coin_value <= 0:
+	var scene := coin_scene
+	var value := coin_value
+	if is_convoy:
+		scene = load("res://objects/Coin.tscn")
+		value = GameManager.ECONOMY_TUNABLES.convoy_coin_value
+	if scene == null or value <= 0:
 		return
-	var coin = coin_scene.instantiate()
+	var coin = scene.instantiate()
 	if "coin_value" in coin:
-		coin.coin_value = coin_value
+		coin.coin_value = value
 	coin.global_position = global_position
 	get_parent().call_deferred("add_child", coin)
 

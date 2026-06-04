@@ -415,6 +415,9 @@ func start_invincibility(duration: float = -1.0) -> void:
 
 func die() -> void:
 	SoundManager.play_sfx(death_sfx)
+	# Mark the level as no longer eligible for the no-death bonus (PRD-11). Reset
+	# at level start; read by level_complete's payout.
+	GameManager.died_this_level = true
 	GameManager.lives -= 1
 	GameManager.on_lives_changed.emit(GameManager.lives)
 	if GameManager.lives <= 0:

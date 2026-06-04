@@ -12,6 +12,10 @@ func _on_body_entered(_body: Node2D) -> void:
 	pass
 
 func drop_loot() -> void:
+	# A convoy Truck skips its random coin/bomb roll — the guaranteed convoy coin
+	# in Enemy.drop_coins is the reward (PRD-11).
+	if is_convoy:
+		return
 	# The weapon PowerUp retired with PRD-08 (the Guns tier owns firepower now),
 	# so the Truck's loot is a coin or a bomb. Still 30% drop, no bomb-rarity
 	# filter (bomb_keep_chance = 1.0).

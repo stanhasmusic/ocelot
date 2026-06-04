@@ -29,6 +29,9 @@ func test_fresh_savegame_defaults_to_oldest_schema() -> void:
 	# PRD-09: a pre-PRD-09 save never stored gadget_slots, so the field defaults to
 	# 1 slot (no migration, no crash) — the empty-slot default guarantee.
 	assert_eq(SaveGame.new().gadget_slots, 1, "default gadget_slots is the 1-slot floor")
+	# PRD-11: a pre-PRD-11 save never stored cleared_levels, so the field defaults
+	# to an empty ledger (no migration) — no level reads as pre-cleared.
+	assert_eq(SaveGame.new().cleared_levels, [], "default cleared_levels is an empty ledger")
 
 
 # --- Migration (v1 → v2) ---
@@ -78,6 +81,7 @@ func test_reset_playthrough_zeroes_playthrough_tier() -> void:
 	s.has_playthrough = true
 	s.campaign_level = 3
 	s.coins = 500
+	s.cleared_levels = [0, 1]
 	s.level_stars = {"0": 3}
 	s.checkpoint = {"stage_index": 2, "marker": 1}
 	s.owned_tiers = {"guns": 2}
@@ -88,6 +92,7 @@ func test_reset_playthrough_zeroes_playthrough_tier() -> void:
 	assert_false(s.has_playthrough, "has_playthrough cleared")
 	assert_eq(s.campaign_level, 1, "campaign_level back to 1")
 	assert_eq(s.coins, 0, "coin wallet emptied")
+	assert_eq(s.cleared_levels, [], "first-clear ledger cleared (PRD-11)")
 	assert_eq(s.level_stars, {}, "level stars cleared")
 	assert_eq(s.checkpoint, {}, "checkpoint cleared")
 	assert_eq(s.owned_tiers, {}, "owned tiers cleared")
@@ -112,6 +117,7 @@ func test_save_load_round_trip_preserves_all_fields() -> void:
 	s.has_playthrough = true
 	s.campaign_level = 2
 	s.coins = 250
+	s.cleared_levels = [0, 1]
 	s.level_stars = {"0": 3, "1": 2}
 	s.checkpoint = {"stage_index": 1, "marker": 1}
 	s.owned_tiers = {"armour": 1}
@@ -126,6 +132,7 @@ func test_save_load_round_trip_preserves_all_fields() -> void:
 	assert_eq(loaded.high_score, 12345, "high score round-trips")
 	assert_eq(loaded.campaign_level, 2, "campaign_level round-trips")
 	assert_eq(loaded.coins, 250, "coins round-trip")
+	assert_eq(loaded.cleared_levels, [0, 1], "first-clear ledger round-trips (PRD-11)")
 	assert_eq(loaded.checkpoint, {"stage_index": 1, "marker": 1}, "checkpoint round-trips")
 	assert_eq(loaded.level_stars, {"0": 3, "1": 2}, "level stars round-trip")
 	assert_eq(loaded.owned_tiers, {"armour": 1}, "owned tiers round-trip")
