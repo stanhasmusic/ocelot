@@ -1,82 +1,200 @@
-extends Area2D
+extends Node2D
 
+# The Boss root (PRD-12) — the canonical boss, replacing the single-entity
+# prototype (now PrototypeBoss, kept only for not-yet-migrated stage bosses).
+# Composes a boss from BossPart children, builds a BossState brain from them,
+# routes part hits through the core gate, drives each living part's fire via
+# FirePattern (geometry) + AutoFireClock (cadence) behind a telegraph wind-up,
+# re-tunes the survivors on every phase change, and on core death awards score
+# and runs the death. Reports the existing on_boss_* signals as one monotonic
+# aggregate bar. A mini-boss is the same scene with a single core-only part.
+#
+# Retrying from a stage checkpoint respawns a fresh Boss node, which rebuilds a
+# fresh BossState — so a failed attempt resets cleanly with no extra plumbing.
 
+@export_group("Movement")
+@export var sway_speed: float = 1.2      # horizontal sine frequency
+@export var sway_amplitude: float = 120.0  # horizontal sway in px about the spawn x
+@export var vertical_speed: float = 18.0  # slow descent until settled
+@export var settle_y: float = 170.0      # stop descending at this y
 
-@export var max_hp: int = 50
-@export var speed: float = 1.5      # Speed of sine wave
-@export var magnitude: float = 2.0  # Horizontal movement range multiplier
-@export var vertical_speed: float = 20.0 # Slow descent
+@export_group("Reward")
+@export var defeat_score: int = 5000
+@export var weakpoint_score: int = 250   # small bonus per weak-point peeled
 
-@export var bullet_scene: PackedScene
-@export var fan_bullet_scene: PackedScene  # TurretBullet — used for spread shots
+@export_group("Phases")
+## Fire-interval multiplier applied to surviving parts per phase (index = phase-1,
+## clamped). Lower = faster fire, i.e. escalation. Length is independent of the
+## weak-point count; the last entry is reused for any further phases.
+@export var phase_fire_scale: Array[float] = [1.0, 0.8, 0.6]
+
+@export_group("Death")
 @export var explosion_scene: PackedScene
-@export var drop_scene: PackedScene
 
-var current_hp: int
-var time_alive: float = 0.0
-var is_dead: bool = false
-var _phase: int = 1
+# Vestigial: EnemySpawner sets this from StageConfig.boss_hp for the legacy
+# PrototypeBoss bosses. A multi-part boss owns its HP in its parts, so it is
+# ignored here (kept so the spawner's assignment doesn't error).
+var max_hp: int = 0
+
+var _state: BossState
+var _parts: Array = []          # BossPart nodes
+var _clocks: Dictionary = {}    # part name -> AutoFireClock
+var _telegraph: Dictionary = {}  # part name -> remaining wind-up seconds (>0 = winding up)
+var _time: float = 0.0
+var _start_x: float = 0.0
+var _defeated: bool = false
+var _player: Node2D = null
+
 
 func _ready() -> void:
-	current_hp = max_hp
-	GameManager.report_boss_spawned(max_hp)
+	_start_x = position.x
+	_player = get_tree().get_first_node_in_group("Player")
+	_state = BossState.new()
+	for child in get_children():
+		if child is BossPart:
+			_parts.append(child)
+			child.bind_boss(self)
+			_state.add_part(child.name, child.max_hp, child.is_core, child.armor)
+			_clocks[child.name] = AutoFireClock.new(child.fire_interval)
+			_telegraph[child.name] = 0.0
+	GameManager.report_boss_spawned(_state.aggregate_hp()["max"])
+	_apply_phase(_state.current_phase())
 
-func _on_area_entered(area: Area2D) -> void:
-	# Assume mask 2 (PlayerProjectile) is the only thing hitting us in this way
-	take_damage(1)
-	area.queue_free()
 
 func _physics_process(delta: float) -> void:
+	_time += delta
+	if position.y < settle_y:
+		position.y += vertical_speed * delta
+	position.x = _start_x + sin(_time * sway_speed) * sway_amplitude
+	_process_fire(delta)
 
-	time_alive += delta
-	
-	# Move down slowly
-	position.y += vertical_speed * delta
-	
-	# Sine wave movement
-	position.x += sin(time_alive * speed) * magnitude
 
-func take_damage(amount: int) -> void:
-	if is_dead:
+# Route a part hit through the gate. Caps single-hit damage (parity with the
+# prototype) so a bomb's big AoE can't one-shot a part. A no-op result means the
+# hit was shrugged off (a gated core or a dead part) — no feedback beyond the
+# projectile vanishing.
+func route_damage(part_name: StringName, amount: int) -> void:
+	if _defeated:
 		return
-	current_hp -= min(amount, 10)  # cap single-hit damage so bombs don't insta-kill
-	GameManager.report_boss_health(current_hp, max_hp)
-	if _phase == 1 and current_hp <= max_hp / 2:
-		_phase = 2
-	if current_hp <= 0:
-		is_dead = true
-		die()
+	var before_phase: int = _state.current_phase()
+	var result: Dictionary = _state.apply_damage(part_name, mini(amount, 10))
+	if not result["ok"]:
+		return
+	_emit_health()
+	var part: BossPart = _find_part(part_name)
+	if part:
+		if result["destroyed"]:
+			part.on_destroyed()
+			if not part.is_core:
+				GameManager.add_score(weakpoint_score)
+		else:
+			part.on_damaged(result["current_hp"])
+	var after_phase: int = _state.current_phase()
+	if after_phase != before_phase:
+		_apply_phase(after_phase)
+	if _state.is_defeated():
+		_die()
 
-func die() -> void:
+
+func _emit_health() -> void:
+	var agg: Dictionary = _state.aggregate_hp()
+	GameManager.report_boss_health(agg["current"], agg["max"])
+
+
+# Drive every living part's fire behind its telegraph. A part begins a wind-up
+# when its clock ticks a volley; the shot lands only when the wind-up elapses.
+func _process_fire(delta: float) -> void:
+	if _defeated:
+		return
+	for part in _parts:
+		if not is_instance_valid(part) or part.is_destroyed:
+			continue
+		if not _state.is_alive(part.name):
+			continue
+		# The core stays silent until it is exposed.
+		if part.is_core and not _state.is_core_exposed():
+			continue
+		if part.fire_interval <= 0.0:
+			continue
+		var key: StringName = part.name
+		if _telegraph[key] > 0.0:
+			_telegraph[key] -= delta
+			if _telegraph[key] <= 0.0:
+				_fire_part(part)
+			continue
+		if _clocks[key].tick(delta) > 0:
+			if part.telegraph_seconds > 0.0:
+				_telegraph[key] = part.telegraph_seconds
+				_show_tell(part)
+			else:
+				_fire_part(part)
+
+
+# Functional placeholder tell (PRD-12): the part brightens toward yellow over the
+# wind-up, then snaps back. Telegraph juice (charge anims, muzzle build-up) is
+# PRD-20.
+func _show_tell(part: BossPart) -> void:
+	var body: Node = part.get_node_or_null("Body")
+	if body == null:
+		return
+	var t := create_tween()
+	t.tween_property(body, "modulate", Color(1.7, 1.7, 0.4, 1.0), part.telegraph_seconds * 0.6)
+	t.tween_property(body, "modulate", Color.WHITE, 0.1)
+
+
+func _fire_part(part: BossPart) -> void:
+	if part.bullet_scene == null:
+		return
+	var origin: Vector2 = part.muzzle_position()
+	var base: Vector2 = Vector2.DOWN
+	if part.aimed and is_instance_valid(_player):
+		base = FirePattern.aimed_direction(origin, _player.global_position)
+	var dirs: Array[Vector2] = FirePattern.spread_directions(
+		base, maxi(part.shot_count, 1), part.spread_arc
+	)
+	for d in dirs:
+		var b: Node = part.bullet_scene.instantiate()
+		get_tree().current_scene.add_child(b)
+		b.global_position = origin
+		# TurretBullet (the reference bosses' projectile) travels
+		# Vector2.RIGHT.rotated(rotation), so rotation = the travel angle. Also
+		# set `direction` for the scripts that move by a direction vector. (An
+		# always-downward bullet like EnemyBullet ignores both.)
+		b.rotation = d.angle()
+		if "direction" in b:
+			b.direction = d
+
+
+# Re-tune the surviving parts' fire for the new phase (usually escalating). New
+# bosses tune the curve via `phase_fire_scale`.
+func _apply_phase(phase: int) -> void:
+	var scale: float = 1.0
+	if phase_fire_scale.size() > 0:
+		scale = phase_fire_scale[clampi(phase - 1, 0, phase_fire_scale.size() - 1)]
+	for part in _parts:
+		if not is_instance_valid(part) or part.is_destroyed:
+			continue
+		var clock: AutoFireClock = _clocks[part.name]
+		clock.fire_interval = part.fire_interval * scale if part.fire_interval > 0.0 else 0.0
+		clock.reset()
+
+
+func _die() -> void:
+	if _defeated:
+		return
+	_defeated = true
 	GameManager.report_boss_died()
-	GameManager.add_score(5000) # Big points for boss
-	
-	# Big Explosion Effect (Spawn multiple)
+	GameManager.add_score(defeat_score)
 	if explosion_scene:
-		for i in range(5):
-			var expl = explosion_scene.instantiate()
-			get_parent().add_child(expl)
-			expl.global_position = global_position + Vector2(randf_range(-50, 50), randf_range(-50, 50))
-
-	if drop_scene:
-		var drop = drop_scene.instantiate()
-		drop.global_position = global_position
-		get_parent().call_deferred("add_child", drop)
-
+		for _i in range(6):
+			var e: Node = explosion_scene.instantiate()
+			get_tree().current_scene.add_child(e)
+			e.global_position = global_position + Vector2(randf_range(-80, 80), randf_range(-80, 80))
 	queue_free()
 
-func _on_shoot_timer_timeout() -> void:
-	if _phase == 1:
-		# Single straight-down shot
-		if bullet_scene:
-			var b = bullet_scene.instantiate()
-			get_parent().add_child(b)
-			b.global_position = $Muzzle.global_position
-	else:
-		# Phase 2: 3-bullet fan spread
-		if fan_bullet_scene:
-			for angle_offset in [0.0, -0.3, 0.3]:
-				var b = fan_bullet_scene.instantiate()
-				get_parent().add_child(b)
-				b.global_position = $Muzzle.global_position
-				b.rotation = PI / 2.0 + angle_offset
+
+func _find_part(part_name: StringName) -> BossPart:
+	for part in _parts:
+		if part.name == part_name:
+			return part
+	return null

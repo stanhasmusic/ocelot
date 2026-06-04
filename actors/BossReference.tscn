@@ -1,0 +1,51 @@
+[gd_scene load_steps=11 format=3 uid="uid://bossref0multi01"]
+
+[ext_resource type="Script" path="res://actors/Boss.gd" id="1_boss"]
+[ext_resource type="PackedScene" path="res://actors/BossPart.tscn" id="2_part"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
+[ext_resource type="PackedScene" path="res://objects/TurretBullet.tscn" id="4_bullet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts/images/aircraft_3.png" id="5_core"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts/images/aircraft_3_destroyed.png" id="6_core_dead"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/bunkers/gun_big_tripple.png" id="7_gunl"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/bunkers/gun_big_tripple_destroyed.png" id="8_gunl_dead"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/bunkers/gun_medium_dual_green.png" id="9_gunr"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/bunkers/gun_medium_dual_green_destroyed.png" id="10_gunr_dead"]
+
+[node name="BossReference" type="Node2D"]
+script = ExtResource("1_boss")
+explosion_scene = ExtResource("3_expl")
+
+[node name="Core" parent="." instance=ExtResource("2_part")]
+scale = Vector2(1.4, 1.4)
+max_hp = 30
+is_core = true
+bullet_scene = ExtResource("4_bullet")
+fire_interval = 1.6
+telegraph_seconds = 1.0
+shot_count = 5
+spread_arc = 0.8
+aimed = true
+body_texture = ExtResource("5_core")
+destroyed_texture = ExtResource("6_core_dead")
+
+[node name="GunLeft" parent="." instance=ExtResource("2_part")]
+position = Vector2(-95, 25)
+max_hp = 12
+bullet_scene = ExtResource("4_bullet")
+fire_interval = 1.4
+telegraph_seconds = 0.9
+shot_count = 3
+spread_arc = 0.6
+body_texture = ExtResource("7_gunl")
+destroyed_texture = ExtResource("8_gunl_dead")
+
+[node name="GunRight" parent="." instance=ExtResource("2_part")]
+position = Vector2(95, 25)
+max_hp = 12
+bullet_scene = ExtResource("4_bullet")
+fire_interval = 1.2
+telegraph_seconds = 0.8
+shot_count = 1
+aimed = true
+body_texture = ExtResource("9_gunr")
+destroyed_texture = ExtResource("10_gunr_dead")

@@ -1,4 +1,4 @@
-extends "res://actors/Boss.gd"
+extends "res://actors/PrototypeBoss.gd"
 
 # Level 2 boss: more erratic movement, escalating spread fire.
 # Phase 1: 3-bullet spread. Phase 2 (<=50% HP): 5-bullet wider spread.
