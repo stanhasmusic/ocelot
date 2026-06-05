@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="KamikazeWingTunables" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/KamikazeWingTunables.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+count = 5
+spacing = 70.0
+shape = 0
+entry_speed = 180.0
+hold_time = 1.5
+stagger_gap = 1.1
+telegraph_seconds = 1.0
+dive_speed = 320.0
+dive_accel = 260.0
+member_hp = 2
+member_coin_value = 3
