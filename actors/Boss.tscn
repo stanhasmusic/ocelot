@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://boss1x5k2y101"]
 
-[ext_resource type="Script" uid="uid://o5q0xojp614w" path="res://actors/Boss.gd" id="1_script"]
+[ext_resource type="Script" path="res://actors/PrototypeBoss.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dgw7nmhnafqrv" path="res://assets/sprites/aircrafts/images/aircraft_3.png" id="2_sprite"]
 [ext_resource type="PackedScene" uid="uid://djetgxd0o5vbf" path="res://objects/Explosion.tscn" id="3_explosion"]
 [ext_resource type="PackedScene" uid="uid://c8j2x5k2y1enemybul" path="res://objects/EnemyBullet.tscn" id="4_bullet"]

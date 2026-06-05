@@ -10,6 +10,10 @@ extends Resource
 @export var min_gap_between_aimed_shots: float = 0.0
 @export var projectile_speed_mult: float = 1.0
 @export var boss_scene: PackedScene
+# Vestigial for multi-part bosses (PRD-12): a Boss owns its HP in its parts, so
+# the new system ignores this. EnemySpawner still applies it to the legacy
+# single-entity PrototypeBoss bosses (Boss.tscn / BossL2 / BossL3). Follow-up:
+# retire once no scene relies on it.
 @export var boss_hp: int = 50
 @export var boss_score_threshold: int = 3500
 

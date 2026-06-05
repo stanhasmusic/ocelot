@@ -131,6 +131,9 @@ func _build_ui() -> void:
 	_button(enc, "Spawn boss", _spawn_boss)
 	_button(enc, "Clear screen", _clear_screen)
 	_button(enc, "+1000 score", func(): GameManager.add_score(1000))
+	var refs := _row(col)
+	_button(refs, "Boss (ref)", _spawn_reference_boss)
+	_button(refs, "Mini-boss (ref)", _spawn_reference_miniboss)
 	var spawn := _row(col)
 	_archetype_picker = OptionButton.new()
 	for entry in ARCHETYPES:
@@ -200,7 +203,8 @@ func _refresh() -> void:
 		_lives_value.text = str(GameManager.lives)
 	if _bombs_value:
 		var player: Node = get_tree().get_first_node_in_group("Player")
-		_bombs_value.text = str(player.bomb_count) if (player and player.get("bomb_count") != null) else "—"
+		var has_bombs: bool = player != null and player.get("bomb_count") != null
+		_bombs_value.text = str(player.bomb_count) if has_bombs else "—"
 
 
 # --- Actions (every one drives an existing seam) ---
@@ -271,6 +275,27 @@ func _spawn_boss() -> void:
 	var spawner: Node = get_tree().current_scene.get_node_or_null("EnemySpawner")
 	if spawner and spawner.has_method("_on_boss_threshold_reached"):
 		spawner._on_boss_threshold_reached()
+
+
+# Spawn the PRD-12 reference fights regardless of stage/score so telegraph
+# readability can be feel-tested without grinding a stage to its boss threshold.
+func _spawn_reference_boss() -> void:
+	_spawn_boss_scene("res://actors/BossReference.tscn")
+
+
+func _spawn_reference_miniboss() -> void:
+	_spawn_boss_scene("res://actors/MiniBossReference.tscn")
+
+
+func _spawn_boss_scene(path: String) -> void:
+	var scene: PackedScene = load(path)
+	if scene == null:
+		return
+	var boss: Node = scene.instantiate()
+	var vp: Vector2 = get_viewport().get_visible_rect().size
+	boss.global_position = Vector2(vp.x * 0.5, 150)
+	get_tree().current_scene.add_child(boss)
+	_panel.visible = false
 
 
 func _clear_screen() -> void:

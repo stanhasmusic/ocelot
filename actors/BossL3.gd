@@ -1,4 +1,4 @@
-extends "res://actors/Boss.gd"
+extends "res://actors/PrototypeBoss.gd"
 
 # Level 3 boss: tri-phase escalation.
 # Phase 1 (>66% HP): single shot straight down.

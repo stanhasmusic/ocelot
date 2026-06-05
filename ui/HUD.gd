@@ -16,6 +16,9 @@ func _ready() -> void:
 	GameManager.on_bomb_count_changed.connect(_update_bomb_label)
 	GameManager.on_combo_changed.connect(_on_combo_changed)
 	GameManager.on_input_device_changed.connect(_on_input_device_changed)
+	GameManager.on_boss_spawned.connect(_on_boss_spawned)
+	GameManager.on_boss_health_changed.connect(_on_boss_health_changed)
+	GameManager.on_boss_died.connect(_on_boss_died)
 	$Control/BombButton.pressed.connect(_on_bomb_button_pressed)
 	_on_input_device_changed(GameManager.input_device)
 
@@ -85,3 +88,18 @@ func _on_bomb_button_pressed() -> void:
 	var players = get_tree().get_nodes_in_group("Player")
 	if players.size() > 0:
 		players[0].drop_bomb()
+
+# Boss health bar (PRD-12): minimal functional hookup to the existing BossBar.
+# One monotonic aggregate that shows on spawn, drains on every change, hides on
+# death. Segmented/tinted visuals + per-weak-point pips are PRD-18.
+func _on_boss_spawned(max_hp: int) -> void:
+	var bar = $Control/BossBar
+	bar.max_value = max_hp
+	bar.value = max_hp
+	bar.visible = true
+
+func _on_boss_health_changed(current: int, _max_hp: int) -> void:
+	$Control/BossBar.value = current
+
+func _on_boss_died() -> void:
+	$Control/BossBar.visible = false
