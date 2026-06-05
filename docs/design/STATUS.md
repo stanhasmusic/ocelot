@@ -1,6 +1,6 @@
 # Ocelot — Design Status (resume-here pointer)
 
-Last updated: 2026-06-01. A pointer for any session picking this work back up.
+Last updated: 2026-06-04. A pointer for any session picking this work back up.
 
 ## What this game is (one line)
 
@@ -105,23 +105,28 @@ tunable `.tres` knobs (the first module worth a test harness).
   class (white/pale-gold, escalates by mass not hue). Implementation lands in PRD-02 (the `ThreatTier`
   module + recolouring the player pill); colour-blind palette + shape-redundancy remain deferred.
 
-## Tracker state (2026-06-03)
+## Tracker state (2026-06-04)
 
 The whole roadmap is on GitHub Issues. Build progress down the dependency spine:
-- **Merged / built:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · **PRD-07 #32** (two-tier save + Continue/New Game; PR #59) · **PRD-08 #36** (four stat-track Hangar between levels, Guns-tier firepower floor, legacy weapon pickups retired; PR #60) · **PRD-09 #38** (Items/gadget loadout — slots + Flare/Spotter/Magnet/Auto-Repair on the four stat tracks; PR #62). Phases 1–2 complete; Phase 3 (metagame) underway.
-- **Detailed, `ready-for-agent` (built next):** PRD-16 #42 (`docs/prd/PRD-16-audio-direction.md`).
-- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-09 #38 · PRD-10 #33 · PRD-11 #39 · PRD-12 #34 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
+- **Merged / built:** PRD-01 #26 · PRD-02 #27 · PRD-03 #28 · PRD-04 #29 · PRD-05 #30 · PRD-06 #31 · **PRD-07 #32** (two-tier save + Continue/New Game; PR #59) · **PRD-08 #36** (four stat-track Hangar between levels, Guns-tier firepower floor, legacy weapon pickups retired; PR #60) · **PRD-09 #38** (Items/gadget loadout — slots + Flare/Spotter/Magnet/Auto-Repair on the four stat tracks; PR #62) · **PRD-11 #39** (economy payout side — floor top-up, no-death/collection faucets, first-clear gate, coins→score; PR #64) · **PRD-12 #34** (multi-part weak-point/phase boss *system* + reference boss/mini-boss, DevConsole-spawnable; PR #66). Phases 1–2 complete; **Phase 3 (metagame) essentially complete** — combat/content spine now leads.
+- **Lightweight tracking issues** (earn a full PRD + `ready-for-agent` when next-up): PRD-10 #33 · PRD-13 #35 · PRD-14 #37 · PRD-15+ #41 · PRD-16 #42 · PRD-17 #43 · PRD-18 #40 · PRD-19 #44 · PRD-20 #45.
 - All formerly-`needs-triage` issues are **grilled**: #41 (Levels 2…N), #39 (Economy → ADR-0011), #42 (Audio → ADR-0014 + ADR-0015).
+- **Boss-system carry-overs** (deferred, tracked): purge the legacy `PrototypeBoss` scaffolding once PRD-14 wires real bosses into stages (note on #37); telegraph tell vs. hit-flash visual collision → PRD-20 (note on #45).
 
 ## Next action
 
-**PRD-09 merged.** The spine continues with **PRD-11 (#39, economy)** — needs a full PRD before
-`ready-for-agent`, and a design grill on the payout/price specifics (the one remaining open economy
-item per #39). The plumbing is all in place: coins drop (`Coin.gd`), bank once per level
-(`GameManager.bank_run_coins`), and spend through the pure `HangarUpgrades.purchase` /
-`GadgetLoadout.purchase_*` seams against `HangarTunables`. **PRD-11 inherits PRD-08's placeholder
-price arrays** in `resources/HangarTunables.tres` (flat `[60, 100, 160]` per track) as its tuning
-surface, and adds the *payout* side (per-archetype `coin_value`, the bounded no-death clear bonus, the
-Convoy faucet) — two interlocked curves that must stay in lockstep, hence the first module to earn a
-test harness (ADR-0011 + ADR-0004). No un-grilled design open items remain elsewhere. (Audio →
+**PRD-12 (boss system) merged (PR #66).** The boss *system* now exists (`BossState`/`Boss`/`BossPart`,
+GUT-tested, reference fights DevConsole-spawnable) but is **not wired into any stage** — normal play still
+spawns the legacy `PrototypeBoss`; real bosses are PRD-14's job.
+
+The spine continues down the **content** path: **PRD-13 (#35, signature enemies)**, then **PRD-14 (#37,
+Level 1 content template + Pacific Beachhead)**. PRD-14 is the convergence point — it was **blocked on
+#34 (now done) + #35**, so **PRD-13 is the immediate next-up**: it earns a full PRD + a design grill +
+`ready-for-agent` before Ralph picks it. PRD-14 then assembles Level 1 from the template, wires the first
+real (assembled) boss + mini-bosses onto stages, and **purges the `PrototypeBoss` scaffolding** (carry-over
+on #37).
+
+Off the critical path but available: PRD-10 (#33, armor/damage types — makes the inert `armor` field on
+boss parts bite), PRD-16 (#42, audio — already detailed), PRD-18 (#40, HUD/menus — owns the boss-bar
+visuals). All grilled; no un-grilled design open items remain. (Economy → ADR-0011 + PRD-11; Audio →
 ADR-0014 + ADR-0015 + PRD-16; FTUE → ADR-0013 + PRD-17; threat-tier colour → ADR-0012.)
