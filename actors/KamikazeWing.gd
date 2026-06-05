@@ -88,7 +88,7 @@ func _process(delta: float) -> void:
 		if _elapsed < _arm_times[i]:
 			continue
 		_armed[i] = true
-		var member: Node = _members[i]
+		var member = _members[i]
 		if is_instance_valid(member):
 			member.arm()
 
