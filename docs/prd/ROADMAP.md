@@ -164,11 +164,13 @@ Goal: **at least one complete named-boss level**, then a repeatable template for
   signals, mini-boss (single-heavy) variant.
 - **Done =** a multi-part boss loses turrets, shifts phases, and dies.
 
-### PRD-13 — Signature enemies · [issue #35](https://github.com/stanhasmusic/ocelot/issues/35)
-- **Depends on:** PRD-05.
-- **You:** —
-- **I:** the Train (Countryside set-piece), Kamikaze wing (Pacific), flak-tower gauntlet (City).
-- **Done =** each is introduced cleanly in its stage intro.
+### PRD-13 — Signature enemies: the Kamikaze wing · [issue #35](https://github.com/stanhasmusic/ocelot/issues/35) · `PRD-13-signature-enemies.md`
+- **Depends on:** PRD-05. **The Pacific signature [[PRD-14]] consumes** — and the reusable signature pattern.
+- **Goal:** the Pacific Beachhead's **Kamikaze wing** — a no-fire suicide-dive formation (the body is the weapon), built as one coordinator scene dropped via a single `StageIntroEvent`. Establishes the signature pattern.
+- **You:** feel-test the wing via DevConsole (formation/telegraph/stagger/dive-speed knobs).
+- **I:** `KamikazeWing` coordinator + member-on-`Enemy`, telegraphed staggered locked dives, invuln-on-commit (bomb-exempt), coin reward, pure formation/commit-schedule helpers, DevConsole spawn + one demo intro event.
+- **Done =** the wing is DevConsole-spawnable and drops through one demo `StageIntroEvent`: formation-in → telegraphed staggered one-shot dives; killable in the telegraph, invulnerable-to-shots-but-bomb-clearable once committed; no fire, no boss bar; self-frees when empty.
+- **Re-scoped (2026-06-04):** was Train + Kamikaze + flak; narrowed to the one signature PRD-14 needs. The **Train** (Countryside) and **flak-tower gauntlet** (City) move to their **level PRDs** — built+wired+felt in one slice rather than merged unwired for several PRDs (tracer-bullet). The Train's signature-vs-boss double-billing is resolved in the Countryside PRD.
 
 ### PRD-14 — Level Content Template + Level 1 (Pacific Beachhead) · [issue #37](https://github.com/stanhasmusic/ocelot/issues/37)
 - **Depends on:** PRD-04, PRD-05, PRD-12, PRD-13. **The repeatable "build a level" PRD.**

@@ -121,10 +121,18 @@ spawns the legacy `PrototypeBoss`; real bosses are PRD-14's job.
 
 The spine continues down the **content** path: **PRD-13 (#35, signature enemies)**, then **PRD-14 (#37,
 Level 1 content template + Pacific Beachhead)**. PRD-14 is the convergence point — it was **blocked on
-#34 (now done) + #35**, so **PRD-13 is the immediate next-up**: it earns a full PRD + a design grill +
-`ready-for-agent` before Ralph picks it. PRD-14 then assembles Level 1 from the template, wires the first
-real (assembled) boss + mini-bosses onto stages, and **purges the `PrototypeBoss` scaffolding** (carry-over
-on #37).
+#34 (now done) + #35**.
+
+**PRD-13 grilled + re-scoped + PRD authored (2026-06-04, `docs/prd/PRD-13-signature-enemies.md`).**
+Narrowed from three signatures to **just the Pacific Kamikaze wing** — the one PRD-14 consumes — plus the
+reusable signature pattern; the **Train** (Countryside) and **flak-tower gauntlet** (City) moved to their
+**level PRDs** (built+wired+felt in one slice, not merged-then-unwired). The Kamikaze wing = a **no-fire
+suicide-dive formation** ("body is the weapon"): one `KamikazeWing` coordinator scene + member-on-`Enemy`,
+telegraphed **staggered** locked dives, **killable in the telegraph / invuln-to-shots-once-committed /
+bomb still clears**, coin reward, pure formation+commit-schedule helpers, DevConsole-spawnable + one demo
+intro event. *Remaining before Ralph:* rewrite issue #35 from the PRD, flip `ready-for-agent`, merge the
+docs PR to main. PRD-14 then assembles Level 1, wires the first real boss + mini-bosses onto stages, and
+**purges the `PrototypeBoss` scaffolding** (carry-over on #37).
 
 Off the critical path but available: PRD-10 (#33, armor/damage types — makes the inert `armor` field on
 boss parts bite), PRD-16 (#42, audio — already detailed), PRD-18 (#40, HUD/menus — owns the boss-bar
