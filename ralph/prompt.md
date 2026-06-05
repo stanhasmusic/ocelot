@@ -21,8 +21,8 @@ Pick the next task. Prioritize in this order:
 # EXPLORATION
 
 Explore the repo. Key things to know:
-- Godot 4.5.1 project, 2D top-down shooter, GL Compatibility renderer, 540x960 mobile target
-- No CLI build system — all runtime is Godot editor. Do not attempt `godot` CLI commands.
+- Godot 4.6.3 project, 2D top-down shooter, GL Compatibility renderer, 540x960 mobile target
+- The game *runs* in the Godot editor, but the **GUT test suite runs headless from the CLI** (verified: full suite green in <1s). If a `godot` binary is available on PATH, run the tests yourself before committing (see FEEDBACK LOOP). Building/exporting the game via CLI is out of scope — don't attempt `godot --export`.
 - Autoloaded singletons: `GameManager.gd`, `SoundManager.gd`
 - Physics layers: 1=Player, 2=PlayerProjectile, 3=Enemy, 4=EnemyProjectile, 5=World, 6=PowerUp
 - See `CLAUDE.md` for full architecture reference
@@ -59,6 +59,15 @@ gdlint path/to/changed_file.gd
 Fix any errors it reports. Warnings are informational — use your judgement.
 
 If gdlint is not installed: `pip install gdtoolkit`
+
+Then, **if a `godot` binary is available on PATH**, run the GUT suite headless and make sure it's green before committing:
+
+```
+godot --headless --display-driver headless --audio-driver Dummy --disable-render-loop \
+  --path . -s res://addons/gut/gut_cmdln.gd -gdir=res://test -ginclude_subdirs -gexit
+```
+
+Exit code 0 = all pass, 1 = a failure. (On a fresh checkout with no built `.godot/`, run `godot --headless --import --quit` once first.) If no `godot` binary is on PATH, note that in your commit/PR so the human runs the in-editor GUT gate.
 
 # COMMIT
 
