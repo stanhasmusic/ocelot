@@ -119,6 +119,8 @@ A rare, tougher enemy and the *only* non-boss permitted to fire **pattern-tier**
 **Signature enemy**:
 A hand-built, level-specific enemy or set-piece layered on top of the archetype backbone for identity (e.g. the Train in the Countryside, a Kamikaze wing on the Pacific beachhead). Usually introduced in that level's **stage intro**.
 
+The **established pattern** (PRD-13, first realised by the Pacific Kamikaze wing): a signature is a bespoke **composite scene** — a coordinator owning members (or a single scripted set-piece) — built from the existing **archetype / `FirePattern` / `Enemy`** ingredients, dropped into a stage as **one `StageIntroEvent`** whose `spawn_position` anchors it, with its choreography math extracted as **pure, GUT-tested helpers** and all feel values exposed as **`.tres` knobs**. It is *not* a class hierarchy — there is **no `SignatureEnemy` base class** (premature at N=1); a base is extracted only if later signatures prove real shared code. A signature is plain content, not a boss: no `on_boss_*` signals, health bar, boss-music event, or progression gate.
+
 ## Relationships
 
 - A **campaign** is an ordered sequence of **levels**; the **Hangar** sits between consecutive levels

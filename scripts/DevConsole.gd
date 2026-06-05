@@ -134,6 +134,7 @@ func _build_ui() -> void:
 	var refs := _row(col)
 	_button(refs, "Boss (ref)", _spawn_reference_boss)
 	_button(refs, "Mini-boss (ref)", _spawn_reference_miniboss)
+	_button(refs, "Kamikaze wing", _spawn_kamikaze_wing)
 	var spawn := _row(col)
 	_archetype_picker = OptionButton.new()
 	for entry in ARCHETYPES:
@@ -295,6 +296,21 @@ func _spawn_boss_scene(path: String) -> void:
 	var vp: Vector2 = get_viewport().get_visible_rect().size
 	boss.global_position = Vector2(vp.x * 0.5, 150)
 	get_tree().current_scene.add_child(boss)
+	_panel.visible = false
+
+
+# Spawn a Kamikaze wing (PRD-13) at a default upper-centre anchor, so the
+# formation entry / staggered telegraphed dives can be feel-tested without a
+# stage scripting one. Mirrors the reference-boss spawners. Demo scaffolding.
+func _spawn_kamikaze_wing() -> void:
+	var scene: PackedScene = load("res://actors/KamikazeWing.tscn")
+	if scene == null:
+		return
+	var wing: Node = scene.instantiate()
+	var vp: Vector2 = get_viewport().get_visible_rect().size
+	if wing is Node2D:
+		(wing as Node2D).global_position = Vector2(vp.x * 0.5, 150)
+	get_tree().current_scene.add_child(wing)
 	_panel.visible = false
 
 

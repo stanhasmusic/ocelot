@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://actors/Kamikaze.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_09.png" id="2_body"]
+[ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_09_shadow.png" id="3_shadow"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="4_expl"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="5_coin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kamikaze"]
+size = Vector2(56, 50)
+
+[node name="Kamikaze" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+explosion_scene = ExtResource("4_expl")
+coin_scene = ExtResource("5_coin")
+coin_value = 3
+speed = 0.0
+hp = 2
+score_value = 50
+
+[node name="Shadow" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(6, 6)
+rotation = 3.14159
+modulate = Color(1, 1, 1, 0.35)
+texture = ExtResource("3_shadow")
+
+[node name="Body" type="Sprite2D" parent="."]
+rotation = 3.14159
+texture = ExtResource("2_body")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kamikaze")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(2, 2)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
