@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_07.png" id="2_body"]
 [ext_resource type="Texture2D" path="res://assets/sprites/aircrafts2/Aircraft_07_shadow.png" id="9_shadow"]
 [ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="3_expl"]
-[ext_resource type="PackedScene" path="res://objects/TurretBullet.tscn" id="4_bullet"]
+[ext_resource type="PackedScene" uid="uid://syhq2nctx2xv" path="res://objects/EnemyBullet.tscn" id="4_bullet"]
 [ext_resource type="PackedScene" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://objects/RepairPickup.tscn" id="7_repair"]
 [ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="11_coin"]
@@ -16,7 +16,7 @@ size = Vector2(60, 50)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_script")
-primary_threat_tier = 1
+primary_threat_tier = 0
 projectile_scene = ExtResource("4_bullet")
 explosion_scene = ExtResource("3_expl")
 loot_pool = Array[PackedScene]([ExtResource("6_bomb"), ExtResource("7_repair")])

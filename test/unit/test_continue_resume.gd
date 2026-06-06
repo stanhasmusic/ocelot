@@ -47,7 +47,9 @@ func after_each() -> void:
 func test_continue_sets_resuming_flag() -> void:
 	GameManager.resuming = false
 	GameManager.continue_playthrough()
-	assert_true(GameManager.resuming, "continue flags resuming so the level honours the saved checkpoint")
+	assert_true(
+		GameManager.resuming, "continue flags resuming so the level honours the saved checkpoint"
+	)
 
 
 func test_continue_leaves_checkpoint_intact() -> void:
@@ -59,9 +61,14 @@ func test_continue_leaves_checkpoint_intact() -> void:
 
 
 func test_continue_routes_to_campaign_level_scene() -> void:
+	# Routes to the furthest level reached (1-based campaign_level), clamped to the
+	# real campaign size. Indexed via a runtime var (not a literal) so it survives
+	# a single-level campaign today (PRD-14) and a growing one later.
 	GameManager.campaign_level = 2
 	var path := GameManager.continue_playthrough()
-	assert_eq(path, GameManager.LEVELS[1], "continue routes to the furthest level reached (1-based index)")
+	var expected_idx := clampi(2, 1, GameManager.LEVELS.size()) - 1
+	assert_eq(path, GameManager.LEVELS[expected_idx],
+		"continue routes to the furthest level reached (clamped to campaign size)")
 
 
 func test_continue_clamps_cleared_campaign_to_last_level() -> void:

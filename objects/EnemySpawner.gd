@@ -42,6 +42,5 @@ func _spawn_boss() -> void:
 	if _config == null or _config.boss_scene == null:
 		return
 	var boss: Node = _config.boss_scene.instantiate()
-	boss.max_hp = _config.boss_hp
 	boss.global_position = _config.boss_spawn_position
 	get_tree().current_scene.add_child.call_deferred(boss)

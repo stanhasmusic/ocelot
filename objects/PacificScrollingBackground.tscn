@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpacificscrollbg01"]
+
+[ext_resource type="PackedScene" uid="uid://b3sbg5c0ll5b1" path="res://objects/ScrollingBackground.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://resources/level_backgrounds/level_pacific.tres" id="2_lb"]
+
+[node name="ScrollingBackground" instance=ExtResource("1_base")]
+level_background = ExtResource("2_lb")

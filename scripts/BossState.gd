@@ -25,7 +25,7 @@ var _index: Dictionary = {}  # id -> position in _parts
 # Register a part. `id` is any unique handle (the Boss passes the child node
 # name). Exactly one part should be flagged `is_core`. `max_hp` below 1 is
 # clamped to 1 so every part is destroyable.
-func add_part(id: Variant, max_hp: int, is_core: bool = false, armor: int = 0) -> void:
+func add_part(id: Variant, max_hp: int, core: bool = false, armor: int = 0) -> void:
 	var hp: int = maxi(max_hp, 1)
 	_index[id] = _parts.size()
 	_parts.append(
@@ -33,7 +33,7 @@ func add_part(id: Variant, max_hp: int, is_core: bool = false, armor: int = 0) -
 			"id": id,
 			"max_hp": hp,
 			"current_hp": hp,
-			"is_core": is_core,
+			"is_core": core,
 			"armor": maxi(armor, 0),
 		}
 	)
