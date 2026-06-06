@@ -7,7 +7,7 @@ func _physics_process(delta: float) -> void:
 	# Basic movement from Enemy.gd
 	super._physics_process(delta)
 
-func _on_body_entered(_body: Node2D) -> void:
+func _on_body_entered(_other: Node2D) -> void:
 	# Trucks are on the ground, so colliding with the flying player does nothing.
 	pass
 

@@ -169,14 +169,14 @@ func _fire_part(part: BossPart) -> void:
 # Re-tune the surviving parts' fire for the new phase (usually escalating). New
 # bosses tune the curve via `phase_fire_scale`.
 func _apply_phase(phase: int) -> void:
-	var scale: float = 1.0
+	var fire_scale: float = 1.0
 	if phase_fire_scale.size() > 0:
-		scale = phase_fire_scale[clampi(phase - 1, 0, phase_fire_scale.size() - 1)]
+		fire_scale = phase_fire_scale[clampi(phase - 1, 0, phase_fire_scale.size() - 1)]
 	for part in _parts:
 		if not is_instance_valid(part) or part.is_destroyed:
 			continue
 		var clock: AutoFireClock = _clocks[part.name]
-		clock.fire_interval = part.fire_interval * scale if part.fire_interval > 0.0 else 0.0
+		clock.fire_interval = part.fire_interval * fire_scale if part.fire_interval > 0.0 else 0.0
 		clock.reset()
 
 

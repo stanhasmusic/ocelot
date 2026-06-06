@@ -92,7 +92,7 @@ func _on_bomb_button_pressed() -> void:
 # Boss health bar (PRD-12): minimal functional hookup to the existing BossBar.
 # One monotonic aggregate that shows on spawn, drains on every change, hides on
 # death. Segmented/tinted visuals + per-weak-point pips are PRD-18.
-func _on_boss_spawned(max_hp: int) -> void:
+func _on_boss_spawned(max_hp: int, _is_named: bool = false) -> void:
 	var bar = $Control/BossBar
 	bar.max_value = max_hp
 	bar.value = max_hp

@@ -169,6 +169,7 @@ func _add_axis(action: String, axis: int, val: float) -> void:
 	e.axis_value = val
 	if not InputMap.action_has_event(action, e): InputMap.action_add_event(action, e)
 
+@warning_ignore("integer_division")
 func get_multiplier() -> int:
 	return clampi(1 + combo_count / 5, 1, 5)
 
