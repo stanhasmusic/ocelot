@@ -4,7 +4,7 @@ signal on_score_updated(new_score: int)
 signal on_spawn_score_updated(spawn_score: int)
 signal on_combo_changed(new_multiplier: int)
 signal on_boss_health_changed(current: int, max_hp: int)
-signal on_boss_spawned(max_hp: int)
+signal on_boss_spawned(max_hp: int, is_named: bool)
 signal on_boss_died
 signal on_lives_changed(new_lives: int)
 signal on_bomb_count_changed(new_count: int)
@@ -30,10 +30,11 @@ const GADGET_CATALOG: GadgetCatalog = preload("res://resources/GadgetCatalog.tre
 # faucets, convoy value, terminal coins→score rate. The thin level_complete seam
 # reads these through the pure CoinEarnings; Enemy reads convoy_coin_value.
 const ECONOMY_TUNABLES: EconomyTunables = preload("res://resources/EconomyTunables.tres")
+# The campaign array, trimmed honest (PRD-14): one real level for now. It grows
+# as Levels 2-4 land. "Campaign complete" + the terminal coins->score cash-out
+# fire after Pacific, exercising those end-of-campaign paths for real.
 const LEVELS: Array[String] = [
-	"res://scenes/LevelLand.tscn",
-	"res://scenes/LevelJungle.tscn",
-	"res://scenes/LevelOcean.tscn",
+	"res://scenes/LevelPacific.tscn",
 ]
 
 var score: int = 0
@@ -75,7 +76,7 @@ var equipped_loadout: Array = []
 # Gadget slot capacity (PRD-09). Persisted; defaults to MIN_SLOTS so a pre-PRD-09
 # save reads as 1 slot with no migration. equipped_loadout never exceeds this.
 var gadget_slots: int = GadgetLoadout.MIN_SLOTS
-var current_level: String = "res://scenes/LevelLand.tscn"
+var current_level: String = "res://scenes/LevelPacific.tscn"
 var next_level: String = ""
 var lives: int = 3
 
@@ -466,8 +467,11 @@ func load_data() -> void:
 	equipped_loadout = save_game.equipped_loadout
 	gadget_slots = save_game.gadget_slots
 
-func report_boss_spawned(max_hp: int) -> void:
-	on_boss_spawned.emit(max_hp)
+# `is_named` distinguishes the level's named boss from a mini-boss (PRD-14): only
+# a named boss swaps the background to the boss arena (and, later, hard-swaps to
+# boss music — PRD-16). Mini-bosses still show the aggregate health bar.
+func report_boss_spawned(max_hp: int, is_named: bool = false) -> void:
+	on_boss_spawned.emit(max_hp, is_named)
 
 func report_boss_health(current: int, max_hp: int) -> void:
 	on_boss_health_changed.emit(current, max_hp)

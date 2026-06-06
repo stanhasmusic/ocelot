@@ -1,40 +1,54 @@
-[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="StageIntroTimeline" load_steps=6 format=3]
 
 [ext_resource type="Script" uid="uid://7d8xy0lb08al" path="res://scripts/StageIntroTimeline.gd" id="1_timeline"]
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
-[ext_resource type="PackedScene" path="res://actors/Bomber.tscn" id="3_bomber"]
-[ext_resource type="PackedScene" path="res://actors/Fighter.tscn" id="4_fighter"]
+[ext_resource type="PackedScene" path="res://actors/Fighter.tscn" id="3_strafer"]
+[ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="4_aimed"]
+[ext_resource type="PackedScene" path="res://actors/Tank.tscn" id="5_tank"]
+[ext_resource type="PackedScene" path="res://actors/KamikazeWing.tscn" id="6_wing"]
 
 [sub_resource type="Resource" id="Event_1"]
 script = ExtResource("2_event")
-time = 4.0
-scene = ExtResource("3_bomber")
-spawn_position = Vector2(270, -50)
+time = 2.0
+scene = ExtResource("3_strafer")
+spawn_position = Vector2(200, -50)
 
 [sub_resource type="Resource" id="Event_2"]
 script = ExtResource("2_event")
-time = 8.0
-scene = ExtResource("4_fighter")
-spawn_position = Vector2(180, -50)
+time = 2.5
+scene = ExtResource("3_strafer")
+spawn_position = Vector2(340, -50)
 
 [sub_resource type="Resource" id="Event_3"]
 script = ExtResource("2_event")
-time = 12.0
-scene = ExtResource("3_bomber")
-spawn_position = Vector2(170, -50)
+time = 5.0
+scene = ExtResource("4_aimed")
+spawn_position = Vector2(270, -50)
 
 [sub_resource type="Resource" id="Event_4"]
 script = ExtResource("2_event")
-time = 16.0
-scene = ExtResource("4_fighter")
-spawn_position = Vector2(360, -50)
+time = 7.5
+scene = ExtResource("5_tank")
+spawn_position = Vector2(180, -50)
 
 [sub_resource type="Resource" id="Event_5"]
 script = ExtResource("2_event")
-time = 20.0
-scene = ExtResource("3_bomber")
-spawn_position = Vector2(370, -50)
+time = 8.0
+scene = ExtResource("5_tank")
+spawn_position = Vector2(360, -50)
+
+[sub_resource type="Resource" id="Event_6"]
+script = ExtResource("2_event")
+time = 11.0
+scene = ExtResource("4_aimed")
+spawn_position = Vector2(150, -50)
+
+[sub_resource type="Resource" id="Event_7"]
+script = ExtResource("2_event")
+time = 14.0
+scene = ExtResource("6_wing")
+spawn_position = Vector2(270, 150)
 
 [resource]
 script = ExtResource("1_timeline")
-events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5")]
+events = [SubResource("Event_1"), SubResource("Event_2"), SubResource("Event_3"), SubResource("Event_4"), SubResource("Event_5"), SubResource("Event_6"), SubResource("Event_7")]

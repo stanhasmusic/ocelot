@@ -1,7 +1,6 @@
 extends Node2D
 
-# The Boss root (PRD-12) — the canonical boss, replacing the single-entity
-# prototype (now PrototypeBoss, kept only for not-yet-migrated stage bosses).
+# The Boss root (PRD-12) — the canonical (and, since PRD-14, only) boss base.
 # Composes a boss from BossPart children, builds a BossState brain from them,
 # routes part hits through the core gate, drives each living part's fire via
 # FirePattern (geometry) + AutoFireClock (cadence) behind a telegraph wind-up,
@@ -18,6 +17,13 @@ extends Node2D
 @export var vertical_speed: float = 18.0  # slow descent until settled
 @export var settle_y: float = 170.0      # stop descending at this y
 
+@export_group("Identity")
+## Named bosses (the level's set-piece climax) swap the background to the boss
+## arena on spawn (PRD-14) and, later, hard-swap to boss music (PRD-16).
+## Mini-bosses leave this false: they fight over the parked strip, no music swap,
+## but still report the aggregate health bar. The one reusable named/mini split.
+@export var is_named_boss: bool = false
+
 @export_group("Reward")
 @export var defeat_score: int = 5000
 @export var weakpoint_score: int = 250   # small bonus per weak-point peeled
@@ -30,11 +36,6 @@ extends Node2D
 
 @export_group("Death")
 @export var explosion_scene: PackedScene
-
-# Vestigial: EnemySpawner sets this from StageConfig.boss_hp for the legacy
-# PrototypeBoss bosses. A multi-part boss owns its HP in its parts, so it is
-# ignored here (kept so the spawner's assignment doesn't error).
-var max_hp: int = 0
 
 var _state: BossState
 var _parts: Array = []          # BossPart nodes
@@ -57,7 +58,7 @@ func _ready() -> void:
 			_state.add_part(child.name, child.max_hp, child.is_core, child.armor)
 			_clocks[child.name] = AutoFireClock.new(child.fire_interval)
 			_telegraph[child.name] = 0.0
-	GameManager.report_boss_spawned(_state.aggregate_hp()["max"])
+	GameManager.report_boss_spawned(_state.aggregate_hp()["max"], is_named_boss)
 	_apply_phase(_state.current_phase())
 
 

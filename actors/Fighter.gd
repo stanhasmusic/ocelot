@@ -1,26 +1,15 @@
 extends "res://actors/Enemy.gd"
 
-var time_alive: float = 0.0
-var player: Node2D
+# Strafer (PRD-14): the campaign's blue tier-0 teaching enemy. Weaves laterally
+# while firing STRAIGHT down (the base Enemy fire) — the lesson is "dodge by not
+# standing in the lane." Distinct from its former twin Helicopter, which stays
+# the orange aimed flyer. No fire override: the inherited straight-down volley is
+# exactly the STRAIGHT-tier behaviour, so the bullet's blue comes from the scene.
 
-func _ready() -> void:
-	super._ready()
-	player = get_tree().get_first_node_in_group("Player")
+var time_alive: float = 0.0
+
 
 func _physics_process(delta: float) -> void:
 	time_alive += delta
 	super._physics_process(delta)
 	position.x += sin(time_alive * 2.5) * 70.0 * delta
-
-func _on_shoot_timer_timeout() -> void:
-	if not projectile_scene:
-		return
-	if not is_instance_valid(player):
-		player = get_tree().get_first_node_in_group("Player")
-	if not is_instance_valid(player):
-		return
-	var b = projectile_scene.instantiate()
-	get_parent().add_child(b)
-	b.global_position = global_position + Vector2(0, 20)
-	var dir = FirePattern.aimed_direction(global_position, player.global_position)
-	b.rotation = dir.angle()

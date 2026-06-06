@@ -69,9 +69,12 @@ func _update_strip_position() -> void:
 	_strip.position = Vector2(0, -_scroll_offset)
 
 
-func _on_boss_spawned(_max_hp: int) -> void:
+# Only the named boss (PRD-14) swaps to the arena; mini-bosses fight over the
+# parked strip and leave the scrolling world in place. `is_named` defaults false
+# so a mini-boss spawn just freezes the scroll without the arena cut.
+func _on_boss_spawned(_max_hp: int, is_named: bool = false) -> void:
 	_boss_mode = true
-	if level_background and level_background.boss_arena_texture:
+	if is_named and level_background and level_background.boss_arena_texture:
 		_arena.texture = level_background.boss_arena_texture
 		_arena.visible = true
 		_strip.visible = false

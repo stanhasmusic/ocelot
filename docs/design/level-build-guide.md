@@ -1,9 +1,15 @@
-# Level Build Guide — Backgrounds & Landmarks
+# Level Build Guide — Assembly, Backgrounds & Landmarks
 
 > **Worked example: Level 1 — Pacific Beachhead.** This is the human-in-the-loop handbook for the
 > biggest art commitment per level (ADR-0003): the hand-authored scrolling background and its
 > landmarks. PRD-14 wires the level on **placeholder** strips so it's playable immediately; you swap
 > in real art through the `.tres` with **no code changes**. The same recipe clones for Levels 2–4.
+>
+> **New in PRD-14:** §4 below is the **clone-able level-assembly checklist** — how Level 1 was put
+> together from existing systems, written so Levels 2–4 are assembled the same way without reinventing
+> it. There is deliberately **no level-builder framework** (the N=1 anti-abstraction rule): the
+> "template" is *this recipe + L1 as the worked exemplar*. Extract an abstraction only if L2 reveals
+> genuine shared structure.
 
 ---
 
@@ -151,3 +157,64 @@ All paths under `assets/sprites/`. These are the pieces that read as "1943 Pacif
   feeling right, *then* paint. The wiring won't change underneath you.
 - **Keep PNGs reasonable.** A 540 × 5000 strip is fine; if you go huge (10k+), watch texture memory on
   mobile. Three ~5k strips + one arena is a comfortable budget.
+
+---
+
+## 4. Assembly checklist — the clone-able level recipe
+
+This is how Level 1 (`LevelPacific.tscn`) was assembled, and the exact sequence to clone for L2–L4.
+**No framework** — you clone a 14-line scene, author content `.tres`, and wire boss assemblies. Each
+file below is a worked reference you can copy.
+
+### The shape of a level
+A level scene is an **inherited scene of `scenes/LevelBase.tscn`** with three properties overridden:
+
+```
+[node name="LevelPacific" instance=ExtResource(LevelBase)]
+background_scene = <your ScrollingBackground variant>
+level_music      = <an AudioStream>
+stages           = Array[StageConfig]([stage0, stage1, stage2])   # exactly TOTAL_STAGES (3)
+```
+
+`LevelBase` already wires the Player, EnemySpawner, HUD, PauseMenu, StageOverlay, Camera and the
+checkpoint/stage-transition flow. You only supply the **background, music, and 3 stage configs**.
+
+### Step-by-step (copy `LevelPacific` and its parts)
+
+1. **Stage configs** — one `StageConfig` `.tres` per stage (see `resources/stage_configs/level01_stage{0,1,2}.tres`).
+   Each sets: `intro_timeline`, `enemy_scenes` + `enemy_weights` (**same length**), the rate knobs
+   (`spawn_interval_start/end`, `max_concurrent_enemies`, `projectile_speed_mult`,
+   `min_gap_between_aimed_shots`), an **ascending** `boss_score_threshold`, and `boss_scene`.
+   *Carry difficulty by rate/concurrency/projectile-speed — not by a new threat colour or archetype.*
+2. **Intro timelines** — one `StageIntroTimeline` `.tres` per stage (see
+   `resources/stage_intros/level01_stage{0,1,2}_intro.tres`). A timeline is a list of
+   `StageIntroEvent`s (`time`, `scene`, `spawn_position`). Anything that's a `PackedScene` can be an
+   event — enemies, a **`BombPickup`**, a **`KamikazeWing`**. Author the opener to the FTUE beat-sheet
+   (PRD-17): empty sky → the readable straight enemy → the aimed enemy → bomb pickup + a survivable
+   swarm.
+3. **Boss scenes** — bosses are **descriptively-named scenes** on the `Boss.gd` base, built from
+   `BossPart` instances (no generic `Boss.tscn`). Two shapes:
+   - **Named boss** (the climax): a core part (`is_core = true`) + N weak-point parts → phases; set
+     `is_named_boss = true`. The core is gated until the weak-points die. See `actors/CoastalFortress.tscn`.
+   - **Mini-boss** (degenerate boss): a **single core-only** part, `is_named_boss` left false,
+     `defeat_score ≈ 1500`. See `actors/Warship.tscn` / `actors/CoastalGun.tscn`.
+   Per-part fire is data on the `BossPart` (`bullet_scene`, `fire_interval`, `telegraph_seconds`,
+   `shot_count`, `spread_arc`, `aimed`). Use the threat-palette bullets: aimed-orange `TurretBullet`,
+   straight-blue `StraightShot`. `armor` may be authored as data but is **inert** until PRD-10.
+4. **Background** — clone `objects/ScrollingBackground.tscn` into a `<Biome>ScrollingBackground.tscn`
+   pointing at a `level_<biome>.tres` (`LevelBackground`: 3 `StageBackground` strips + one
+   `boss_arena_texture`). Ship on placeholder gradients; the human swaps real strips per §0–§3.
+5. **Level scene** — clone `scenes/LevelPacific.tscn`, point `background_scene` at your background and
+   `stages` at your 3 configs.
+6. **Campaign** — add the scene path to `GameManager.LEVELS` (in order). `LevelComplete` advances
+   through the array; clearing the last entry fires "campaign complete" + the coins→score cash-out.
+7. **The named-boss / mini-boss split** is one flag: `Boss.is_named_boss`. Only a named boss swaps the
+   background to the arena on spawn (mini-bosses fight over the parked strip); PRD-16 reuses the same
+   flag for the boss-music hard-swap. Don't reimplement it per-boss.
+
+### Guard it cheaply
+Add the new level to the wiring guard `test/unit/test_level_one_assembly.gd` (or clone its pattern):
+it reads the configs/scenes via `SceneState` (no instantiation) and asserts the configs are wired, the
+`boss_scene` per stage is correct, each boss has the right core/weak-point part counts, the background
+has 3 strips + an arena, and the level scene wires 3 stages + the background. This is a structural
+smoke test — **content balance/feel is feel-tested** (ADR-0004), not unit-tested.

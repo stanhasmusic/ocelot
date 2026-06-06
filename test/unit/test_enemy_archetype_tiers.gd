@@ -9,7 +9,7 @@ extends GutTest
 var _expected := {
 	"res://actors/Tank.tscn": ThreatTier.Tier.AIMED,
 	"res://actors/Ship.tscn": ThreatTier.Tier.AIMED,
-	"res://actors/Fighter.tscn": ThreatTier.Tier.AIMED,
+	"res://actors/Fighter.tscn": ThreatTier.Tier.STRAIGHT,
 	"res://actors/Helicopter.tscn": ThreatTier.Tier.AIMED,
 	"res://actors/EliteEscort.tscn": ThreatTier.Tier.AIMED,
 	"res://actors/RocketLauncher.tscn": ThreatTier.Tier.AIMED,
