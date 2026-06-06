@@ -1,0 +1,3 @@
+# Promotional/store assets (itch.io cover art, screenshots).
+# This .gdignore makes Godot skip the whole folder: no resource import,
+# no .import sidecars, and nothing here ends up in exported builds.
