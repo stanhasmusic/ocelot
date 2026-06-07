@@ -58,15 +58,24 @@ func _get_stage_background(idx: int) -> StageBackground:
 func _process(delta: float) -> void:
 	if _boss_mode or _strip.texture == null:
 		return
-	var strip_height: float = _strip.texture.get_height()
-	var max_offset: float = max(0.0, strip_height - VIEWPORT_HEIGHT)
+	var max_offset: float = _max_scroll_offset()
 	if _scroll_offset < max_offset:
 		_scroll_offset = min(max_offset, _scroll_offset + _scroll_speed * delta)
 		_update_strip_position()
 
 
+func _max_scroll_offset() -> float:
+	if _strip.texture == null:
+		return 0.0
+	return max(0.0, _strip.texture.get_height() - VIEWPORT_HEIGHT)
+
+
+# The strip starts with its BOTTOM 960px on screen and pans up the image toward
+# the top, so world content scrolls DOWNWARD on screen — the player flies "north"
+# (same feel as MovingLandBackground). The strip parks on its TOP 960px: that
+# final frame (e.g. the fortress shore) is the pre-boss / late-body backdrop.
 func _update_strip_position() -> void:
-	_strip.position = Vector2(0, -_scroll_offset)
+	_strip.position = Vector2(0, _scroll_offset - _max_scroll_offset())
 
 
 # Only the named boss (PRD-14) swaps to the arena; mini-bosses fight over the

@@ -20,10 +20,11 @@ The runtime is `objects/ScrollingBackground.gd`. The mental model is dead simple
 - The screen is **540 × 960** (portrait).
 - Each **stage** shows **one tall PNG strip** (`strip_texture`). It must be **540 px wide**; its
   **height is however long you want the journey to be.**
-- On stage start the strip is positioned at the top and **scrolls upward** (the camera flies "north")
-  at `scroll_speed` px/s, until the **bottom** of the strip reaches the bottom of the screen — then it
-  **stops and parks.** It does **not** loop. The bottom 960 px of the strip is the "parked" backdrop
-  the late procedural body and the pre-boss moment play over.
+- On stage start the strip is positioned with its **bottom** on screen and the world **scrolls
+  downward** (the camera flies "north" *up* the image) at `scroll_speed` px/s, until the **top** of the
+  strip reaches the top of the screen — then it **stops and parks.** It does **not** loop. The **top
+  960 px** of the strip is the "parked" backdrop the late procedural body and the pre-boss moment play
+  over. (So author **bottom = seen first, top = end of journey**, matching §1 below.)
 - When the **boss spawns**, the strip is hidden and the screen swaps to a **single static
   `boss_arena_texture`** (540 × 960). The boss fight happens over that arena image, **not** the strip.
 
@@ -144,7 +145,7 @@ All paths under `assets/sprites/`. These are the pieces that read as "1943 Pacif
   before the bar appears. Make the fortress unmistakable and give it a few seconds on screen before
   the threshold trips. (If it parks off-screen because the strip is too tall, shorten the strip or
   raise `scroll_speed`.)
-- **Bottom-of-strip is where you live.** Because scrolling parks on the bottom 960 px, the late body
+- **Top-of-strip is where you live.** Because scrolling parks on the top 960 px, the late body
   and the boss-approach happen over that region — make it a satisfying "we've arrived" frame, not a
   random tile seam.
 - **Boss arena = the Coastal Fortress, full stop.** Only the named boss swaps to it (mini-bosses fight
