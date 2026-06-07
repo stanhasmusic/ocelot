@@ -163,6 +163,17 @@ no code. See `docs/design/level-build-guide.md`.
   **No economy `.tres` retune** — `convoy_coin_value`/floors stay PRD-11's tunables; this PRD only places
   units. (The other PRD-11 deferral, the Naval-finale math, is **L4's**, out of scope here.)
 
+> **⚠️ Spec conflict + resolution (amended 2026-06-06, post-merge).** This bullet places land `Truck`
+> units in **Stage 1**, but the same PRD frames S1 as **open ocean** (Warship mini-boss "on water";
+> the "ocean → beachhead → fortress shore" journey in the user story / background sections). Trucks
+> can't drive on open water — surfaced when the real S1 sea art was authored on #37. **Resolution:**
+> S1's convoy + procedural truck are reskinned as **`actors/LandingCraft.tscn` /
+> `LandingCraftConvoy.tscn`** — clones reusing `Truck.gd` (identical harmless behaviour) with the
+> `ship_small_body` hull; only `level01_stage0.tres` + `level01_stage0_intro.tres` were swapped. S2/S3
+> keep land `Truck`s (beach exists there). The ground-ramp teaching intent (harmless → shooting →
+> boss) is preserved; S1's "harmless surface convoy" now reads as a Pacific landing force. This is a
+> **one-off sprite swap, not the deferred reskin *mechanism*** below.
+
 ### Background
 - Wire `PacificScrollingBackground.tscn` → `level_pacific.tres` (3 `StageBackground` strips +
   `boss_arena_texture`), exposing `scroll_speed` per stage. Ship on **placeholder gradient strips** so the
@@ -200,8 +211,10 @@ no code. See `docs/design/level-build-guide.md`.
 - **Juice** (dive trails, impact polish, screenshake) → **PRD-20**.
 - **The `EliteEscort` tier mistag + a real `Diver` scene** → their relevant later PRDs.
 - **The Naval-finale economy math** (PRD-11 deferral) → the **L4** PRD.
-- **Per-biome enemy reskinning mechanism** → deferred until a later biome proves the need (N=1 rule);
-  L1 reuses the existing Pacific-consistent sprites as-is.
+- **Per-biome enemy reskinning *mechanism*** → still deferred until a later biome proves the need (N=1
+  rule). *(Amended 2026-06-06: one **one-off** sprite swap was made — S1's ocean convoy reskinned as
+  `LandingCraft`; see the spec-conflict note under "Convoy placement." A reusable reskin system is
+  still out of scope.)*
 - **Final background/arena art + music** → HITL deliverables (gated done-bar), not the code deliverable.
 
 ## Further Notes

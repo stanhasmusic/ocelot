@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dy7kvewimemoy"]
+
+[ext_resource type="PackedScene" uid="uid://djiv3jwuq20pk" path="res://actors/LandingCraft.tscn" id="1_lc"]
+
+[node name="LandingCraft" instance=ExtResource("1_lc")]
+is_convoy = true

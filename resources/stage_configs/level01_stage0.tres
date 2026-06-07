@@ -3,14 +3,14 @@
 [ext_resource type="Script" path="res://scripts/StageConfig.gd" id="1_script"]
 [ext_resource type="PackedScene" path="res://actors/Fighter.tscn" id="2_strafer"]
 [ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="3_aimed"]
-[ext_resource type="PackedScene" uid="uid://co7cv2a6ndp4r" path="res://actors/Truck.tscn" id="4_truck"]
+[ext_resource type="PackedScene" uid="uid://djiv3jwuq20pk" path="res://actors/LandingCraft.tscn" id="4_boat"]
 [ext_resource type="PackedScene" uid="uid://bwarshipmini0pac01" path="res://actors/Warship.tscn" id="5_boss"]
 [ext_resource type="Resource" uid="uid://bodi4iudtv5bp" path="res://resources/stage_intros/level01_stage0_intro.tres" id="6_intro"]
 
 [resource]
 script = ExtResource("1_script")
 intro_timeline = ExtResource("6_intro")
-enemy_scenes = Array[PackedScene]([ExtResource("2_strafer"), ExtResource("3_aimed"), ExtResource("4_truck")])
+enemy_scenes = Array[PackedScene]([ExtResource("2_strafer"), ExtResource("3_aimed"), ExtResource("4_boat")])
 enemy_weights = Array[float]([1.0, 0.5, 0.6])
 spawn_interval_start = 1.8
 spawn_interval_end = 1.3

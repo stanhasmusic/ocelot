@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://djiv3jwuq20pk"]
+
+[ext_resource type="Script" uid="uid://culynewj37rp8" path="res://actors/Truck.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b7ik300ettm2x" path="res://assets/sprites/shipz/images/ship_small_body.png" id="2_tex"]
+[ext_resource type="PackedScene" path="res://objects/Explosion.tscn" id="2_expl"]
+[ext_resource type="PackedScene" uid="uid://crryufglgwhs5" path="res://objects/Coin.tscn" id="3_coin"]
+
+[node name="LandingCraft" type="Area2D" groups=["Enemies"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_script")
+explosion_scene = ExtResource("2_expl")
+coin_scene = ExtResource("3_coin")
+coin_value = 1
+speed = 100.0
+health = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.14159
+texture = ExtResource("2_tex")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-27, -52, 27, -52, 27, 52, -27, 52)
+
+[node name="VISIBLE" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 52)
+scale = Vector2(1.5, 1)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VISIBLE" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
