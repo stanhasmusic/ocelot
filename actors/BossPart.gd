@@ -41,6 +41,7 @@ var _boss: Node = null
 
 @onready var _body: Sprite2D = get_node_or_null("Body")
 @onready var _muzzle: Marker2D = get_node_or_null("Muzzle")
+@onready var _turret: Sprite2D = get_node_or_null("Turret")
 
 
 func _ready() -> void:
@@ -57,6 +58,19 @@ func bind_boss(boss: Node) -> void:
 
 func muzzle_position() -> Vector2:
 	return _muzzle.global_position if _muzzle else global_position
+
+
+# Rotate this part's optional "Turret" sprite to aim at `target`. The gun art's
+# barrel points down (Vector2.DOWN) at rotation 0, so the barrel lands on
+# `target` at angle - PI/2. No-op for parts with no turret. The Boss calls this
+# each frame for `aimed` parts so the gun visibly tracks the player.
+func aim_turret_at(target: Vector2) -> void:
+	if _turret == null:
+		return
+	var to_target: Vector2 = target - _turret.global_position
+	if to_target.length_squared() < 0.0001:
+		return
+	_turret.global_rotation = to_target.angle() - PI / 2
 
 
 # A player projectile (mask 2) overlapped us. Route the hit through the Boss so

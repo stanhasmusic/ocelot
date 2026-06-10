@@ -67,6 +67,7 @@ func _physics_process(delta: float) -> void:
 	if position.y < settle_y:
 		position.y += vertical_speed * delta
 	position.x = _start_x + sin(_time * sway_speed) * sway_amplitude
+	_aim_turrets()
 	_process_fire(delta)
 
 
@@ -95,6 +96,20 @@ func route_damage(part_name: StringName, amount: int) -> void:
 		_apply_phase(after_phase)
 	if _state.is_defeated():
 		_die()
+
+
+# Rotate each aimed part's turret sprite to track the player (readability: the
+# gun visibly points where its bullets will go). Parts with no Turret child or
+# not flagged `aimed` keep their authored pose.
+func _aim_turrets() -> void:
+	if not is_instance_valid(_player):
+		return
+	for part in _parts:
+		if not is_instance_valid(part) or part.is_destroyed:
+			continue
+		if not part.aimed:
+			continue
+		part.aim_turret_at(_player.global_position)
 
 
 func _emit_health() -> void:

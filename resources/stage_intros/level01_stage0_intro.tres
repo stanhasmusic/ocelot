@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cd3cobnjcurff" path="res://scripts/StageIntroEvent.gd" id="2_event"]
 [ext_resource type="PackedScene" path="res://actors/Fighter.tscn" id="3_strafer"]
 [ext_resource type="PackedScene" path="res://actors/Helicopter.tscn" id="4_aimed"]
-[ext_resource type="PackedScene" uid="uid://dy7kvewimemoy" path="res://actors/LandingCraftConvoy.tscn" id="5_convoy"]
+[ext_resource type="PackedScene" uid="uid://shipconvoy0pac01" path="res://actors/ShipConvoy.tscn" id="5_convoy"]
 [ext_resource type="PackedScene" uid="uid://c6e3fsancm6ev" path="res://objects/BombPickup.tscn" id="6_bomb"]
 [ext_resource type="PackedScene" path="res://actors/KamikazeWing.tscn" id="7_wing"]
 

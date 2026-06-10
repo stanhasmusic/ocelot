@@ -53,6 +53,13 @@ func shoot() -> void:
 		if shoot_sound:
 			shoot_sound.play()
 
+func _on_body_entered(_other: Node2D) -> void:
+	# Ships sit on the water; the player is airborne. A fly-over is not a
+	# collision (same altitude-separation rule the ground-bound Truck uses). The
+	# ship still fires up at the plane and still takes the plane's fire — there's
+	# just no contact damage either way.
+	pass
+
 func take_damage(amount: int) -> void:
 	super.take_damage(amount)
 	# Check HP for damage visual?
