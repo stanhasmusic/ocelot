@@ -1,19 +1,10 @@
-[gd_resource type="Resource" script_class="LevelBackground" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="LevelBackground" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/LevelBackground.gd" id="1_lb"]
 [ext_resource type="Script" path="res://scripts/StageBackground.gd" id="2_sb"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pacific_bg/stage1_greybox.png" id="3_s0tex"]
 [ext_resource type="Texture2D" path="res://assets/sprites/pacific_bg/stage2_greybox.png" id="4_s1tex"]
-
-[sub_resource type="Gradient" id="Gradient_s2"]
-offsets = PackedFloat32Array(0, 0.2, 0.6, 1)
-colors = PackedColorArray(0.4, 0.42, 0.4, 1, 0.55, 0.52, 0.42, 1, 0.7, 0.64, 0.5, 1, 0.45, 0.58, 0.6, 1)
-
-[sub_resource type="GradientTexture2D" id="Tex_s2"]
-gradient = SubResource("Gradient_s2")
-width = 540
-height = 3400
-fill_to = Vector2(0, 1)
+[ext_resource type="Texture2D" path="res://assets/sprites/pacific_bg/stage3_greybox.png" id="5_s2tex"]
 
 [sub_resource type="Gradient" id="Gradient_arena"]
 offsets = PackedFloat32Array(0, 0.55, 1)
@@ -39,7 +30,7 @@ parallax_layers = Array[PackedScene]([])
 
 [sub_resource type="Resource" id="SB_s2"]
 script = ExtResource("2_sb")
-strip_texture = SubResource("Tex_s2")
+strip_texture = ExtResource("5_s2tex")
 scroll_speed = 95.0
 parallax_layers = Array[PackedScene]([])
 

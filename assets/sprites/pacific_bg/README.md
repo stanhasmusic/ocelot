@@ -7,7 +7,7 @@ Pairs with `docs/design/level-build-guide.md` (read that first).
 
 | File | What it is |
 |------|------------|
-| `stage{1,2}_greybox.png` | Runnable hand-painted strips. **Wired into Stage 0 / Stage 1** of `resources/level_backgrounds/level_pacific.tres`. Paint over them / replace them. (Stage 3 still scrolls a gradient placeholder.) |
+| `stage{1,2,3}_greybox.png` | Runnable hand-painted strips. **Wired into Stage 0 / 1 / 2** of `resources/level_backgrounds/level_pacific.tres`. Paint over them / replace them. |
 | `stage{1,2,3}_seabase.png` | The plain gradient strip for each stage — same colours as the template, **no grid/text/annotations**. A clean base layer to paint over. |
 | `boss_arena_seabase.png` | The plain **540×960** gradient base for the boss arena (Coastal Fortress backdrop) — same colours as `boss_arena_texture` in the `.tres`. A static frame, **not** a scrolling strip: it swaps in when the named boss spawns. Paint the fortress over this. |
 | `stage{1,2,3}_template_REFERENCE.png` | Each stage's canvas with annotations baked in: 128px grid, the parked-960 line (top), start/end zone labels, travel direction, per-stage notes + landmark hints. **Reference only — never ships.** Sizes/speeds mirror `level_pacific.tres` (St1 540×3200 @75, St2 540×3200 @85, St3 540×3400 @95). |
@@ -30,11 +30,10 @@ Pairs with `docs/design/level-build-guide.md` (read that first).
 - Stage 0 here is **3200 tall @ 75 px/s** → ~30 s of motion, then it **parks on the top 960px**.
 - **Bottom of the image = seen first** (open ocean). **Top = end of journey / parked frame** (first sand).
 - World content scrolls **downward** on screen as the player flies north up the strip.
-- Stages 1 & 2 (`stage_backgrounds[1]` / `[2]`) still scroll on gradient placeholders, but their
-  annotated reference templates now exist (`stage2_template_REFERENCE.png` / `stage3_template_REFERENCE.png`).
-  Paint over them the same way as Stage 0, export to `stage2_*.png` / `stage3_*.png`, and repoint the
-  `.tres` (same one-line swap that was done for Stage 0). Stage 3's strip needs the **Coastal Fortress
-  on the horizon near the top** (the mandatory pre-boss telegraph) — the template marks where it parks.
+- All three stages now scroll hand-painted greybox strips. To revise one, paint over its
+  annotated reference template, export to the matching `stage*_greybox.png`, and the `.tres`
+  picks it up (no repoint needed unless you change the filename). Stage 3's strip carries the
+  **Coastal Fortress on the horizon near the top** (the mandatory pre-boss telegraph).
 
 > Note: the curated `tiles/` are convenience copies for authoring; the runtime atlases under
 > `ground_tilesest/`, `shipz/`, `buildings/` remain the source of truth for in-game sprites.
