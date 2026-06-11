@@ -23,10 +23,9 @@ open `project.godot` in Godot 4.5+. no build step, no CLI — everything runs in
 
 - 3-level weapon system + bomb mechanic
 - enemy variety: ships, tanks, trains, trucks — each with tracking turrets
-- boss encounter triggered at 2000 score
-- procedural land background (FastNoiseLite — sand/grass biomes, road, buildings)
+- boss encounters
 - music crossfading, SFX pooling
-- save/load for score, high score, and unlocked levels
+- save/load for score, high score, and upgrade system
 
 ## status
 
