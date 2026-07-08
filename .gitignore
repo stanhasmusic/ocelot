@@ -10,3 +10,6 @@ desktop.ini
 
 # Claude Code local settings (machine-specific)
 .claude/settings.local.json
+
+# Dev screenshots (DevConsole F8 capture — for Claude to read, not for the repo)
+/screenshots/*.png

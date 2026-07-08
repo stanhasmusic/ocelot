@@ -15,6 +15,8 @@ extends CanvasLayer
 # Toggle the panel with the backtick (`) key.
 
 const TOGGLE_KEY: int = KEY_QUOTELEFT  # the ` key, unmapped by the game
+const SCREENSHOT_KEY: int = KEY_F8     # grab the viewport for Claude to read
+const SCREENSHOT_DIR: String = "res://screenshots/"
 const STAGES_PER_LEVEL: int = 3        # mirrors LevelBase.TOTAL_STAGES (no class_name to import)
 const ARCHETYPES: Array = [
 	["Fighter", "res://actors/Fighter.tscn"],
@@ -54,6 +56,9 @@ func _input(event: InputEvent) -> void:
 		_panel.visible = not _panel.visible
 		if _panel.visible:
 			_refresh()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo and event.keycode == SCREENSHOT_KEY:
+		_capture_screenshot()
 		get_viewport().set_input_as_handled()
 
 
@@ -141,6 +146,11 @@ func _build_ui() -> void:
 		_archetype_picker.add_item(entry[0])
 	spawn.add_child(_archetype_picker)
 	_button(spawn, "Spawn", _spawn_archetype)
+
+	# 5. Capture
+	_header(col, "— Capture —")
+	var cap := _row(col)
+	_button(cap, "Screenshot (F8)", _capture_screenshot)
 
 
 func _header(parent: Node, text: String) -> void:
@@ -329,6 +339,24 @@ func _spawn_archetype() -> void:
 	var vp: Vector2 = get_viewport().get_visible_rect().size
 	node.global_position = Vector2(vp.x * 0.5, 100)
 	get_tree().current_scene.add_child(node)
+
+
+# Grab the live framebuffer so Claude can see the game. Captured from inside
+# Godot (not an OS window grab) so it's renderer-proof on GL Compatibility, where
+# PrintWindow-style captures of OpenGL windows tend to come back black. The
+# console overlay is hidden for the shot so it never appears in the frame.
+func _capture_screenshot() -> void:
+	var was_visible: bool = _panel.visible
+	_panel.visible = false
+	await RenderingServer.frame_post_draw      # wait for a fully drawn frame
+	var img: Image = get_viewport().get_texture().get_image()
+	_panel.visible = was_visible
+
+	DirAccess.make_dir_recursive_absolute(SCREENSHOT_DIR)
+	var stamp: String = Time.get_datetime_string_from_system().replace(":", "-")
+	img.save_png(SCREENSHOT_DIR + "shot_%s.png" % stamp)
+	img.save_png(SCREENSHOT_DIR + "latest.png")   # stable path for quick reads
+	print("[DevConsole] screenshot saved -> ", SCREENSHOT_DIR, "latest.png")
 
 
 func _change_scene(path: String) -> void:
